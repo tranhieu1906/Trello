@@ -3,7 +3,7 @@ import cors from "cors";
 import * as dotenv from "dotenv";
 import express from "express";
 import { ConnectDatabase } from "./src/configs/connectDatabase";
-import route from "./src/routers/index.router"
+import route from "./src/routers/index.router";
 
 dotenv.config();
 const PORT = process.env.PORT || 8080;
@@ -15,6 +15,13 @@ app.use(cors());
 
 ConnectDatabase.connect();
 route(app);
+app.use((err, req, res, next) => {
+  res.status(err.status || 500);
+  res.json({
+    status: err.status || 500,
+    message: err.message,
+  });
+});
 
 app.listen(PORT, () => {
   console.log("App running with port: " + PORT);
