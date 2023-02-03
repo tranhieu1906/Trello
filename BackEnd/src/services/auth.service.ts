@@ -12,8 +12,7 @@ class AuthService {
         let userData = {
             name: req.body.name,
             email: req.body.email,
-            password: passwordHash,
-            avatar: req.body.avatar
+            password: passwordHash
         }
         await User.create(userData);
 
