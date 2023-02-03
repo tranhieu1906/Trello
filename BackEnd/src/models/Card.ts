@@ -1,7 +1,7 @@
 const { Schema, model } = require("mongoose");
 
-const CardSchema = new Schema({
-  text: {
+const cardSchema = new Schema({
+  title: {
     type: String,
     required: true,
   },
@@ -37,4 +37,4 @@ const CardSchema = new Schema({
 });
 
 
-export const Card = model("card", CardSchema);
+export const Card = model("Card", cardSchema);

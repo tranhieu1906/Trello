@@ -1,6 +1,6 @@
 const { Schema, model } = require("mongoose");
 
-const ListSchema = new Schema({
+const listSchema = new Schema({
   title: {
     type: String,
     required: true,
@@ -8,7 +8,7 @@ const ListSchema = new Schema({
   cards: [
     {
       type: Schema.Types.ObjectId,
-      ref: "cards",
+      ref: "Card",
     },
   ],
   archived: {
@@ -18,4 +18,4 @@ const ListSchema = new Schema({
   },
 });
 
-export const List = model("list", ListSchema);
+export const List = model("List", listSchema);

@@ -1,6 +1,6 @@
 const { Schema, model } = require("mongoose");
 
-const BoardSchema = new Schema(
+const boardSchema = new Schema(
   {
     title: {
       type: String,
@@ -9,7 +9,7 @@ const BoardSchema = new Schema(
     lists: [
       {
         type: Schema.Types.ObjectId,
-        ref: "lists",
+        ref: "List",
       },
     ],
     activity: [
@@ -23,23 +23,22 @@ const BoardSchema = new Schema(
         },
       },
     ],
+
     backgroundURL: {
       type: String,
     },
+
     members: [
       {
         _id: false,
         user: {
           type: Schema.Types.ObjectId,
-          ref: "users",
-        },
-        name: {
-          type: String,
-          required: true,
+          ref: "User",
         },
         role: {
           type: String,
           default: "admin",
+          enum: ["admin", "observer"]
         },
       },
     ],
@@ -49,4 +48,4 @@ const BoardSchema = new Schema(
   }
 );
 
-export const Board = model("board", BoardSchema);
+export const Board = model("Board", boardSchema);
