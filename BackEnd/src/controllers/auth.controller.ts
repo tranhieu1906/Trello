@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import AuthService from "../services/auth.service";
+import Token from "../middlewares/jwt.middleware"
 
 export class AuthController {
     static async register(req, res) {
@@ -27,14 +28,13 @@ export class AuthController {
                     return res.status(401).json({ message: "password wrongs" })
                 }
                 let payload = {
+                    id: user._id,
                     email: user.email,
                     name: user.name,
                     avatar: user.avatar,
-                    role: user.role,
                 }
-                const token = jwt.sign(payload, '123456789', {
-                    expiresIn: 30 * 60 * 1000,
-                });
+                
+                const accessToken = await Token.signAccessToken(payload);
 
                 // let options = {
                 //     maxAge: 1000 * 60 * 30, 
@@ -43,7 +43,7 @@ export class AuthController {
 
                 // res.cookie('token', token, options);
 
-                res.status(200).json(token);
+                res.status(200).json(accessToken);
 
             } else {
                 res.status(401).json({ message: "user dosen't exist" })
