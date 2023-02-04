@@ -16,7 +16,7 @@ const cardSchema = new Schema({
       _id: false,
       user: {
         type: Schema.Types.ObjectId,
-        ref: "users",
+        ref: "User",
       },
       name: {
         type: String,
