@@ -8,7 +8,7 @@ class BoardService {
 
     const [board, user] = await Promise.all([
       newBoard.save(),
-      User.findById(req.user.data.id),
+      User.findById(req.user.id),
     ]);
     user.boards.unshift(board.id);
     await user.save();
@@ -20,14 +20,12 @@ class BoardService {
     return board;
   }
   async getUserBoard(req, res) {
-    const user = await User.findById(req.user.data.id);
+    const user = await User.findById(req.user.id);
     const boards = await Promise.all(
       user.boards.map((boardId) => Board.findById(boardId))
     );
     return boards;
   }
-  async renameBoard(req, res) {
-    
-  }
+  async renameBoard(req, res) {}
 }
 export default new BoardService();

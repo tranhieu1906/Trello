@@ -37,7 +37,10 @@ export class AuthController {
           avatar: user.avatar,
         };
         const accessToken = await Token.signAccessToken(payload);
-        res.status(200).json(accessToken);
+        res.status(200).json({
+          userToken: accessToken,
+          user,
+        });
       } else {
         res.status(401).json({ message: "user dosen't exist" });
       }

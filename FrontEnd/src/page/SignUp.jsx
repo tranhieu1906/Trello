@@ -17,17 +17,19 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import * as Yup from "yup";
-// import { clearErrors, registerUser } from "../../service/userAction";
-import Auth from "../Auth/auth";
-import logo from "../../assests/trello-logo-blue.svg";
+import { registerUser } from "../services/auth/authActions";
+import Auth from "../components/Auth/auth";
+import logo from "../assests/trello-logo-blue.svg";
 
 function SignUp() {
   let navigate = useNavigate();
   const dispatch = useDispatch();
 
-  //   const { loading, isAuthenticated, error } = useSelector(
-  //     (state) => state.user
-  //   );
+  const { loading, userInfo, error, success } = useSelector(
+    (state) => state.auth
+  );
+  const [showPassword, setShowPassword] = useState(false);
+
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -47,42 +49,40 @@ function SignUp() {
         ),
     }),
     onSubmit: (values) => {
-      //   dispatch(registerUser(values));
-      navigate("/login");
+      dispatch(registerUser(values));
     },
   });
-  //   useEffect(() => {
-  //     if (error) {
-  //       toast.error(error);
-  //     //   dispatch(clearErrors());
-  //     }
-  //     if (isAuthenticated) {
-  //       navigate("/login");
-  //     }
-  //   }, [dispatch, error, isAuthenticated, navigate]);
-  const [showPassword, setShowPassword] = useState(false);
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+    }
+    if (success) {
+      navigate("/login");
+    }
+    if (userInfo) {
+      navigate("/");
+    }
+  }, [dispatch, error, success, navigate, userInfo]);
+
   const handleClickShowPassword = () => setShowPassword((show) => !show);
+
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
   return (
     <>
-      {/* {loading && (
+      {loading && (
         <Backdrop
           sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
           open={loading}
         >
           <CircularProgress color="inherit" />
         </Backdrop>
-      )} */}
+      )}
 
       <Auth>
         <div className="bg-white border flex flex-col gap-2 p-4 pt-10 drop-shadow-md">
-          <img
-            src={logo}
-            alt="logo"
-            className="mx-auto mb-2 h-10 w-52"
-          />
+          <img src={logo} alt="logo" className="mx-auto mb-2 h-10 w-52" />
           <p className="mx-auto text-slate-400 font-bold text-lg max-w-xs text-center	">
             Đăng ký tài khoản .
           </p>

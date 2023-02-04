@@ -4,9 +4,7 @@ import createError from "http-errors";
 class Token {
   async signAccessToken(data) {
     return new Promise((resolve, reject) => {
-      const payload = {
-        data,
-      };
+      const payload = data
 
       const secret = process.env.SECRET_KEY;
       const options = {
