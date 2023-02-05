@@ -1,4 +1,5 @@
-import {User} from "../models/User"
+import {User} from "../models/User";
+
 class UserService {
     async getDataUser(req, res) {
         const id = req.user._id
@@ -7,4 +8,4 @@ class UserService {
     }
 }
 
-export default new UserService
+export default new UserService();

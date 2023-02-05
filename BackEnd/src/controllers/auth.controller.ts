@@ -33,7 +33,7 @@ export class AuthController {
                     name: user.name,
                     avatar: user.avatar,
                 }
-                
+
                 const accessToken = await Token.signAccessToken(payload);
 
                 // let options = {
@@ -53,12 +53,6 @@ export class AuthController {
             res.status(500).json({ message: err.message })
         }
     }
-
-
-
-
-
-
 
 
 }

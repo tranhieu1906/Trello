@@ -9,12 +9,12 @@ const commentSchema = new Schema({
     type: Date,
     default: Date.now,
   },
-  author: {
+  user: {
     type: Schema.Types.ObjectId,
     ref: "User",
     required: true,
   },
-  cart: {
+  card: {
     type: Schema.Types.ObjectId,
     ref: "Card",
     required: true,
