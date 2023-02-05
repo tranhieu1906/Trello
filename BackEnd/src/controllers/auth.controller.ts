@@ -4,7 +4,7 @@ import AuthService from "../services/auth.service";
 import Token from "../middlewares/jwt.middleware";
 
 export class AuthController {
-  static async register(req, res) {
+  async register(req, res) {
     try {
       const user = await AuthService.getUser(req, res);
       if (!user) {
@@ -18,7 +18,7 @@ export class AuthController {
     }
   }
 
-  static async login(req, res) {
+  async login(req, res) {
     try {
       const user = await AuthService.getUser(req, res);
 
@@ -49,3 +49,4 @@ export class AuthController {
     }
   }
 }
+export default new AuthController();
