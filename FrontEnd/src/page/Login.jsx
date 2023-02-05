@@ -40,7 +40,6 @@ function Login() {
       dispatch(userLogin(values));
     },
   });
-
   useEffect(() => {
     if (error) {
       toast.error(error);
