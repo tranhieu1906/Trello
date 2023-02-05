@@ -6,7 +6,7 @@ import { authApi } from "../services/auth/authService";
 export const store = configureStore({
   reducer: {
     auth: authReducer,
-    board:boardReducer,
+    board: boardReducer,
     [authApi.reducerPath]: authApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>

@@ -26,6 +26,5 @@ class BoardService {
     );
     return boards;
   }
-  async renameBoard(req, res) {}
 }
 export default new BoardService();
