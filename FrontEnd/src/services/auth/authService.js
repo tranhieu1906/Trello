@@ -12,7 +12,14 @@ export const authApi = createApi({
       }
     },
   }),
-  endpoints: () => ({}),
+  endpoints: (build) => ({
+    getDetails: build.query({
+      query: () => ({
+        url: "/users",
+        method: "GET",
+      }),
+    }),
+  }),
 });
 
-export const { useGetUserDetailsQuery } = authApi;
+export const { useGetDetailsQuery } = authApi;

@@ -25,7 +25,7 @@ import logo from "../assests/trello-logo-blue.svg";
 function Login() {
   let navigate = useNavigate();
   const dispatch = useDispatch();
-  const { loading, userInfo, error } = useSelector((state) => state.auth);
+  const { loading, userToken, error } = useSelector((state) => state.auth);
 
   const formik = useFormik({
     initialValues: {
@@ -44,10 +44,10 @@ function Login() {
     if (error) {
       toast.error(error);
     }
-    if (userInfo) {
+    if (userToken) {
       navigate("/");
     }
-  }, [dispatch, error, userInfo, navigate]);
+  }, [dispatch, error, userToken, navigate]);
 
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
