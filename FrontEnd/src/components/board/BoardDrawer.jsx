@@ -21,7 +21,7 @@ const BoardDrawer = () => {
   const [viewingArchivedLists, setViewingArchivedLists] = useState(false);
   const [viewingArchivedCards, setViewingArchivedCards] = useState(false);
   const [activityChunks, setActivityChunks] = useState(1);
-  const {activity} = useSelector((state) => state.board.board);
+  const { activity } = useSelector((state) => state.board.board);
   const handleClose = () => {
     setOpen(false);
     setActivityChunks(1);
@@ -41,13 +41,16 @@ const BoardDrawer = () => {
         variant="persistent"
         anchor="right"
         open={open}
-        classes={{
-          paper: "jss108",
+        PaperProps={{
+          sx: { width: "20%" },
         }}
       >
         {!viewingArchivedLists && !viewingArchivedCards ? (
           <div>
-            <div className="flex items-center justify-between">
+            <div
+              className="flex items-center justify-between"
+              style={{ padding: "10px 20px" }}
+            >
               <h3>Menu</h3>
               <Button onClick={handleClose}>
                 <CloseIcon />
@@ -69,7 +72,7 @@ const BoardDrawer = () => {
               </ListItem>
             </List>
             <Divider />
-            <div className="text-center">
+            <div className="text-center" style={{ padding: "20px 20px 0" }}>
               <h3>Activity</h3>
             </div>
             <List>
@@ -82,7 +85,7 @@ const BoardDrawer = () => {
                 </ListItem>
               ))}
             </List>
-            <div className="text-center">
+            <div className="text-center" style={{ margin: "0 auto 20px" }}>
               <Button
                 disabled={activityChunks * 10 > activity.length}
                 onClick={() => setActivityChunks(activityChunks + 1)}
