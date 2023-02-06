@@ -2,8 +2,8 @@ import { Box, CircularProgress } from "@mui/material";
 import React, { Fragment, useEffect } from "react";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-// import { getBoard, moveCard, moveList } from "../../actions/board";
+import { useNavigate, useParams } from "react-router-dom";
+import { getBoard, moveCard, moveList } from "../services/board/boardAction";
 import BoardDrawer from "../components/board/BoardDrawer";
 import BoardTitle from "../components/board/BoardTitle";
 import CreateList from "../components/board/CreateList";
@@ -11,23 +11,20 @@ import CreateList from "../components/board/CreateList";
 import List from "../components/list/List";
 import Navbar from "../components/other/Navbar";
 
-const Board = ({ match }) => {
-  const board = useSelector((state) => state.board.board);
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+const Board = () => {
+  const { board } = useSelector((state) => state.board);
+  const params = useParams();
+  const { isAuthenticated } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
-    // dispatch(getBoard(match.params.id));
-  }, [dispatch, match.params.id]);
+    dispatch(getBoard(params.id));
+  }, [dispatch, params.id]);
 
   useEffect(() => {
-    if (board?.title) document.title = board.title + " | TrelloClone";
+    if (board?.title) document.title = board.title + " | Trello";
   }, [board?.title]);
-
-  if (!isAuthenticated) {
-    return navigate("/")
-  }
 
   const onDragEnd = (result) => {
     const { source, destination, draggableId, type } = result;
@@ -50,13 +47,13 @@ const Board = ({ match }) => {
   return !board ? (
     <Fragment>
       <Navbar />
-      <Box className="board-loading">
+      <Box className="text-center mt-5">
         <CircularProgress />
       </Box>
     </Fragment>
   ) : (
     <div
-      className="board-and-navbar"
+      className="bg-cover h-screen"
       style={{
         backgroundImage:
           "url(" +
@@ -67,9 +64,9 @@ const Board = ({ match }) => {
       }}
     >
       <Navbar />
-      <section className="board">
-        <div className="board-top">
-          <div className="board-top-left">
+      <section className="p-3">
+        <div className="p-1 flex flex-wrap flex-row justify-between">
+          <div className="flex flex-wrap flex-row">
             <BoardTitle board={board} />
             {/* <Members /> */}
           </div>
@@ -79,7 +76,7 @@ const Board = ({ match }) => {
           <Droppable droppableId="all-lists" direction="horizontal" type="list">
             {(provided) => (
               <div
-                className="lists"
+                className="flex flex-row overflow-x-auto"
                 ref={provided.innerRef}
                 {...provided.droppableProps}
               >

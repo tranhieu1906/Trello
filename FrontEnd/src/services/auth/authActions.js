@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../../api/axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
 export const userLogin = createAsyncThunk(
@@ -16,6 +16,7 @@ export const userLogin = createAsyncThunk(
         config
       );
       localStorage.setItem("userToken", data.userToken);
+      return data;
     } catch (error) {
       if (error.response && error.response.data.message) {
         return rejectWithValue(error.response.data.message);

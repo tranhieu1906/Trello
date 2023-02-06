@@ -13,18 +13,15 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import useStyles from "../../utils/drawerStyles";
 import ArchivedCards from "./ArchivedCards";
 import ArchivedLists from "./ArchivedLists";
 
 const BoardDrawer = () => {
-  const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [viewingArchivedLists, setViewingArchivedLists] = useState(false);
   const [viewingArchivedCards, setViewingArchivedCards] = useState(false);
   const [activityChunks, setActivityChunks] = useState(1);
-  const activity = useSelector((state) => state.board.board.activity);
-
+  const {activity} = useSelector((state) => state.board.board);
   const handleClose = () => {
     setOpen(false);
     setActivityChunks(1);
@@ -35,22 +32,22 @@ const BoardDrawer = () => {
       <Button
         onClick={() => setOpen(true)}
         variant="contained"
-        className={open ? classes.hide : classes.showMenuButton}
+        className={open ? "hidden" : "flex justify-between w-40"}
       >
         <MoreHorizIcon fontSize="small" /> Show Menu
       </Button>
       <Drawer
-        className={open ? classes.drawer : classes.hide}
+        className={open ? "w-80 shrink-0" : "hidden"}
         variant="persistent"
         anchor="right"
         open={open}
         classes={{
-          paper: classes.drawerPaper,
+          paper: "jss108",
         }}
       >
         {!viewingArchivedLists && !viewingArchivedCards ? (
           <div>
-            <div className={classes.drawerHeader}>
+            <div className="flex items-center justify-between">
               <h3>Menu</h3>
               <Button onClick={handleClose}>
                 <CloseIcon />
@@ -72,7 +69,7 @@ const BoardDrawer = () => {
               </ListItem>
             </List>
             <Divider />
-            <div className={classes.activityTitle}>
+            <div className="text-center">
               <h3>Activity</h3>
             </div>
             <List>
@@ -85,7 +82,7 @@ const BoardDrawer = () => {
                 </ListItem>
               ))}
             </List>
-            <div className={classes.viewMoreActivityButton}>
+            <div className="text-center">
               <Button
                 disabled={activityChunks * 10 > activity.length}
                 onClick={() => setActivityChunks(activityChunks + 1)}
@@ -96,7 +93,7 @@ const BoardDrawer = () => {
           </div>
         ) : viewingArchivedLists ? (
           <div>
-            <div className={classes.drawerHeader}>
+            <div className="flex items-center justify-between">
               <Button onClick={() => setViewingArchivedLists(false)}>
                 <ChevronLeftIcon />
               </Button>
@@ -110,7 +107,7 @@ const BoardDrawer = () => {
           </div>
         ) : (
           <div>
-            <div className={classes.drawerHeader}>
+            <div className="flex items-center justify-between">
               <Button onClick={() => setViewingArchivedCards(false)}>
                 <ChevronLeftIcon />
               </Button>

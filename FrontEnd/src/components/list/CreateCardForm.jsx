@@ -1,5 +1,5 @@
 import { Button, Card, CardContent, TextField } from "@mui/material";
-import CloseIcon from "@mui/material/Close";
+import CloseIcon from "@mui/icons-material/Close";
 import PropTypes from "prop-types";
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";

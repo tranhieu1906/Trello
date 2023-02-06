@@ -21,13 +21,17 @@ const CreateList = () => {
   };
 
   return !adding ? (
-    <div className="create-list-button">
+    <div className="mt-3" style={{ minWidth: "200px" }}>
       <Button variant="contained" onClick={() => setAdding(true)}>
         + Add a list
       </Button>
     </div>
   ) : (
-    <div ref={formRef} className="create-list-form">
+    <div
+      ref={formRef}
+      style={{ minWidth: "280px", padding: "0 10px 10px" }}
+      className="mt-3 h-fit bg-white rounded flex flex-col"
+    >
       <form onSubmit={(e) => onSubmit(e)}>
         <TextField
           variant="outlined"

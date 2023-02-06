@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Draggable, Droppable } from "react-beautiful-dnd";
 import { useDispatch, useSelector } from "react-redux";
 // import { getList } from "../../actions/board";
-import Card from "../card/Card";
+// import Card from "../card/Card";
 import CreateCardForm from "./CreateCardForm";
 import ListMenu from "./ListMenu";
 import ListTitle from "./ListTitle";
@@ -49,7 +49,7 @@ const List = ({ listId, index }) => {
                 {...provided.droppableProps}
                 ref={provided.innerRef}
               >
-                <div className="cards">
+                {/* <div className="cards">
                   {list.cards.map((cardId, index) => (
                     <Card
                       key={cardId}
@@ -58,7 +58,7 @@ const List = ({ listId, index }) => {
                       index={index}
                     />
                   ))}
-                </div>
+                </div> */}
                 {provided.placeholder}
                 {addingCard && (
                   <div ref={createCardFormRef}>

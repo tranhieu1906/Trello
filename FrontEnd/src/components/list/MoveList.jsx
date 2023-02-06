@@ -7,15 +7,13 @@ import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogTitle from "@mui/material/DialogTitle";
-import CloseIcon from "@material-ui/icons/Close";
+import CloseIcon from "@mui/icons-material/Close";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import useStyles from "../../utils/dialogStyles";
 
 const MoveList = ({ listId, closeMenu }) => {
-  const classes = useStyles();
   const [openDialog, setOpenDialog] = useState(false);
   const [position, setPosition] = useState(0);
   const [positions, setPositions] = useState([0]);
@@ -51,13 +49,13 @@ const MoveList = ({ listId, closeMenu }) => {
     <Fragment>
       <div onClick={() => setOpenDialog(true)}>Move This List</div>
       <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
-        <div className={classes.moveListTop}>
+        <div className="flex">
           <DialogTitle>{"Move List"}</DialogTitle>
           <Button onClick={() => setOpenDialog(false)}>
             <CloseIcon />
           </Button>
         </div>
-        <DialogActions className={classes.moveListBottom}>
+        <DialogActions className="flex flex-col">
           <FormControl>
             <InputLabel shrink>Position</InputLabel>
             <Select
@@ -76,7 +74,7 @@ const MoveList = ({ listId, closeMenu }) => {
               type="submit"
               variant="contained"
               color="primary"
-              className={classes.moveListButton}
+              className="mt-5"
               onClick={onSubmit}
             >
               Move List
