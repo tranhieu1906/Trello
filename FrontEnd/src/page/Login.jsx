@@ -19,7 +19,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import * as Yup from "yup";
 import { userLogin } from "../services/auth/authActions";
-import Auth from "../components/Auth/auth";
+import Auth from "../components/auth/auth";
 import logo from "../assests/trello-logo-blue.svg";
 
 function Login() {
