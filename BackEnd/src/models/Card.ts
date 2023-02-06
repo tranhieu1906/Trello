@@ -17,7 +17,7 @@ const cardSchema = new Schema({
       user: {
         type: Schema.Types.ObjectId,
         ref: "User",
-      }
+      },
     },
   ],
   checklist: [
