@@ -18,4 +18,5 @@ class AuthService {
   }
 }
 
+// @ts-ignore
 export default new AuthService();
