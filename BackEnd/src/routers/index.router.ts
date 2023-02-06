@@ -9,7 +9,7 @@ function route(app) {
     app.use(Token.veryfyAccessToken);
     app.use("/users", userRoutes);
     app.use("/comments", commentRoutes);
-    app.use("/card",cardRoutes)
+    app.use("/card",cardRoutes);
 
 
 }
