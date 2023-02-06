@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { archiveCard, deleteCard } from "../../actions/board";
+// import { archiveCard, deleteCard } from "../../actions/board";
 
 import { Card, List, ListItem, CardContent, Button } from "@mui/material";
 
@@ -9,11 +9,11 @@ const ArchivedCards = () => {
   const dispatch = useDispatch();
 
   const onDelete = async (listId, cardId) => {
-    dispatch(deleteCard(listId, cardId));
+    // dispatch(deleteCard(listId, cardId));
   };
 
   const onSendBack = async (cardId) => {
-    dispatch(archiveCard(cardId, false));
+    // dispatch(archiveCard(cardId, false));
   };
 
   return (

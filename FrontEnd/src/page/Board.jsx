@@ -3,7 +3,7 @@ import React, { Fragment, useEffect } from "react";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { getBoard, moveCard, moveList } from "../../actions/board";
+// import { getBoard, moveCard, moveList } from "../../actions/board";
 import BoardDrawer from "../components/board/BoardDrawer";
 import BoardTitle from "../components/board/BoardTitle";
 import CreateList from "../components/board/CreateList";
@@ -18,7 +18,7 @@ const Board = ({ match }) => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    dispatch(getBoard(match.params.id));
+    // dispatch(getBoard(match.params.id));
   }, [dispatch, match.params.id]);
 
   useEffect(() => {
@@ -35,15 +35,15 @@ const Board = ({ match }) => {
       return;
     }
     if (type === "card") {
-      dispatch(
-        moveCard(draggableId, {
-          fromId: source.droppableId,
-          toId: destination.droppableId,
-          toIndex: destination.index,
-        })
-      );
+      // dispatch(
+      //   moveCard(draggableId, {
+      //     fromId: source.droppableId,
+      //     toId: destination.droppableId,
+      //     toIndex: destination.index,
+      //   })
+      // );
     } else {
-      dispatch(moveList(draggableId, { toIndex: destination.index }));
+      // dispatch(moveList(draggableId, { toIndex: destination.index }));
     }
   };
 

@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { archiveList } from "../../actions/board";
+// import { archiveList } from "../../actions/board";
 
 import List from "@mui/material/List";
 import Button from "@mui/material/Button";
@@ -12,7 +12,7 @@ const ArchivedLists = () => {
   const dispatch = useDispatch();
 
   const onSubmit = async (listId) => {
-    dispatch(archiveList(listId, false));
+    // dispatch(archiveList(listId, false));
   };
 
   return (

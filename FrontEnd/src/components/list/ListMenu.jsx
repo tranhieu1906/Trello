@@ -1,9 +1,9 @@
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+import { Button, Menu, MenuItem } from "@mui/material";
+import PropTypes from "prop-types";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import PropTypes from "prop-types";
-import { archiveList } from "../../actions/board";
-import { Button, Menu, MenuItem } from "@mui/material";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+// import { archiveList } from "../../actions/board";
 import MoveList from "./MoveList";
 
 const ListMenu = ({ listId }) => {
@@ -19,7 +19,7 @@ const ListMenu = ({ listId }) => {
   };
 
   const archive = async () => {
-    dispatch(archiveList(listId, true));
+    // dispatch(archiveList(listId, true));
   };
 
   return (

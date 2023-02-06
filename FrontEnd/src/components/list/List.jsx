@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import React, { useEffect, useRef, useState } from "react";
 import { Draggable, Droppable } from "react-beautiful-dnd";
 import { useDispatch, useSelector } from "react-redux";
-import { getList } from "../../actions/board";
+// import { getList } from "../../actions/board";
 import Card from "../card/Card";
 import CreateCardForm from "./CreateCardForm";
 import ListMenu from "./ListMenu";
@@ -17,7 +17,7 @@ const List = ({ listId, index }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getList(listId));
+    // dispatch(getList(listId));
   }, [dispatch, listId]);
 
   const createCardFormRef = useRef(null);

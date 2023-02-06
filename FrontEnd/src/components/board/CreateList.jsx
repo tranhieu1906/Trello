@@ -1,8 +1,8 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-import { addList } from "../../actions/board";
-import { TextField, Button } from "@mui/material";
+// import { addList } from "../../actions/board";
 import CloseIcon from "@mui/icons-material/Close";
+import { Button, TextField } from "@mui/material";
 
 const CreateList = () => {
   const [adding, setAdding] = useState(false);
@@ -16,7 +16,7 @@ const CreateList = () => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    dispatch(addList({ title }));
+    // dispatch(addList({ title }));
     setTitle("");
   };
 
