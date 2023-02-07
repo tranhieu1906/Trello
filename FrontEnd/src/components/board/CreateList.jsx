@@ -23,7 +23,7 @@ const CreateList = () => {
   return !adding ? (
     <div className="mt-3" style={{ minWidth: "200px" }}>
       <Button variant="contained" onClick={() => setAdding(true)}>
-        + Add a list
+        + Thêm danh sách khác
       </Button>
     </div>
   ) : (

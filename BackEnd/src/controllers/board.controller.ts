@@ -5,7 +5,7 @@ class BoardController {
   // Thêm bảng
   async createBoard(req, res, next) {
     try {
-      const board = BoardService.createBoard(req, res);
+      const board = await BoardService.createBoard(req, res);
       res.status(200).json({ board: board });
     } catch (err) {
       next(err);
