@@ -23,7 +23,7 @@ class BoardController {
   // lấy bảng theo id bảng
   async getBoardId(req, res, next) {
     try {
-      const board = await Board.findById(req.params.id);
+      const board = await Board.findById(req.params.id).populate("members.user");
       if (!board) {
         return res.status(404).json("Board not found");
       }

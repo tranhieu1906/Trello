@@ -1,27 +1,68 @@
+import axios from "../../api/axios";
 import React, { useState } from "react";
-import axios from "axios";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 // import { addMember } from "../../actions/board";
-import { TextField, Button } from "@mui/material";
-import Avatar from "@mui/material/Avatar";
-import Tooltip from "@mui/material/Tooltip";
-import Autocomplete from "@mui/material/Autocomplete";
 import CloseIcon from "@mui/icons-material/Close";
+import { Button } from "@mui/material";
+import Autocomplete from "@mui/material/Autocomplete";
+import Avatar from "@mui/material/Avatar";
+import Dialog from "@mui/material/Dialog";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
+import IconButton from "@mui/material/IconButton";
+import TextField from "@mui/material/TextField";
+import Tooltip from "@mui/material/Tooltip";
+import Typography from "@mui/material/Typography";
+import { styled } from "@mui/material/styles";
+import  CustomizedHook  from "./Autocomplete";
 
+const BootstrapDialog = styled(Dialog)(({ theme }) => ({
+  "& .MuiDialogContent-root": {
+    padding: theme.spacing(2),
+  },
+  "& .MuiDialogActions-root": {
+    padding: theme.spacing(1),
+  },
+}));
+function BootstrapDialogTitle(props) {
+  const { children, onClose, ...other } = props;
+
+  return (
+    <DialogTitle sx={{ m: 0, p: 2 }} {...other}>
+      {children}
+      {onClose ? (
+        <IconButton
+          aria-label="close"
+          onClick={onClose}
+          sx={{
+            position: "absolute",
+            right: 8,
+            top: 8,
+            color: (theme) => theme.palette.grey[500],
+          }}
+        >
+          <CloseIcon />
+        </IconButton>
+      ) : null}
+    </DialogTitle>
+  );
+}
 const Members = () => {
   const [inviting, setInviting] = useState(false);
   const [user, setUser] = useState(null);
   const [inputValue, setInputValue] = useState("");
   const [users, setUsers] = useState([]);
   const boardMembers = useSelector((state) => state.board.board.members);
-  console.log("🚀 ~ file: Members.jsx:17 ~ Members ~ boardMembers", boardMembers)
   const searchOptions = users.filter((user) =>
     boardMembers.find((boardMember) => boardMember.user === user._id)
       ? false
       : true
   );
+  const handleClose = () => {
+    setInviting(false);
+  };
   const dispatch = useDispatch();
-  
+
   const getInitials = (name) => {
     let initials = name.match(/\b\w/g) || [];
     return ((initials.shift() || "") + (initials.pop() || "")).toUpperCase();
@@ -30,9 +71,10 @@ const Members = () => {
   const handleInputValue = async (newInputValue) => {
     setInputValue(newInputValue);
     if (newInputValue && newInputValue !== "") {
-      const search = (
-        await axios.get(`/users/${newInputValue}`)
-      ).data.slice(0, 5);
+      const search = (await axios.get(`/users/${newInputValue}`)).data.slice(
+        0,
+        5
+      );
       setUsers(search && search.length > 0 ? search : []);
     }
   };
@@ -45,26 +87,63 @@ const Members = () => {
   };
 
   return (
-    <div className="board-members-wrapper">
-      <div className="board-members">
+    <div className="flex flex-wrap my-0 mx-5 gap-4">
+      <div className="flex flex-wrap">
         {boardMembers.map((member) => {
           return (
             <Tooltip title={member.name} key={member.user}>
-              <Avatar className="avatar">{getInitials(member.name)}</Avatar>
+              <Avatar className="avatar">
+                {getInitials(member.user.name)}
+              </Avatar>
             </Tooltip>
           );
         })}
       </div>
       {!inviting ? (
         <Button
-          className="invite"
+          className="ml-3 flex flex-wrap"
           variant="contained"
           onClick={() => setInviting(true)}
         >
           Invite
         </Button>
       ) : (
-        <div className="invite">
+        <div>
+          <BootstrapDialog
+            onClose={handleClose}
+            aria-labelledby="customized-dialog-title"
+            open={inviting}
+          >
+            <BootstrapDialogTitle
+              id="customized-dialog-title"
+              onClose={handleClose}
+            >
+              Chia sẻ bảng
+            </BootstrapDialogTitle>
+            <DialogContent dividers>
+              <CustomizedHook/>
+              <Typography gutterBottom>
+                Praesent commodo cursus magna, vel scelerisque nisl consectetur
+                et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus
+                dolor auctor.
+              </Typography>
+              <Typography gutterBottom>
+                Aenean lacinia bibendum nulla sed consectetur. Praesent commodo
+                cursus magna, vel scelerisque nisl consectetur et. Donec sed
+                odio dui. Donec ullamcorper nulla non metus auctor fringilla.
+              </Typography>
+            </DialogContent>
+          </BootstrapDialog>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default Members;
+
+{
+  /* <div className="ml-3 flex flex-wrap">
           <Autocomplete
             value={user}
             onChange={(e, newMember) => setUser(newMember)}
@@ -74,7 +153,7 @@ const Members = () => {
             }
             options={searchOptions}
             getOptionLabel={(member) => member.email}
-            className="search-member"
+            className="w-64 h-2.5 mr-3"
             renderInput={(params) => (
               <TextField
                 {...params}
@@ -96,10 +175,5 @@ const Members = () => {
               <CloseIcon />
             </Button>
           </div>
-        </div>
-      )}
-    </div>
-  );
-};
-
-export default Members;
+        </div> */
+}
