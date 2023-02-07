@@ -3,7 +3,7 @@ import CommentService from "../services/comment.service";
 class ListController {
     async getlist(req, res) {
         try {
-            const list = await ListService.getDataList(req, res);
+            const list = await ListService.getList(req, res);
             res.status(200).json(list);
         } catch (e) {
             res.status(500).json({ message: e.message })
@@ -12,8 +12,8 @@ class ListController {
 
     async addList(req, res) {
         try {
-            const list = await ListService.addDataList(req, res);
-            res.status(201).json(list);
+            const list = await ListService.addDataList(req);
+            res.status(201).json({list:list});
         } catch (e) {
             res.status(500).json({ message: e.message })
         }
@@ -25,9 +25,9 @@ class ListController {
             let listdelete = await ListService.getList(req, res);
 
             if (!listdelete) {
-                res.status(404).json({ message: "the comment doesn't exist" })
+                res.status(404).json({ message: "the list doesn't exist" })
             } else {
-                await CommentService.deleteDataComment(req, res);
+                await ListService.deleteDataList(req, res);
                 res.status(204).json();
             }
         } catch (e) {

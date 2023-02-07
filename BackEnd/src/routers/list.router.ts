@@ -1,9 +1,9 @@
-// import ListController from '../controllers';
+
 import {Router} from 'express';
 import ListController from "../controllers/list.controller";
 const listRouters = Router();
 
-listRouters.get('/',ListController.getlist);
-listRouters.post('',ListController.addList);
-listRouters.delete('',ListController.deleteList);
-listRouters.put('',ListController.updateList);
+listRouters.get('/:idBroad',ListController.getlist);
+listRouters.post('/:idBroad',ListController.addList);
+listRouters.delete('/:idList',ListController.deleteList);
+listRouters.put('/:idList',ListController.updateList);
