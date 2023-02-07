@@ -11,7 +11,6 @@ class CardService {
             }
             listMembers.push(member)
         }
-        console.log(req.body)
         let newCard = new Card({
             title: req.body.title,
             description: req.body.description,

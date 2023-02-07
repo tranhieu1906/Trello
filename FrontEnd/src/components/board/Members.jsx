@@ -1,20 +1,17 @@
-import axios from "../../api/axios";
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-// import { addMember } from "../../actions/board";
+import { useSelector } from "react-redux";
 import CloseIcon from "@mui/icons-material/Close";
 import { Button } from "@mui/material";
-import Autocomplete from "@mui/material/Autocomplete";
 import Avatar from "@mui/material/Avatar";
+import AvatarGroup from "@mui/material/AvatarGroup";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import IconButton from "@mui/material/IconButton";
-import TextField from "@mui/material/TextField";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
 import { styled } from "@mui/material/styles";
-import  CustomizedHook  from "./Autocomplete";
+import CustomizedHook from "./Autocomplete";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -49,55 +46,32 @@ function BootstrapDialogTitle(props) {
 }
 const Members = () => {
   const [inviting, setInviting] = useState(false);
-  const [user, setUser] = useState(null);
-  const [inputValue, setInputValue] = useState("");
-  const [users, setUsers] = useState([]);
-  const boardMembers = useSelector((state) => state.board.board.members);
-  const searchOptions = users.filter((user) =>
-    boardMembers.find((boardMember) => boardMember.user === user._id)
-      ? false
-      : true
-  );
+
+  const { members } = useSelector((state) => state.board.board);
+
   const handleClose = () => {
     setInviting(false);
   };
-  const dispatch = useDispatch();
 
   const getInitials = (name) => {
     let initials = name.match(/\b\w/g) || [];
     return ((initials.shift() || "") + (initials.pop() || "")).toUpperCase();
   };
 
-  const handleInputValue = async (newInputValue) => {
-    setInputValue(newInputValue);
-    if (newInputValue && newInputValue !== "") {
-      const search = (await axios.get(`/users/${newInputValue}`)).data.slice(
-        0,
-        5
-      );
-      setUsers(search && search.length > 0 ? search : []);
-    }
-  };
-
-  const onSubmit = async () => {
-    // dispatch(addMember(user._id));
-    setUser(null);
-    setInputValue("");
-    setInviting(false);
-  };
-
   return (
     <div className="flex flex-wrap my-0 mx-5 gap-4">
       <div className="flex flex-wrap">
-        {boardMembers.map((member) => {
-          return (
-            <Tooltip title={member.name} key={member.user}>
-              <Avatar className="avatar">
-                {getInitials(member.user.name)}
-              </Avatar>
-            </Tooltip>
-          );
-        })}
+        <AvatarGroup max={4}>
+          {members.map((member) => {
+            return (
+              <Tooltip title={member.name} key={member.user}>
+                <Avatar className="mr-0.5 cursor-default bg-white">
+                  {getInitials(member.user.name)}
+                </Avatar>
+              </Tooltip>
+            );
+          })}
+        </AvatarGroup>
       </div>
       {!inviting ? (
         <Button
@@ -121,17 +95,26 @@ const Members = () => {
               Chia sẻ bảng
             </BootstrapDialogTitle>
             <DialogContent dividers>
-              <CustomizedHook/>
-              <Typography gutterBottom>
-                Praesent commodo cursus magna, vel scelerisque nisl consectetur
-                et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus
-                dolor auctor.
-              </Typography>
-              <Typography gutterBottom>
-                Aenean lacinia bibendum nulla sed consectetur. Praesent commodo
-                cursus magna, vel scelerisque nisl consectetur et. Donec sed
-                odio dui. Donec ullamcorper nulla non metus auctor fringilla.
-              </Typography>
+              <div className="flex gap-2 items-center">
+                <CustomizedHook handleClose={handleClose} />
+              </div>
+              <div>
+                {members.map((member) => (
+                  <div className="flex items-center">
+                    {console.log(member)}
+                    <Avatar className="mr-2 cursor-default bg-white my-3">
+                      {getInitials(member.user.name)}
+                    </Avatar>
+                    <div className="flex flex-col">
+                      <span>{member.user.name}</span>
+                      <span>{member.user.email}</span>
+                    </div>
+                    <div>
+                      <span>{member.role}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </DialogContent>
           </BootstrapDialog>
         </div>
@@ -141,39 +124,3 @@ const Members = () => {
 };
 
 export default Members;
-
-{
-  /* <div className="ml-3 flex flex-wrap">
-          <Autocomplete
-            value={user}
-            onChange={(e, newMember) => setUser(newMember)}
-            inputValue={inputValue}
-            onInputChange={(e, newInputValue) =>
-              handleInputValue(newInputValue)
-            }
-            options={searchOptions}
-            getOptionLabel={(member) => member.email}
-            className="w-64 h-2.5 mr-3"
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                helperText="Search for user by email"
-                autoFocus
-              />
-            )}
-          />
-          <div className="add-member">
-            <Button
-              disabled={!user}
-              variant="contained"
-              color="primary"
-              onClick={onSubmit}
-            >
-              Add Member
-            </Button>
-            <Button onClick={() => setInviting(false)}>
-              <CloseIcon />
-            </Button>
-          </div>
-        </div> */
-}

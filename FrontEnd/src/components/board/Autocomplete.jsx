@@ -1,11 +1,13 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
+import React, { useEffect, useState } from "react";
+
 import { useAutocomplete } from "@mui/base/AutocompleteUnstyled";
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
-import { styled } from "@mui/material/styles";
 import { autocompleteClasses } from "@mui/material/Autocomplete";
-import { useSelector } from "react-redux";
+import { styled } from "@mui/material/styles";
+import PropTypes from "prop-types";
+import { useDispatch, useSelector } from "react-redux";
+import { addMember } from "../../services/board/boardAction";
 
 import axios from "../../api/axios";
 
@@ -155,9 +157,12 @@ const Listbox = styled("ul")(
 `
 );
 
-export default function CustomizedHook() {
+export default function CustomizedHook(props) {
+  const { handleClose } = props;
+  const dispatch = useDispatch();
+
   const [users, setUsers] = useState([]);
-    const [inputValue, setInputValue] = useState("");
+  const [inputValue, setInputValue] = useState("");
 
   const boardMembers = useSelector((state) => state.board.board.members);
 
@@ -176,6 +181,7 @@ export default function CustomizedHook() {
       setUsers(search && search.length > 0 ? search : []);
     }
   };
+
   const {
     getRootProps,
     getInputProps,
@@ -192,32 +198,52 @@ export default function CustomizedHook() {
     options: searchOptions,
     getOptionLabel: (option) => option.email,
   });
-  return (
-    <Root>
-      <div {...getRootProps()}>
-        <InputWrapper ref={setAnchorEl} className={focused ? "focused" : ""}>
-          {value.map((option, index) => (
-            <StyledTag label={option.email} {...getTagProps({ index })} />
-          ))}
 
-          <input
-            {...getInputProps()}
-            placeholder="Địa chỉ email"
-            onChange={(e) => handleInputValue(e.target.value)}
-          />
-        </InputWrapper>
-      </div>
-      {groupedOptions.length > 0 ? (
-        <Listbox {...getListboxProps()}>
-          {groupedOptions.map((option, index) => (
-            <li {...getOptionProps({ option, index })}>
-              <span>{option.email}</span>
-              <CheckIcon fontSize="small" />
-            </li>
-          ))}
-        </Listbox>
-      ) : null}
-    </Root>
+  useEffect(() => {
+    setInputValue("");
+  }, [value]);
+  const onSubmit = async () => {
+    let id = [];
+    value.forEach((i) => {
+      id.push(i._id);
+    });
+    dispatch(addMember(id));
+    handleClose()
+  };
+  return (
+    <>
+      <Root>
+        <div {...getRootProps()}>
+          <InputWrapper ref={setAnchorEl} className={focused ? "focused" : ""}>
+            {value.map((option, index) => (
+              <StyledTag label={option.email} {...getTagProps({ index })} />
+            ))}
+
+            <input
+              {...getInputProps()}
+              value={inputValue}
+              placeholder="Địa chỉ email"
+              onChange={(e) => handleInputValue(e.target.value)}
+            />
+          </InputWrapper>
+        </div>
+        {groupedOptions.length > 0 ? (
+          <Listbox {...getListboxProps()}>
+            {groupedOptions.map((option, index) => (
+              <li {...getOptionProps({ option, index })}>
+                <span>{option.email}</span>
+                <CheckIcon fontSize="small" />
+              </li>
+            ))}
+          </Listbox>
+        ) : null}
+      </Root>
+      <button
+        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-4 rounded"
+        onClick={onSubmit}
+      >
+        Chia sẻ
+      </button>
+    </>
   );
 }
-
