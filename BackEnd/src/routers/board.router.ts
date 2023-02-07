@@ -10,5 +10,6 @@ boardRoutes.get("/activity/:boardId", BoardController.getBoardActivity);
 boardRoutes.put("/rename/:id", BoardController.renameBoard);
 boardRoutes.put("/addMember/:userId", BoardController.addMember);
 boardRoutes.post("/group/create", BoardController.createGroupBoard);
+boardRoutes.put("/addMember", BoardController.addMember);
 
 export default boardRoutes;

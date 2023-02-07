@@ -12,11 +12,11 @@ import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import axios from "../../api/axios";
 
-let backgrounds = ["https://anhdepfree.com/wp-content/uploads/2022/11/background-2d-dep-cho-photoshop_63710488652.jpg",
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzJe6Q6pnhDeoKRzwhlY6j8QRK49Ke-XTo3Q&usqp=CAU",
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-6mBwHrZ-9WPC1V_DsRhDuQu0iDHmN50iUg&usqp=CAU",
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMJbhUPCzDxJ2bd8zCCPr9E2DuNj_AL3Fh2A&usqp=CAU",
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcXWgwSFEe_YbsfIyvTdHQDaq47lKERI5MWQ&usqp=CAU"
+let backgrounds = ["http://static1.squarespace.com/static/5fe4caeadae61a2f19719512/5fe5c3a9d85eb525301180ed/5ff082ae17af6f5d1930e6bf/1610530333403/Wallpaper+engine+4k.png?format=1500w",
+    "https://images.squarespace-cdn.com/content/v1/5fe4caeadae61a2f19719512/1609949775007-FKI50MYWWQG9KZHEA06W/35.jpg",
+    "https://i.pinimg.com/originals/c5/40/01/c540018ca1c7b93cb1fbc218ea0c73a7.png",
+    "https://c4.wallpaperflare.com/wallpaper/778/639/660/animals-firewatch-forest-minimalism-wallpaper-preview.jpg",
+    "https://c4.wallpaperflare.com/wallpaper/228/1003/832/artistic-mountain-minimalist-moon-nature-hd-wallpaper-preview.jpg"
 ]
 
 export default function CreateBoard(props) {

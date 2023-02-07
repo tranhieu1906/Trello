@@ -1,101 +1,122 @@
 import React, { useState } from "react";
-import axios from "axios";
-import { useSelector, useDispatch } from "react-redux";
-// import { addMember } from "../../actions/board";
-import { TextField, Button } from "@mui/material";
-import Avatar from "@mui/material/Avatar";
-import Tooltip from "@mui/material/Tooltip";
-import Autocomplete from "@mui/material/Autocomplete";
+import { useSelector } from "react-redux";
 import CloseIcon from "@mui/icons-material/Close";
+import { Button } from "@mui/material";
+import Avatar from "@mui/material/Avatar";
+import AvatarGroup from "@mui/material/AvatarGroup";
+import Dialog from "@mui/material/Dialog";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
+import IconButton from "@mui/material/IconButton";
+import Tooltip from "@mui/material/Tooltip";
+import Typography from "@mui/material/Typography";
+import { styled } from "@mui/material/styles";
+import CustomizedHook from "./Autocomplete";
 
+const BootstrapDialog = styled(Dialog)(({ theme }) => ({
+  "& .MuiDialogContent-root": {
+    padding: theme.spacing(2),
+  },
+  "& .MuiDialogActions-root": {
+    padding: theme.spacing(1),
+  },
+}));
+function BootstrapDialogTitle(props) {
+  const { children, onClose, ...other } = props;
+
+  return (
+    <DialogTitle sx={{ m: 0, p: 2 }} {...other}>
+      {children}
+      {onClose ? (
+        <IconButton
+          aria-label="close"
+          onClick={onClose}
+          sx={{
+            position: "absolute",
+            right: 8,
+            top: 8,
+            color: (theme) => theme.palette.grey[500],
+          }}
+        >
+          <CloseIcon />
+        </IconButton>
+      ) : null}
+    </DialogTitle>
+  );
+}
 const Members = () => {
   const [inviting, setInviting] = useState(false);
-  const [user, setUser] = useState(null);
-  const [inputValue, setInputValue] = useState("");
-  const [users, setUsers] = useState([]);
-  const boardMembers = useSelector((state) => state.board.board.members);
-  console.log("🚀 ~ file: Members.jsx:17 ~ Members ~ boardMembers", boardMembers)
-  const searchOptions = users.filter((user) =>
-    boardMembers.find((boardMember) => boardMember.user === user._id)
-      ? false
-      : true
-  );
-  const dispatch = useDispatch();
-  
+
+  const { members } = useSelector((state) => state.board.board);
+
+  const handleClose = () => {
+    setInviting(false);
+  };
+
   const getInitials = (name) => {
     let initials = name.match(/\b\w/g) || [];
     return ((initials.shift() || "") + (initials.pop() || "")).toUpperCase();
   };
 
-  const handleInputValue = async (newInputValue) => {
-    setInputValue(newInputValue);
-    if (newInputValue && newInputValue !== "") {
-      const search = (
-        await axios.get(`/users/${newInputValue}`)
-      ).data.slice(0, 5);
-      setUsers(search && search.length > 0 ? search : []);
-    }
-  };
-
-  const onSubmit = async () => {
-    // dispatch(addMember(user._id));
-    setUser(null);
-    setInputValue("");
-    setInviting(false);
-  };
-
   return (
-    <div className="board-members-wrapper">
-      <div className="board-members">
-        {boardMembers.map((member) => {
-          return (
-            <Tooltip title={member.name} key={member.user}>
-              <Avatar className="avatar">{getInitials(member.name)}</Avatar>
-            </Tooltip>
-          );
-        })}
+    <div className="flex flex-wrap my-0 mx-5 gap-4">
+      <div className="flex flex-wrap">
+        <AvatarGroup max={4}>
+          {members.map((member) => {
+            return (
+              <Tooltip title={member.name} key={member.user}>
+                <Avatar className="mr-0.5 cursor-default bg-white">
+                  {getInitials(member.user.name)}
+                </Avatar>
+              </Tooltip>
+            );
+          })}
+        </AvatarGroup>
       </div>
       {!inviting ? (
         <Button
-          className="invite"
+          className="ml-3 flex flex-wrap"
           variant="contained"
           onClick={() => setInviting(true)}
         >
           Invite
         </Button>
       ) : (
-        <div className="invite">
-          <Autocomplete
-            value={user}
-            onChange={(e, newMember) => setUser(newMember)}
-            inputValue={inputValue}
-            onInputChange={(e, newInputValue) =>
-              handleInputValue(newInputValue)
-            }
-            options={searchOptions}
-            getOptionLabel={(member) => member.email}
-            className="search-member"
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                helperText="Search for user by email"
-                autoFocus
-              />
-            )}
-          />
-          <div className="add-member">
-            <Button
-              disabled={!user}
-              variant="contained"
-              color="primary"
-              onClick={onSubmit}
+        <div>
+          <BootstrapDialog
+            onClose={handleClose}
+            aria-labelledby="customized-dialog-title"
+            open={inviting}
+          >
+            <BootstrapDialogTitle
+              id="customized-dialog-title"
+              onClose={handleClose}
             >
-              Add Member
-            </Button>
-            <Button onClick={() => setInviting(false)}>
-              <CloseIcon />
-            </Button>
-          </div>
+              Chia sẻ bảng
+            </BootstrapDialogTitle>
+            <DialogContent dividers>
+              <div className="flex gap-2 items-center">
+                <CustomizedHook handleClose={handleClose} />
+              </div>
+              <div>
+                {members.map((member) => (
+                  <div className="flex items-center">
+                    {console.log(member)}
+                    <Avatar className="mr-2 cursor-default bg-white my-3">
+                      {getInitials(member.user.name)}
+                    </Avatar>
+                    <div className="flex flex-col">
+                      <span>{member.user.name}</span>
+                      <span>{member.user.email}</span>
+                    </div>
+                    <div>
+                      <span>{member.role}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </DialogContent>
+          </BootstrapDialog>
         </div>
       )}
     </div>

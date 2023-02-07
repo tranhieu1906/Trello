@@ -24,7 +24,9 @@ class BoardController {
   // lấy bảng theo id bảng
   async getBoardId(req, res, next) {
     try {
-      const board = await Board.findById(req.params.id);
+      const board = await Board.findById(req.params.id).populate(
+        "members.user"
+      );
       if (!board) {
         return res.status(404).json("Board not found");
       }
@@ -70,11 +72,13 @@ class BoardController {
   // Thêm thành viên vào bảng
   async addMember(req, res, next) {
     try {
-      const board = await Board.findById(req.header("boardId"));
+      const board = await Board.findById(req.header("boardId")).populate(
+        "members.user"
+      );
       if (!board) {
         return res.status(404).json("board not found");
       }
-      const user = await User.findById(req.params.userId);
+      const user = await User.findOne({ _id: { $in: req.body } });
       if (!user) {
         return res.status(404).json("User not found");
       }
@@ -84,12 +88,7 @@ class BoardController {
 
       user.boards.unshift(board.id);
       await user.save();
-
-      board.members.push({
-        user: user.id,
-        name: user.name,
-        role: "observer",
-      });
+      board.members.push({ user, role: "observer" });
 
       board.activity.unshift({
         text: `${user.name} joined this board`,

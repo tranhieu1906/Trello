@@ -65,7 +65,7 @@ const Board = () => {
     >
       <Navbar />
       <section className="p-3">
-        <div className="p-1 flex flex-wrap flex-row justify-between">
+        <div className="p-1 flex flex-wrap flex-row justify-between pb-8">
           <div className="flex flex-wrap flex-row">
             <BoardTitle board={board} />
             <Members />
