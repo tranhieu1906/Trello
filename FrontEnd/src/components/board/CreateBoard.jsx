@@ -95,6 +95,7 @@ export default function CreateBoard(props) {
                                        name="title"
                                        value={dataForm.title}/>
                             <br/>
+                            <br/>
                             <FormControl sx={{ m: 1, minWidth: 400 }} size="small">
                             <InputLabel id="demo-simple-select-label">Phân loại</InputLabel>
                             <Select

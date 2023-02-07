@@ -39,7 +39,6 @@ function Home() {
 
   return (
     <div>
-      <Navbar />
       <section className="flex flex-col items-center p-12">
         <h1>Welcome {userInfo && userInfo.name}</h1>
         <h2>Your Boards</h2>
