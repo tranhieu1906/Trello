@@ -6,10 +6,19 @@ import Login from "./page/Login";
 import SignUp from "./page/SignUp";
 import Home from "./page/Home";
 import Board from "./page/Board";
-import Layout from "./components/Layout.jsx/Layout";
+import Layout from "./components/Layout/Layout";
 import PrivateRoute from "./components/Router/PrivateRouter";
+import { useGetDetailsQuery } from "./services/auth/authService";
+import { useDispatch } from "react-redux";
+import { setCredentials } from "./redux/features/auth/authSlice";
 
 function App() {
+  const dispatch = useDispatch();
+  const { data } = useGetDetailsQuery("userDetails");
+  useEffect(() => {
+    if (data) dispatch(setCredentials(data));
+  }, [data, dispatch]);
+
   if (localStorage.getItem("userToken")) {
     axios.defaults.headers.common["Authorization"] =
       "Bearer " + localStorage.getItem("userToken");

@@ -15,6 +15,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import ArchivedCards from "./ArchivedCards";
 import ArchivedLists from "./ArchivedLists";
+import { display } from "@mui/system";
 
 const BoardDrawer = () => {
   const [open, setOpen] = useState(false);
@@ -32,7 +33,7 @@ const BoardDrawer = () => {
       <Button
         onClick={() => setOpen(true)}
         variant="contained"
-        className={open ? "hidden" : "flex justify-between w-40"}
+        className={open ? "!hidden" : "flex justify-between w-40"}
       >
         <MoreHorizIcon fontSize="small" /> Show Menu
       </Button>
