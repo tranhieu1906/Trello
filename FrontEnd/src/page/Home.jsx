@@ -26,27 +26,15 @@ function Home() {
   }, [error]);
 
   return (
-    <div>
-      <Navbar />
+    <div >
       <section className="flex flex-col items-center p-12">
         <h1>Welcome {userInfo && userInfo.name}</h1>
         <h2>Your Boards</h2>
         {loading && <CircularProgress className="m-10" />}
-        <div className="m-2 flex flex-row flex-wrap items-center justify-center">
-          {boards.map((board) => (
-            <Link
-              key={board._id}
-              to={`/board/${board._id}`}
-              className="w-52 h-32 m-5 no-underline font-medium text-white rounded-xl "
-              style={{ backgroundColor: "#5067c5" }}
-            >
-              {board.title}
-            </Link>
-          ))}
-          {/* <CreateBoard /> */}
-        </div>
       </section>
+
     </div>
   );
 }
+
 export default Home;
