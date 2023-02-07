@@ -28,7 +28,6 @@ class ListController {
             if (!listdelete) {
                 res.status(404).json({ message: "the list doesn't exist" })
             } else {
-                console.log(1)
                   await ListService.deleteDataList(req, res);
                 res.status(200).json({
                     success: true,

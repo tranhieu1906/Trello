@@ -20,11 +20,8 @@ class ListService {
     }
 
     async deleteDataList(req, res) {
-        console.log(2)
         let {listId} = req.params;
          let listDelete = await List.findOneAndDelete({_id: listId})
-        console.log(3)
-
     }
 
     async editList(req, res) {
