@@ -12,6 +12,13 @@ import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import axios from "../../api/axios";
 
+let backgrounds = ["https://anhdepfree.com/wp-content/uploads/2022/11/background-2d-dep-cho-photoshop_63710488652.jpg",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzJe6Q6pnhDeoKRzwhlY6j8QRK49Ke-XTo3Q&usqp=CAU",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-6mBwHrZ-9WPC1V_DsRhDuQu0iDHmN50iUg&usqp=CAU",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMJbhUPCzDxJ2bd8zCCPr9E2DuNj_AL3Fh2A&usqp=CAU",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcXWgwSFEe_YbsfIyvTdHQDaq47lKERI5MWQ&usqp=CAU"
+]
+
 export default function CreateBoard(props) {
     const {open, handleClose} = props;
     const [selectedPhoto, setSelectedPhoto] = useState("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-6mBwHrZ-9WPC1V_DsRhDuQu0iDHmN50iUg&usqp=CAU")
@@ -20,7 +27,7 @@ export default function CreateBoard(props) {
         title: "",
         classify: "individual",
     });
-    const [img, setImg] = useState([]);
+    const [img, setImg] = useState(backgrounds);
 
     const handleChange = (event) => {
         setDataForm({
@@ -38,15 +45,6 @@ export default function CreateBoard(props) {
         })
         handleClose()
     }
-
-    useEffect(() => {
-        axios.get("/background").then((res) => {
-            setImg(res.data )
-        })
-            .catch((err) => {
-                console.log(err)
-            })
-    },[])
     return (
         <div>
             <Dialog
@@ -77,12 +75,12 @@ export default function CreateBoard(props) {
                             <b>background</b>
                             <ImageList sx={{ width: 420, height: 200 }} cols={3} rowHeight={100}>
                                 {img.map((item) => (
-                                    <ImageListItem key={item.img}>
+                                    <ImageListItem key={item}>
                                         <img name="backgroundURL"
-                                            onClick={() => setSelectedPhoto(`${item.img}`)}
-                                            src={`${item.img}`}
-                                            srcSet={`${item.img}`}
-                                            alt={item.title}
+                                            onClick={() => setSelectedPhoto(`${item}`)}
+                                            src={`${item}`}
+                                            srcSet={`${item}`}
+                                            alt={item}
                                             loading="lazy"
                                         />
                                     </ImageListItem>

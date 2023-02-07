@@ -6,6 +6,7 @@ import Login from "./page/Login";
 import SignUp from "./page/SignUp";
 import Home from "./page/Home";
 import Board from "./page/Board";
+import Layout from "./components/Layout.jsx/Layout";
 import PrivateRoute from "./components/Router/PrivateRouter";
 
 function App() {
@@ -34,10 +35,12 @@ function App() {
           path="/"
           element={
             <PrivateRoute>
-              <Home />
+              <Layout />
             </PrivateRoute>
           }
-        />
+        >
+          <Route index element={<Home />} />
+        </Route>
         <Route
           path="/board/:id"
           element={

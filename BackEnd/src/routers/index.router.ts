@@ -6,7 +6,6 @@ import cardRoutes from "./cardRouter";
 
 
 import Token from "../middlewares/jwt.middleware";
-import bacgroundRouter from "./bacground.router";
 
 function route(app) {
   app.use("/auth", authRoutes);
@@ -15,7 +14,6 @@ function route(app) {
   app.use("/comments", commentRoutes);
   app.use("/boards", boardRoutes);
   app.use("/card", cardRoutes);
-  app.use("/background", bacgroundRouter)
 }
 
 export default route;
