@@ -1,11 +1,9 @@
 import { Fragment } from 'react'
-import { useState, useEffect } from 'react'
+
 import { Menu, Transition } from '@headlessui/react'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import { Link } from 'react-router-dom'
-import { useSelector } from 'react-redux';
 
-import { logDOM } from '@testing-library/react'
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')

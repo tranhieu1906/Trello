@@ -1,26 +1,12 @@
 import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { useGetDetailsQuery } from "../../services/auth/authService";
-import { logout, setCredentials } from "../../redux/features/auth/authSlice";
-import { Fragment } from 'react';
-import { Disclosure, Menu, Transition } from '@headlessui/react';
+import { Disclosure} from '@headlessui/react';
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import Dropdown from "./Dropdown";
 import DropdownAccount from "./DropdownAccount";
 import Search from "./Search";
 import { getUser } from '../../services/user/userService';
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(' ')
-}
-
 const Navbar = () => {
-  useEffect(() => {
-    getUser().then((res) => {
-        console.log(res.data)
-    })
-}, [])
 
   return (
     <Disclosure as="nav" className="bg-blue-800">
@@ -71,7 +57,7 @@ const Navbar = () => {
                 </button>
 
                 {/* Profile dropdown */}
-                <DropdownAccount/>
+                <DropdownAccount />
               </div>
             </div>
           </div>
