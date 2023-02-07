@@ -24,8 +24,8 @@ class BoardService {
     const boards = await Promise.all(
       user.boards.map((boardId) => Board.findById(boardId))
     );
+    console.log(boards);
     return boards;
   }
-  async renameBoard(req, res) {}
 }
 export default new BoardService();
