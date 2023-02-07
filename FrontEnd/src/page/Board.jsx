@@ -7,7 +7,7 @@ import { getBoard, moveCard, moveList } from "../services/board/boardAction";
 import BoardDrawer from "../components/board/BoardDrawer";
 import BoardTitle from "../components/board/BoardTitle";
 import CreateList from "../components/board/CreateList";
-// import Members from "../components/board/Members";
+import Members from "../components/board/Members";
 import List from "../components/list/List";
 import Navbar from "../components/other/Navbar";
 
@@ -68,7 +68,7 @@ const Board = () => {
         <div className="p-1 flex flex-wrap flex-row justify-between">
           <div className="flex flex-wrap flex-row">
             <BoardTitle board={board} />
-            {/* <Members /> */}
+            <Members />
           </div>
           <BoardDrawer />
         </div>
