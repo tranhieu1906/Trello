@@ -42,10 +42,15 @@ const boardSchema = new Schema(
         },
       },
     ],
+      classify: {
+        type: String,
+          enum: ["individual", "group", "public"],
+        default: "individual",
+      }
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 export const Board = model("Board", boardSchema);

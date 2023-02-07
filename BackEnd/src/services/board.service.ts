@@ -24,8 +24,29 @@ class BoardService {
     const boards = await Promise.all(
       user.boards.map((boardId) => Board.findById(boardId))
     );
+    console.log(boards)
     return boards;
   }
+
+  async createGroupBoard(req) {
+    let {title, backgroundURL } = req.body;
+    let dataUser = {
+      user: req.user.id,
+      role: "admin"
+    };
+    let newBoard = new Board({
+      title: title,
+      backgroundURL: backgroundURL,
+      classify: "group",
+    });
+    newBoard.members.push(dataUser);
+    let dataBoardNew = await newBoard.save();
+    let user = await User.findById(req.user.id);
+    user.boards.unshift(dataBoardNew._id);
+    return dataBoardNew;
+  }
+
   async renameBoard(req, res) {}
+
 }
 export default new BoardService();
