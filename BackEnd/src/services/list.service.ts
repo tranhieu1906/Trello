@@ -1,35 +1,41 @@
 import {List} from '../models/List'
 
 class ListService {
-    async getList(req, res) {
+    async getDataList(req, res) {
         let {listId} = req.body;
-        let list = await List.find({_id:listId})
+        let list = await List.find({_id: listId});
         return list;
     }
 
     async addDataList(req) {
+
+
         let newList = new List({
             title: req.body.title,
-            archived: req.body.archived,
             cards: []
         })
 
         await newList.save()
+        return newList;
     }
 
     async deleteDataList(req, res) {
-        let id = req.params.id;
-        await List.findOneAndDelete({ _id: id })
+        console.log(2)
+        let {listId} = req.params;
+         let listDelete = await List.findOneAndDelete({_id: listId})
+        console.log(3)
+
     }
 
     async editList(req, res) {
-        let id = req.params.idList;
-        let newList = await List.findOneAndUpdate(
-            { _id: id },
-            { title: req.body.title },
-            { new: true }
+        let {listId} = req.body;
+        let listEdit = await List.findOneAndUpdate(
+            {_id: listId},
+            {title: req.body.title},
+            {new: true}
         )
-        return newList
+        console.log(listEdit)
+        return listEdit
     }
 }
 
