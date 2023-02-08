@@ -81,7 +81,7 @@ const Board = () => {
                 {...provided.droppableProps}
               >
                 {board.lists.map((listId, index) => (
-                  <List key={listId} listId={listId} index={index} />
+                  <List key={listId._id} listId={listId._id} index={index} />
                 ))}
                 {provided.placeholder}
                 <CreateList />

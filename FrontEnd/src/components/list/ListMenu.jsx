@@ -45,7 +45,7 @@ const ListMenu = ({ listId }) => {
           Archive This List
         </MenuItem>
         <MenuItem>
-          <MoveList listId={listId} closeMenu={handleClose} />
+          {/* <MoveList listId={listId} closeMenu={handleClose} /> */}
         </MenuItem>
       </Menu>
     </div>

@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import React, { useEffect, useRef, useState } from "react";
 import { Draggable, Droppable } from "react-beautiful-dnd";
 import { useDispatch, useSelector } from "react-redux";
-// import { getList } from "../../actions/board";
+import { getList } from "../../services/board/boardAction";
 // import Card from "../card/Card";
 import CreateCardForm from "./CreateCardForm";
 import ListMenu from "./ListMenu";
@@ -12,12 +12,12 @@ import ListTitle from "./ListTitle";
 const List = ({ listId, index }) => {
   const [addingCard, setAddingCard] = useState(false);
   const list = useSelector((state) =>
-    state.board.board.listObjects.find((object) => object._id === listId)
+    state.board.board.lists.find((object) => object._id === listId)
   );
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // dispatch(getList(listId));
+    dispatch(getList(listId));
   }, [dispatch, listId]);
 
   const createCardFormRef = useRef(null);
@@ -31,12 +31,13 @@ const List = ({ listId, index }) => {
     <Draggable draggableId={listId} index={index}>
       {(provided) => (
         <div
-          className="list-wrapper"
+          className="mt-3 bg-white rounded-md h-fit mr-3 p-3"
+          style={{ minWidth: "280px", maxWidth: "280px" }}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
           ref={provided.innerRef}
         >
-          <div className="list-top">
+          <div className="flex flex-row justify-between">
             <ListTitle list={list} />
             <ListMenu listId={listId} />
           </div>
@@ -69,8 +70,8 @@ const List = ({ listId, index }) => {
             )}
           </Droppable>
           {!addingCard && (
-            <div className="create-card-button">
-              <Button variant="contained" onClick={() => setAddingCard(true)}>
+            <div className="mt-1">
+              <Button variant="contained" onClick={() => setAddingCard(true)} style={{minWidth:"135px"}}>
                 + Add a card
               </Button>
             </div>

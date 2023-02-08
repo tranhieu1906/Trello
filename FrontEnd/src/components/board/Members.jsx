@@ -64,7 +64,7 @@ const Members = () => {
         <AvatarGroup max={4}>
           {members.map((member) => {
             return (
-              <Tooltip title={member.name} key={member.user}>
+              <Tooltip title={member.name} key={member.user._id}>
                 <Avatar className="mr-0.5 cursor-default bg-white">
                   {getInitials(member.user.name)}
                 </Avatar>

@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { getBoards } from "../../../services/board/boardAction";
 import { getBoard } from "../../../services/board/boardAction";
 import { addMember } from "../../../services/board/boardAction";
+import { addList } from "../../../services/board/boardAction";
 
 const initialState = {
   boards: [],
@@ -40,6 +41,13 @@ const boardSlice = createSlice({
       state.board = { ...state.board, members: payload };
     },
     [addMember.rejected]: (state, { payload }) => {
+      state.error = payload;
+    },
+    // addList
+    [addList.fulfilled]: (state, { payload }) => {
+      state.board = { ...state.board, lists: payload };
+    },
+    [addList.rejected]: (state, { payload }) => {
       state.error = payload;
     },
   },

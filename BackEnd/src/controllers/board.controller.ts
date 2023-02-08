@@ -23,9 +23,9 @@ class BoardController {
   // lấy bảng theo id bảng
   async getBoardId(req, res, next) {
     try {
-      const board = await Board.findById(req.params.id).populate(
-        "members.user"
-      );
+      const board = await Board.findById(req.params.id)
+        .populate("members.user")
+        .populate("lists");
       if (!board) {
         return res.status(404).json("Board not found");
       }
@@ -81,7 +81,9 @@ class BoardController {
       if (!user) {
         return res.status(404).json("User not found");
       }
-      if (board.members.some((m) => m.user.toString() === user.id)) {
+      if (
+        board.members.some((m) => m.user._id.toString() === user._id.toString())
+      ) {
         return res.status(400).json("Already member of board");
       }
 
