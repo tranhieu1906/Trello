@@ -15,7 +15,7 @@ export const userLogin = createAsyncThunk(
         { email, password },
         config
       );
-      localStorage.setItem("userToken", data.userToken);
+      await localStorage.setItem("userToken", data.userToken);
       return data;
     } catch (error) {
       if (error.response && error.response.data.message) {

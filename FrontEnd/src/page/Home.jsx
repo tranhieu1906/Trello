@@ -1,16 +1,20 @@
-import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { useNavigate, Link } from "react-router-dom";
 import CircularProgress from "@mui/material/CircularProgress";
-import Navbar from "../components/other/Navbar";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-
+import { setCredentials } from "../redux/features/auth/authSlice";
+import { useGetDetailsQuery } from "../services/auth/authService";
 import { getBoards } from "../services/board/boardAction";
 
 function Home() {
   const { userInfo } = useSelector((state) => state.auth);
   const { boards, loading, error } = useSelector((state) => state.board);
   const dispatch = useDispatch();
+
+  const { data } = useGetDetailsQuery("userDetails");
+  useEffect(() => {
+    if (data) dispatch(setCredentials(data));
+  }, [data, dispatch]);
 
   useEffect(() => {
     dispatch(getBoards());
@@ -26,13 +30,12 @@ function Home() {
   }, [error]);
 
   return (
-    <div >
+    <div>
       <section className="flex flex-col items-center p-12">
         <h1>Welcome {userInfo && userInfo.name}</h1>
         <h2>Your Boards</h2>
         {loading && <CircularProgress className="m-10" />}
       </section>
-
     </div>
   );
 }

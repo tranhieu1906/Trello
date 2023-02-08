@@ -44,10 +44,10 @@ function Login() {
     if (error) {
       toast.error(error);
     }
-    if (userToken) {
-      navigate("/");
+    if (userToken && !loading) {
+        navigate('/')
     }
-  }, [dispatch, error, userToken, navigate]);
+  }, [error, userToken, navigate, loading]);
 
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
