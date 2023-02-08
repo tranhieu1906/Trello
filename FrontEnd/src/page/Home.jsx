@@ -17,7 +17,7 @@ function Home() {
   }, [data, dispatch]);
 
   useEffect(() => {
-    dispatch(getBoards());
+    if (localStorage.getItem("userToken")) dispatch(getBoards());
   }, [dispatch]);
 
   useEffect(() => {
