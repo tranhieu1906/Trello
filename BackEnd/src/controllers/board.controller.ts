@@ -5,6 +5,7 @@ class BoardController {
   // Thêm bảng
   async createBoard(req, res, next) {
     try {
+      console.log(req.body)
       const board = await BoardService.createBoard(req, res);
       res.status(200).json({ board: board });
     } catch (err) {
@@ -14,7 +15,7 @@ class BoardController {
   // lấy bảng theo id user
   async getUserBoard(req, res, next) {
     try {
-      const boards = await BoardService.getUserBoard(req, res);
+      const boards = await BoardService.getUserBoard(req);
       res.status(200).json(boards);
 
     } catch (err) {
@@ -101,15 +102,35 @@ class BoardController {
     }
   }
 
-  async createGroupBoard(req, res,next) {
+  async newBoard(req, res,next) {
     try {
-      let data = await BoardService.createGroupBoard(req)
-      console.log(data)
+      let data = await BoardService.newBoard(req)
       res.status(200).json({
-        newBoard: data
+        board: data
       })
     }catch (err) {
       next(err);
+    }
+  }
+
+  async boardDelete(req, res, next) {
+    try {
+      let board = await BoardService.getBoardById(req)
+      if (board) {
+        await BoardService.deleteBoard(req);
+        let boards = await BoardService.getUserBoard(req)
+        res.status(200).json({
+          success: true,
+          boards: boards
+        })
+      } else {
+        res.status(404).json({
+          success: false,
+          message: "the comment doesn't exist"
+        })
+      }
+    }catch (error) {
+      next(error);
     }
   }
 }
