@@ -11,6 +11,8 @@ import MenuItem from "@mui/material/MenuItem";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import axios from "../../api/axios";
+import {useDispatch, useSelector} from "react-redux";
+import {getBoardData} from "../../services/board/boardAction";
 
 let backgrounds = ["http://static1.squarespace.com/static/5fe4caeadae61a2f19719512/5fe5c3a9d85eb525301180ed/5ff082ae17af6f5d1930e6bf/1610530333403/Wallpaper+engine+4k.png?format=1500w",
     "https://images.squarespace-cdn.com/content/v1/5fe4caeadae61a2f19719512/1609949775007-FKI50MYWWQG9KZHEA06W/35.jpg",
@@ -20,13 +22,15 @@ let backgrounds = ["http://static1.squarespace.com/static/5fe4caeadae61a2f197195
 ]
 
 export default function CreateBoard(props) {
-    const {open, handleClose} = props;
-    const [selectedPhoto, setSelectedPhoto] = useState("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-6mBwHrZ-9WPC1V_DsRhDuQu0iDHmN50iUg&usqp=CAU")
+    const {open, handleClose, updateBoard, boards} = props;
+    const [selectedPhoto, setSelectedPhoto] = useState("https://c4.wallpaperflare.com/wallpaper/228/1003/832/artistic-mountain-minimalist-moon-nature-hd-wallpaper-preview.jpg")
     const [dataForm, setDataForm] = useState({
         backgroundURL: "",
         title: "",
         classify: "individual",
     });
+    const dispatch = useDispatch();
+
     const [img, setImg] = useState(backgrounds);
 
     const handleChange = (event) => {
@@ -38,12 +42,18 @@ export default function CreateBoard(props) {
 
     const handleSubmit = () => {
         dataForm.backgroundURL = selectedPhoto;
-        axios.post("/boards", dataForm).then((res) => {
-            console.log(res)
+        axios.post("/boards", dataForm).then(async () => {
+            let data =  await getBoardData()
+            updateBoard(data);
         }).catch((error) => {
             console.log(error)
         })
         handleClose()
+        setDataForm({
+            backgroundURL: "",
+            title: "",
+            classify: "individual",
+        })
     }
     return (
         <div>

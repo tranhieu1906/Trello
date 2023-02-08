@@ -17,7 +17,6 @@ class BoardController {
     try {
       const boards = await BoardService.getUserBoard(req);
       res.status(200).json(boards);
-
     } catch (err) {
       next(err);
     }
