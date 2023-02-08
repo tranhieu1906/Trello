@@ -14,10 +14,7 @@ function classNames(...classes) {
 
 export default function DropdownAccount() {
     const dispatch = useDispatch();
-    const {data} = useGetDetailsQuery("userDetails");
-    useEffect(() => {
-        if (data) dispatch( setCredentials(data));
-    }, [data, dispatch]);
+
     return (
         <Menu as="div" className="relative ml-3">
             <div>
@@ -60,7 +57,7 @@ export default function DropdownAccount() {
                         <Menu.Item>
                             {({ active }) => (
                                 <Link
-                                    to="/login"
+                                    to="/userdetails"
                                     className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                                 >
                                     Manager Account

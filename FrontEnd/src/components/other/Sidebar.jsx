@@ -79,7 +79,8 @@ export default function Sidebar() {
                         <hr />
                         <div className="flex justify-between">
                             <span className='font-normal ml-2'>Workspace</span>
-                            <Button variant="outlined" >add</Button>
+                            <Button
+                                     variant="outlined" >add</Button>
                         </div>
                         <ul className="pt-2 pb-4 space-y-1 text-base font-bold">
                             <li className="rounded-sm">
