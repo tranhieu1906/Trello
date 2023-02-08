@@ -1,11 +1,10 @@
-import axios from "axios";
+import axios from "../../api/axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
 export const getBoards = createAsyncThunk(
   "board/getBoards",
   async (data, { rejectWithValue }) => {
     try {
-      console.log(axios.defaults.headers)
       const { data } = await axios.get("/boards");
       return data;
     } catch (error) {
