@@ -100,8 +100,7 @@ const Members = () => {
               </div>
               <div>
                 {members.map((member) => (
-                  <div className="flex items-center">
-                    {console.log(member)}
+                  <div className="flex items-center" key={member.user._id}>
                     <Avatar className="mr-2 cursor-default bg-white my-3">
                       {getInitials(member.user.name)}
                     </Avatar>

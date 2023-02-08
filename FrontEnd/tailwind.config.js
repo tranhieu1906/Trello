@@ -545,6 +545,8 @@ module.exports = {
       "5/6": "83.333333%",
       full: "100%",
       screen: "100vh",
+      adding: "69vh",
+      notadding: "64vh",
       min: "min-content",
       max: "max-content",
       fit: "fit-content",

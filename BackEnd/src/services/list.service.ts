@@ -4,7 +4,7 @@ import { User } from "../models/User";
 
 class ListService {
   async getDataList(req, res) {
-    const list = await List.findById(req.params.id);
+    const list = await List.findById(req.params.id).populate("cards");
     if (!list) {
       return res.status(404).json({ msg: "List not found" });
     }
@@ -14,17 +14,26 @@ class ListService {
   async addDataList(req) {
     const title = req.body.title;
     const boardId = req.header("boardId");
+    const user = await User.findById(req.user.id);
     const newList = new List({ title });
     const list = await newList.save();
-    const board = await Board.findById(boardId).populate("lists");
-    board.lists.push(list);
-    const user = await User.findById(req.user.id);
-    board.activity.unshift({
-      text: `${user.name} added '${title}' to this board`,
+    const board = await Board.findByIdAndUpdate(
+      boardId,
+      {
+        $push: {
+          lists: list,
+          activity: { text: `${user.name} added '${title}' to this board` },
+        },
+      },
+      { new: true }
+    ).populate({
+      path: "lists",
+      populate: {
+        path: "cards",
+      },
     });
-    await board.save();
 
-    return board.lists
+    return board.lists;
   }
 
   async deleteDataList(req, res) {
@@ -39,7 +48,6 @@ class ListService {
       { title: req.body.title },
       { new: true }
     );
-    console.log(listEdit);
     return listEdit;
   }
 }

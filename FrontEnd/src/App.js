@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
+import "./App.css";
 import axios from "./api/axios";
 import Layout from "./components/Layout/Layout";
 import PrivateRoute from "./components/Router/PrivateRouter";

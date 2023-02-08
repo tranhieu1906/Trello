@@ -1,10 +1,11 @@
+import { Backdrop, CircularProgress } from "@mui/material";
 import Button from "@mui/material/Button";
 import PropTypes from "prop-types";
 import React, { useEffect, useRef, useState } from "react";
 import { Draggable, Droppable } from "react-beautiful-dnd";
 import { useDispatch, useSelector } from "react-redux";
 import { getList } from "../../services/board/boardAction";
-// import Card from "../card/Card";
+import Card from "../card/Card";
 import CreateCardForm from "./CreateCardForm";
 import ListMenu from "./ListMenu";
 import ListTitle from "./ListTitle";
@@ -14,6 +15,7 @@ const List = ({ listId, index }) => {
   const list = useSelector((state) =>
     state.board.board.lists.find((object) => object._id === listId)
   );
+  const { loading } = useSelector((state) => state.board);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -25,60 +27,77 @@ const List = ({ listId, index }) => {
     addingCard && createCardFormRef.current.scrollIntoView();
   }, [addingCard]);
 
-  return !list || (list && list.archived) ? (
-    ""
-  ) : (
-    <Draggable draggableId={listId} index={index}>
-      {(provided) => (
-        <div
-          className="mt-3 bg-white rounded-md h-fit mr-3 p-3"
-          style={{ minWidth: "280px", maxWidth: "280px" }}
-          {...provided.draggableProps}
-          {...provided.dragHandleProps}
-          ref={provided.innerRef}
+  return (
+    <>
+      {loading && (
+        <Backdrop
+          sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={loading}
         >
-          <div className="flex flex-row justify-between">
-            <ListTitle list={list} />
-            <ListMenu listId={listId} />
-          </div>
-          <Droppable droppableId={listId} type="card">
-            {(provided) => (
-              <div
-                className={`list ${
-                  addingCard ? "adding-card" : "not-adding-card"
-                }`}
-                {...provided.droppableProps}
-                ref={provided.innerRef}
-              >
-                {/* <div className="cards">
-                  {list.cards.map((cardId, index) => (
-                    <Card
-                      key={cardId}
-                      cardId={cardId}
-                      list={list}
-                      index={index}
-                    />
-                  ))}
-                </div> */}
-                {provided.placeholder}
-                {addingCard && (
-                  <div ref={createCardFormRef}>
-                    <CreateCardForm listId={listId} setAdding={setAddingCard} />
+          <CircularProgress color="inherit" />
+        </Backdrop>
+      )}
+      {!list || (list && list.archived) ? (
+        ""
+      ) : (
+        <Draggable draggableId={listId} index={index}>
+          {(provided) => (
+            <div
+              className="list-wrapper"
+              {...provided.draggableProps}
+              {...provided.dragHandleProps}
+              ref={provided.innerRef}
+            >
+              <div className="list-top">
+                <ListTitle list={list} />
+                <ListMenu listId={listId} />
+              </div>
+              <Droppable droppableId={listId} type="card">
+                {(provided) => (
+                  <div
+                    className={`list ${
+                      addingCard ? "adding-card" : "not-adding-card"
+                    }`}
+                    {...provided.droppableProps}
+                    ref={provided.innerRef}
+                  >
+                    <div className="cards">
+                      {list.cards.map((cardId, index) => (
+                        <Card
+                          key={cardId._id || cardId}
+                          cardId={cardId._id || cardId}
+                          list={list}
+                          index={index}
+                        />
+                      ))}
+                    </div>
+                    {provided.placeholder}
+                    {addingCard && (
+                      <div ref={createCardFormRef}>
+                        <CreateCardForm
+                          listId={listId}
+                          setAdding={setAddingCard}
+                        />
+                      </div>
+                    )}
                   </div>
                 )}
-              </div>
-            )}
-          </Droppable>
-          {!addingCard && (
-            <div className="mt-1">
-              <Button variant="contained" onClick={() => setAddingCard(true)} style={{minWidth:"135px"}}>
-                + Add a card
-              </Button>
+              </Droppable>
+              {!addingCard && (
+                <div className="create-card-button">
+                  <Button
+                    variant="contained"
+                    onClick={() => setAddingCard(true)}
+                  >
+                    + Add a card
+                  </Button>
+                </div>
+              )}
             </div>
           )}
-        </div>
+        </Draggable>
       )}
-    </Draggable>
+    </>
   );
 };
 

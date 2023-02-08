@@ -1,38 +1,416 @@
-.App {
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', sans-serif;
+}
+
+body {
+  font-size: 1rem;
+  background-color: #eee;
+  color: #333;
+}
+
+.copyright {
   text-align: center;
+  color: #eee;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.navbar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 10px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+.navbar a {
+  text-decoration: none;
+  color: white;
+  font-size: 1rem;
+  opacity: 0.7;
+}
+
+.navbar a:hover {
+  opacity: 1;
+}
+
+.landing {
+  height: 100vh;
+  color: white;
+  text-align: center;
+  background: linear-gradient(135deg, #0079bf, #5067c5);
+}
+
+.landing .top {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.landing .landing-inner {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  padding: 150px 50px;
+}
+
+.landing h1 {
+  font-size: 5rem;
+  margin-bottom: 20px;
+}
+
+.landing p {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+}
+
+.landing p a {
+  text-decoration: none;
+  color: lightgrey;
+  transition: 0.3s;
+}
+
+.landing p a:hover {
+  color: darkgrey;
+}
+
+@media (max-width: 700px) {
+  .landing h1 {
+    font-size: 3.5rem;
   }
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.dashboard-and-navbar .navbar {
+  background-color: #026aa7;
+}
+
+.dashboard {
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 50px;
+}
+
+.dashboard h1 {
+  text-align: center;
+  font-weight: 500;
+}
+
+.dashboard h2 {
+  margin-top: 40px;
+  font-weight: 400;
+}
+
+.dashboard .dashboard-loading {
+  margin: 40px;
+}
+
+.dashboard .boards {
+  margin: 10px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+}
+
+.dashboard .board-card {
+  width: 220px;
+  height: 120px;
+  padding: 20px 50px 20px 20px;
+  margin: 20px;
+  text-decoration: none;
+  font-weight: 500;
   color: white;
+  border-radius: 10px;
+  background-color: #5067c5;
 }
 
-.App-link {
-  color: #61dafb;
+.dashboard .board-card:hover {
+  background-color: #4057b5;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.dashboard .create-board-card {
+  padding: 0;
+  border: none;
+  color: #333;
+  font-size: 1rem;
+  background-color: lightgrey;
+  cursor: pointer;
+}
+
+.dashboard .create-board-card:hover {
+  background-color: darkgrey;
+}
+
+.board-and-navbar {
+  background-size: cover;
+  height: 100vh;
+}
+
+.board-and-navbar .navbar {
+  background-color: rgba(50, 50, 50, 0.4);
+}
+
+.board-loading {
+  text-align: center;
+  margin-top: 20%;
+}
+
+.board {
+  padding: 10px;
+}
+
+.board .board-top {
+  padding: 5px;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.board .board-top .board-top-left {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+
+@media (max-width: 960px) {
+  .board .board-top .board-top-left {
+    flex-direction: column;
   }
-  to {
-    transform: rotate(360deg);
+}
+
+.board .board-top .board-top-left .board-title {
+  cursor: pointer;
+  color: snow;
+  padding: 5px 0 0 5px;
+  max-width: 500px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.board .board-top .board-top-left .board-title-form {
+  background-color: snow;
+}
+
+.board .board-top .board-top-left .board-members-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 20px;
+}
+
+@media (max-width: 960px) {
+  .board .board-top .board-top-left .board-members-wrapper {
+    margin: 20px 20px 20px 0;
   }
+}
+
+.board .board-top .board-top-left .board-members-wrapper .board-members {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.board .board-top .board-top-left .invite {
+  margin-left: 10px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.board .board-top .board-top-left .invite .search-member {
+  width: 250px;
+  margin-right: 10px;
+  height: 2.5rem;
+}
+
+.board .avatar {
+  margin-right: 2px;
+  color: darkslategrey;
+  cursor: default;
+  background-color: #eee;
+}
+
+.board .avatar:hover {
+  background-color: #ddd;
+}
+
+.board .create-list-button {
+  margin-top: 10px;
+  min-width: 200px;
+}
+
+.board .create-list-form {
+  min-width: 280px;
+  padding: 0 10px 10px;
+  margin-top: 10px;
+  height: fit-content;
+  background-color: #eee;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+}
+
+.board .archived-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.board .lists {
+  display: flex;
+  flex-direction: row;
+  overflow-x: auto;
+}
+
+@media (min-height: 600px) and (min-width: 1000px) {
+  .board .lists {
+    min-height: 83vh;
+  }
+}
+
+@media (min-height: 960px) {
+  .board .lists {
+    min-height: 88vh;
+  }
+}
+
+.board .lists .list-wrapper {
+  background-color: #eee;
+  border-radius: 5px;
+  min-width: 280px;
+  max-width: 280px;
+  height: fit-content;
+  margin-top: 10px;
+  margin-right: 10px;
+  padding: 10px;
+}
+
+.board .lists .list-wrapper .list-top {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.board .lists .list-wrapper .list-top .list-title {
+  cursor: pointer;
+  padding: 5px 0 0 5px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.board .lists .list-wrapper .create-card-button {
+  margin-top: 5px;
+}
+
+.board .lists .list-wrapper .create-card-form {
+  margin-top: 5px;
+  display: flex;
+  flex-direction: column;
+}
+
+.board .lists .list-wrapper .card-edit-content {
+  padding-top: 0;
+  padding-bottom: 5px;
+}
+
+.board .lists .list-wrapper .card-actions {
+  margin-bottom: 5px;
+}
+
+.board .lists .list-wrapper .not-adding-card {
+  max-height: 64vh;
+}
+
+@media (min-height: 960px) {
+  .board .lists .list-wrapper .not-adding-card {
+    max-height: 75vh;
+  }
+}
+
+.board .lists .list-wrapper .adding-card {
+  max-height: 69vh;
+}
+
+@media (min-height: 960px) {
+  .board .lists .list-wrapper .adding-card {
+    max-height: 80vh;
+  }
+}
+
+.board .lists .list-wrapper .list {
+  min-height: 1px;
+  overflow-y: auto;
+}
+
+.board .lists .list-wrapper .list .cards {
+  display: flex;
+  flex-direction: column;
+  margin-right: 2px;
+}
+
+.board .lists .list-wrapper .list .cards .card {
+  margin: 5px 0;
+  position: relative;
+  cursor: pointer;
+}
+
+.board .lists .list-wrapper .list .cards .card .card-label {
+  height: 9px;
+  width: 45px;
+  border-radius: 5px;
+  margin-bottom: 5px;
+}
+
+.board .lists .list-wrapper .list .cards .card .description-indicator {
+  margin: 3px 5px -5px -3px;
+}
+
+.board .lists .list-wrapper .list .cards .card .checklist-indicator {
+  display: flex;
+  align-items: center;
+  padding: 1px 5px 0 4px;
+  height: 25px;
+  margin: auto;
+}
+
+.board .lists .list-wrapper .list .cards .card .checklist-indicator .checklist-indicator-icon {
+  margin-right: 2px;
+}
+
+.board .lists .list-wrapper .list .cards .card .completed-checklist-indicator {
+  background-color: #00b800;
+  border-radius: 5px;
+  color: snow;
+}
+
+.board .lists .list-wrapper .list .cards .card .card-bottom {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-top: 3px;
+  margin-bottom: -5px;
+}
+
+.board .lists .list-wrapper .list .cards .card .card-bottom .card-bottom-left {
+  display: flex;
+}
+
+.board .lists .list-wrapper .list .cards .card .card-bottom .card-member-avatars {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.board .lists .list-wrapper .list .cards .card .card-bottom .card-member-avatars .avatar {
+  width: 30px;
+  height: 30px;
+  font-size: 0.8rem;
+  background-color: #ddd;
+}
+
+.board .lists .list-wrapper .list .cards .card .card-bottom .card-member-avatars .avatar:hover {
+  background-color: #ccc;
+}
+
+.board .lists .list-wrapper .list .cards .mouse-over {
+  background-color: whitesmoke;
 }

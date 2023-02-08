@@ -1,4 +1,4 @@
-import PropTypes from "prop-types";
+import PropTypes, { element } from "prop-types";
 import React, { Fragment, useEffect, useRef, useState } from "react";
 import { Draggable } from "react-beautiful-dnd";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,16 +9,9 @@ import AssignmentTurnedInIcon from "@mui/icons-material/AssignmentTurnedIn";
 import CloseIcon from "@mui/icons-material/Close";
 import EditIcon from "@mui/icons-material/Edit";
 import SubjectIcon from "@mui/icons-material/Subject";
-import {
-    Avatar,
-    Button,
-    CardContent,
-    TextField,
-    Tooltip,
-} from "@mui/material";
+import { Avatar, Button, CardContent, TextField, Tooltip } from "@mui/material";
 import CardMUI from "@mui/material/Card";
 // import CardModal from "./CardModal";
-
 const Card = ({ cardId, list, index }) => {
   const [editing, setEditing] = useState(false);
   const [openModal, setOpenModal] = useState(false);
@@ -27,15 +20,17 @@ const Card = ({ cardId, list, index }) => {
   const [height, setHeight] = useState(0);
   const [completeItems, setCompleteItems] = useState(0);
   const cardRef = useRef(null);
-  const card = useSelector((state) =>
-    state.board.board.cardObjects.find((object) => object._id === cardId)
-  );
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getCard(cardId));
   }, [cardId, dispatch]);
-
+  const listBoard = useSelector((state) => state.board.board.lists);
+  const card = listBoard.reduce(
+    (result, object) =>
+      result || object.cards.find((element) => element._id === cardId),
+    undefined
+  );
   useEffect(() => {
     if (card) {
       setTitle(card.title);
@@ -55,7 +50,7 @@ const Card = ({ cardId, list, index }) => {
 
   const onSubmitEdit = async (e) => {
     e.preventDefault();
-    dispatch(editCard(cardId, { title }));
+    // dispatch(editCard(cardId, { title }));
     setEditing(false);
     setMouseOver(false);
   };

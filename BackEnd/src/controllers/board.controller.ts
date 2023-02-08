@@ -25,7 +25,7 @@ class BoardController {
     try {
       const board = await Board.findById(req.params.id)
         .populate("members.user")
-        .populate("lists");
+        .populate("lists")
       if (!board) {
         return res.status(404).json("Board not found");
       }

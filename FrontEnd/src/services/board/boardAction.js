@@ -1,6 +1,5 @@
 import axios from "../../api/axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { logout } from "../../redux/features/auth/authSlice";
 
 export const getBoards = createAsyncThunk(
   "board/getBoards",
@@ -77,6 +76,36 @@ export const getList = createAsyncThunk(
     } catch (error) {
       if (error.response && error.response.data.message) {
         return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);
+export const addCard = createAsyncThunk(
+  "board/addCard",
+  async (formData, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.post("/card/create", formData);
+      return data;
+    } catch (error) {
+      if (error.response && error.response.data) {
+        return rejectWithValue(error.response.data);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);
+export const getCard = createAsyncThunk(
+  "board/getCard",
+  async (id, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.get(`/card/list/${id}`);
+      return data;
+    } catch (error) {
+      if (error.response && error.response.data) {
+        return rejectWithValue(error.response.data);
       } else {
         return rejectWithValue(error.message);
       }
