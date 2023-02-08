@@ -1,8 +1,11 @@
-import { Fragment } from 'react'
+import {Fragment, useEffect} from 'react'
 
 import { Menu, Transition } from '@headlessui/react'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import { Link } from 'react-router-dom'
+import {logout, setCredentials} from "../../redux/features/auth/authSlice";
+import {useDispatch} from "react-redux";
+import {useGetDetailsQuery} from "../../services/auth/authService";
 
 
 function classNames(...classes) {
@@ -10,7 +13,11 @@ function classNames(...classes) {
 }
 
 export default function DropdownAccount() {
-    
+    const dispatch = useDispatch();
+    const {data} = useGetDetailsQuery("userDetails");
+    useEffect(() => {
+        if (data) dispatch( setCredentials(data));
+    }, [data, dispatch]);
     return (
         <Menu as="div" className="relative ml-3">
             <div>
@@ -53,7 +60,7 @@ export default function DropdownAccount() {
                         <Menu.Item>
                             {({ active }) => (
                                 <Link
-                                    to="#"
+                                    to="/login"
                                     className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                                 >
                                     Manager Account
@@ -91,7 +98,7 @@ export default function DropdownAccount() {
                     <div className="py-1">
                         <Menu.Item>
                             {({ active }) => (
-                                <button
+                                <button onClick={()=> dispatch(logout())}
                                     className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                                 >
                                     logout
