@@ -8,6 +8,8 @@ import {getBoards} from "../services/board/boardAction";
 import Button from "@mui/material/Button";
 import CreateBoard from "../components/board/CreateBoard"
 import PositionedMenu from "../components/board/Option"
+import {setCredentials} from "../redux/features/auth/authSlice";
+import {useGetDetailsQuery} from "../services/auth/authService";
 
 function Home() {
     const {userInfo} = useSelector((state) => state.auth);
@@ -15,10 +17,21 @@ function Home() {
     const [open, setOpen] = useState(false)
     const [boards, setBoards] = useState([])
     const dispatch = useDispatch();
-
+    const {data} = useGetDetailsQuery("userDetails");
     const handleClose = () => {
         setOpen(false)
     }
+    useEffect(() => {
+        if (data) dispatch(setCredentials(data));
+    }, [data, dispatch]);
+
+    useEffect(() => {
+        if (localStorage.getItem("userToken")) dispatch(getBoards());
+    }, [dispatch]);
+
+    useEffect(() => {
+        document.title = "Your Boards | TrelloClone";
+    }, []);
 
     const updateBoard = (data) => {
         setBoards(data)
@@ -33,10 +46,6 @@ function Home() {
     const handleClickOpen = () => {
         setOpen(true)
     }
-
-    useEffect(() => {
-        document.title = "Your Boards | TrelloClone";
-    }, []);
 
     useEffect(() => {
         if (error) {
