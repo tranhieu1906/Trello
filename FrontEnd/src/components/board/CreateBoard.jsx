@@ -36,11 +36,6 @@ export default function CreateBoard(props) {
   const [selectedPhoto, setSelectedPhoto] = useState(
     "https://c4.wallpaperflare.com/wallpaper/228/1003/832/artistic-mountain-minimalist-moon-nature-hd-wallpaper-preview.jpg"
   );
-  const [dataForm, setDataForm] = useState({
-    backgroundURL: "",
-    title: "",
-    classify: "individual",
-  });
 
   const formik = useFormik({
     initialValues: {
@@ -63,41 +58,12 @@ export default function CreateBoard(props) {
           console.log(error);
         });
       handleClose();
-      setDataForm({
-        backgroundURL: "",
-        title: "",
-        classify: "individual",
-      });
+      formik.resetForm();
     },
   });
 
   const [img, setImg] = useState(backgrounds);
 
-  const handleChange = (event) => {
-    setDataForm({
-      ...dataForm,
-      [event.target.name]: event.target.value,
-    });
-  };
-
-  const handleSubmit = () => {
-    dataForm.backgroundURL = selectedPhoto;
-    axios
-      .post("/boards", dataForm)
-      .then(async () => {
-        let data = await getBoardData();
-        updateBoard(data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    handleClose();
-    setDataForm({
-      backgroundURL: "",
-      title: "",
-      classify: "individual",
-    });
-  };
   return (
     <div>
       <Dialog
