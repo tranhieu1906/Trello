@@ -1,8 +1,8 @@
-import PropTypes, { element } from "prop-types";
+import PropTypes from "prop-types";
 import React, { Fragment, useEffect, useRef, useState } from "react";
 import { Draggable } from "react-beautiful-dnd";
 import { useDispatch, useSelector } from "react-redux";
-import { editCard, getCard } from "../../services/board/boardAction";
+import { getCard } from "../../services/board/boardAction";
 // import getInitials from "../../utils/getInitials";
 
 import AssignmentTurnedInIcon from "@mui/icons-material/AssignmentTurnedIn";
@@ -11,7 +11,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import SubjectIcon from "@mui/icons-material/Subject";
 import { Avatar, Button, CardContent, TextField, Tooltip } from "@mui/material";
 import CardMUI from "@mui/material/Card";
-// import CardModal from "./CardModal";
+import CardModal from "./CardModal";
 const Card = ({ cardId, list, index }) => {
   const [editing, setEditing] = useState(false);
   const [openModal, setOpenModal] = useState(false);
@@ -59,13 +59,13 @@ const Card = ({ cardId, list, index }) => {
     ""
   ) : (
     <Fragment>
-      {/* <CardModal
+      <CardModal
         cardId={cardId}
         open={openModal}
         setOpen={setOpenModal}
         card={card}
         list={list}
-      /> */}
+      />
       {!editing ? (
         <Draggable draggableId={cardId} index={index}>
           {(provided) => (

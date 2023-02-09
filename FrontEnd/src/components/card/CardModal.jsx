@@ -4,15 +4,13 @@ import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 import { GithubPicker } from "react-color";
 import { useDispatch } from "react-redux";
-import { archiveCard, editCard } from "../../actions/board";
-import useStyles from "../../utils/modalStyles";
-import Checklist from "../checklist/Checklist";
-import CardMembers from "./CardMembers";
-import DeleteCard from "./DeleteCard";
-import MoveCard from "./MoveCard";
+// import { archiveCard, editCard } from "../../actions/board";
+// import Checklist from "../checklist/Checklist";
+// import CardMembers from "./CardMembers";
+// import DeleteCard from "./DeleteCard";
+// import MoveCard from "./MoveCard";
 
 const CardModal = ({ cardId, open, setOpen, card, list }) => {
-  const classes = useStyles();
   const [title, setTitle] = useState(card.title);
   const [description, setDescription] = useState(card.description);
   const dispatch = useDispatch();
@@ -24,19 +22,25 @@ const CardModal = ({ cardId, open, setOpen, card, list }) => {
 
   const onTitleDescriptionSubmit = async (e) => {
     e.preventDefault();
-    dispatch(editCard(cardId, { title, description }));
+    // dispatch(editCard(cardId, { title, description }));
   };
 
   const onArchiveCard = async () => {
-    dispatch(archiveCard(cardId, true));
+    // dispatch(archiveCard(cardId, true));
     setOpen(false);
   };
 
   return (
     <Modal open={open} onClose={() => setOpen(false)}>
-      <div className={`${classes.paper} ${classes.cardModal}`}>
+      <div
+        style={{ width: "800px", top: "10%" }}
+        className={`flex flex-col absolute left-1/2 translate-x-2/4 overflow-auto bg-white rounded-sm pt-1 pb-2 p-1.5 `}
+      >
         <form onSubmit={(e) => onTitleDescriptionSubmit(e)}>
-          <div className={classes.modalTop}>
+          <div className="">
+            <Button onClick={() => setOpen(false)} style={{ float: "right" }}>
+              <CloseIcon />
+            </Button>
             <TextField
               variant="outlined"
               margin="normal"
@@ -49,11 +53,8 @@ const CardModal = ({ cardId, open, setOpen, card, list }) => {
               onKeyPress={(e) =>
                 e.key === "Enter" && onTitleDescriptionSubmit(e)
               }
-              className={classes.cardTitle}
+              className="w-full"
             />
-            <Button onClick={() => setOpen(false)}>
-              <CloseIcon />
-            </Button>
           </div>
           <TextField
             variant="outlined"
@@ -73,44 +74,44 @@ const CardModal = ({ cardId, open, setOpen, card, list }) => {
               (description === card.description ||
                 (description === "" && !card.description))
             }
-            className={classes.button}
+            className="w-44 mt-0.5"
           >
             Save All Changes
           </Button>
         </form>
-        <div className={classes.modalSection}>
-          <CardMembers card={card} />
+        <div className="flex justify-between flex-wrap h-auto">
+          {/* <CardMembers card={card} /> */}
           <div>
-            <h3 className={classes.labelTitle}>Label</h3>
+            <h3 className="mt-5 ml-2">Label</h3>
             <GithubPicker
-              className={classes.colorPicker}
-              onChange={async (color) =>
-                dispatch(editCard(cardId, { label: color.hex }))
-              }
+              className="min-w-picker"
+              // onChange={async (color) =>
+              //   dispatch(editCard(cardId, { label: color.hex }))
+              // }
             />
             <Button
-              className={classes.noLabel}
+              className="w-28 !mt-2"
               variant="outlined"
-              onClick={async () =>
-                dispatch(editCard(cardId, { label: "none" }))
-              }
+              // onClick={async () =>
+              //   dispatch(editCard(cardId, { label: "none" }))
+              // }
             >
               No Label
             </Button>
           </div>
         </div>
-        <Checklist card={card} />
-        <div className={classes.modalSection}>
-          <MoveCard cardId={cardId} setOpen={setOpen} thisList={list} />
-          <div className={classes.modalBottomRight}>
+        {/* <Checklist card={card} /> */}
+        <div className="flex justify-between flex-wrap h-auto">
+          {/* <MoveCard cardId={cardId} setOpen={setOpen} thisList={list} /> */}
+          <div className="flex flex-col justify-end mt-5">
             <Button
               variant="contained"
-              className={classes.archiveButton}
+              className="mb-1"
               onClick={onArchiveCard}
             >
               Archive Card
             </Button>
-            <DeleteCard cardId={cardId} setOpen={setOpen} list={list} />
+            {/* <DeleteCard cardId={cardId} setOpen={setOpen} list={list} /> */}
           </div>
         </div>
       </div>

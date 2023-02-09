@@ -41,7 +41,7 @@ const CreateCardForm = ({ listId, setAdding }) => {
           />
         </CardContent>
       </Card>
-      <div className="mb-1">
+      <div className="mb-1 mt-3">
         <Button type="submit" variant="contained" color="primary">
           Add Card
         </Button>
