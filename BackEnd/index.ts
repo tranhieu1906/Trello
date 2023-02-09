@@ -4,6 +4,7 @@ import cors from "cors";
 var bodyParser = require("body-parser");
 import { ConnectDatabase } from "./src/configs/connectDatabase";
 import route from "./src/routers/index.router";
+import { Server } from "socket.io";
 dotenv.config();
 ConnectDatabase.connect();
 
@@ -28,6 +29,15 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log("App running with port: " + PORT);
 });
+
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:3000",
+  },
+});
+
+const onConnection = (socket) => {};
+io.on("connection", onConnection);

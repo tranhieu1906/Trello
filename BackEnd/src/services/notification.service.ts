@@ -1,7 +1,6 @@
-import {Notification} from "../models/Notification";
+import { Notification } from "../models/Notification";
 
 class NotificationService {
-    async createNotification(req) {
-
-    }
+  //tạo thông báo mới
+  async newNotification(req, res, next) {}
 }

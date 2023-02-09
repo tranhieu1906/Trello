@@ -57,7 +57,7 @@ function Home() {
     <div>
       <section className="flex flex-col items-center p-12">
         {loading && <CircularProgress className="m-10" />}
-        <div className="m-2 flex flex-row flex-wrap items-center justify-center grid grid-cols-4 gap-4">
+        <div className="m-2 flex flex-row flex-wrap items-center justify-center  gap-4">
           {boards.map((board) => (
             <div
               key={board._id}
