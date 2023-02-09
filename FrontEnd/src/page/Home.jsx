@@ -2,19 +2,14 @@ import CircularProgress from "@mui/material/CircularProgress";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { setCredentials } from "../redux/features/auth/authSlice";
-import { useGetDetailsQuery } from "../services/auth/authService";
+
 import { getBoards } from "../services/board/boardAction";
+import { getUser } from "../services/user/userService";
 
 function Home() {
   const { userInfo } = useSelector((state) => state.auth);
   const { boards, loading, error } = useSelector((state) => state.board);
   const dispatch = useDispatch();
-
-  const { data } = useGetDetailsQuery("userDetails");
-  useEffect(() => {
-    if (data) dispatch(setCredentials(data));
-  }, [data, dispatch]);
 
   useEffect(() => {
     if (localStorage.getItem("userToken")) dispatch(getBoards());
@@ -22,7 +17,8 @@ function Home() {
 
   useEffect(() => {
     document.title = "Your Boards | TrelloClone";
-  }, []);
+    dispatch(getUser());
+  }, [dispatch]);
   useEffect(() => {
     if (error) {
       toast.error(error);

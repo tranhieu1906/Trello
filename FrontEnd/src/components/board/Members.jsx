@@ -1,15 +1,19 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
 import CloseIcon from "@mui/icons-material/Close";
 import { Button } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import AvatarGroup from "@mui/material/AvatarGroup";
+import Box from "@mui/material/Box";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
+import FormControl from "@mui/material/FormControl";
 import IconButton from "@mui/material/IconButton";
+import InputLabel from "@mui/material/InputLabel";
 import Tooltip from "@mui/material/Tooltip";
-import Typography from "@mui/material/Typography";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
 import { styled } from "@mui/material/styles";
 import CustomizedHook from "./Autocomplete";
 
@@ -49,13 +53,19 @@ const Members = () => {
 
   const { members } = useSelector((state) => state.board.board);
 
+  const { userInfo } = useSelector((state) => state.auth);
+
   const handleClose = () => {
     setInviting(false);
   };
-
+  const handleChange = (event) => {};
   const getInitials = (name) => {
     let initials = name.match(/\b\w/g) || [];
     return ((initials.shift() || "") + (initials.pop() || "")).toUpperCase();
+  };
+  const handleOut = () => {
+    if (window.confirm("asdna")) {
+    }
   };
 
   return (
@@ -100,7 +110,7 @@ const Members = () => {
               </div>
               <div>
                 {members.map((member) => (
-                  <div className="flex items-center" key={member.user._id}>
+                  <div className="flex items-center mt-3" key={member.user._id}>
                     <Avatar className="mr-2 cursor-default bg-white my-3">
                       {getInitials(member.user.name)}
                     </Avatar>
@@ -108,8 +118,41 @@ const Members = () => {
                       <span>{member.user.name}</span>
                       <span>{member.user.email}</span>
                     </div>
-                    <div>
-                      <span>{member.role}</span>
+                    <div className="ml-4">
+                      <Box sx={{ minWidth: 120 }}>
+                        <FormControl fullWidth>
+                          <InputLabel id="demo-simple-select-label">
+                            Role
+                          </InputLabel>
+                          <Select
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            value={member.role}
+                            label="Role"
+                            onChange={handleChange}
+                          >
+                            <MenuItem value={"admin"}>Admin</MenuItem>
+                            <MenuItem value={"observer"}>Observer</MenuItem>
+                            {member.role === "admin" ? (
+                              <MenuItem
+                                onClick={handleOut}
+                                disabled={
+                                  userInfo._id !== member.user._id ||
+                                  member.role === "admin"
+                                }
+                              >
+                                left from board
+                              </MenuItem>
+                            ) : (
+                              <MenuItem
+                                onClick={handleOut}
+                              >
+                                Remove from board
+                              </MenuItem>
+                            )}
+                          </Select>
+                        </FormControl>
+                      </Box>
                     </div>
                   </div>
                 ))}
