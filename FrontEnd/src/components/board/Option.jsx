@@ -4,7 +4,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import { deleteBoard } from "../../services/board/boardAction"
-import axios from "../../api/axios";
+
 export default function PositionedMenu({boardId,updateBoard}) {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
@@ -16,11 +16,13 @@ export default function PositionedMenu({boardId,updateBoard}) {
     };
 
     const handleDelete = async (boardId) => {
-        let dataBoard = await deleteBoard(boardId)
-        if (dataBoard) {
-            updateBoard(dataBoard)
+        if(window.confirm('Are you sure you want to')){
+            let dataBoard = await deleteBoard(boardId)
+            if (dataBoard) {
+                updateBoard(dataBoard)
+                setAnchorEl(null);
+            }
         }
-        setAnchorEl(null);
     }
 
     return (
@@ -34,7 +36,7 @@ export default function PositionedMenu({boardId,updateBoard}) {
                 aria-expanded={open ? 'true' : undefined}
                 onClick={handleClick}
             >
-                <MoreHorizIcon style={{color: "yellow", width: 240}}/>
+                <MoreHorizIcon style={{color: "white", width: 240}}/>
             </Button>
             <Menu
                 id="demo-positioned-menu"

@@ -22,14 +22,13 @@ let backgrounds = ["http://static1.squarespace.com/static/5fe4caeadae61a2f197195
 ]
 
 export default function CreateBoard(props) {
-    const {open, handleClose, updateBoard, boards} = props;
+    const {open, handleClose, updateBoard} = props;
     const [selectedPhoto, setSelectedPhoto] = useState("https://c4.wallpaperflare.com/wallpaper/228/1003/832/artistic-mountain-minimalist-moon-nature-hd-wallpaper-preview.jpg")
     const [dataForm, setDataForm] = useState({
         backgroundURL: "",
         title: "",
         classify: "individual",
     });
-    const dispatch = useDispatch();
 
     const [img, setImg] = useState(backgrounds);
 
