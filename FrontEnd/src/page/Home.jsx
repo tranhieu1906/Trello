@@ -10,6 +10,7 @@ import PositionedMenu from "../components/board/Option";
 import { getBoards } from "../services/board/boardAction";
 import { getUser } from "../services/user/userService";
 
+
 function Home() {
   const { loading, error } = useSelector((state) => state.board);
   const [open, setOpen] = useState(false);

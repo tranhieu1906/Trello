@@ -133,15 +133,25 @@ const Members = () => {
                             label="Role"
                             onChange={handleChange}
                           >
-                            <MenuItem value={"admin"} disabled>
+                            <MenuItem
+                              value={"admin"}
+                              disabled={
+                                member.role !== "admin" ||
+                                member.role === "admin"
+                              }
+                            >
                               Quản trị viên
                             </MenuItem>
                             <MenuItem
                               value={"observer"}
-                              
+                              disabled={
+                                member.role === "admin" ||
+                                member.role === "observer"
+                              }
                             >
                               Thành viên
                             </MenuItem>
+                            {member.role === "admin" ? (
                               <MenuItem
                                 onClick={handleOut}
                                 disabled={
@@ -151,15 +161,17 @@ const Members = () => {
                               >
                                 left from board
                               </MenuItem>
+                            ) : (
                               <MenuItem
                                 onClick={handleOut}
                                 disabled={
-                                  userInfo._id !== member.user._id ||
-                                  member.role === "admin"
+                                  userInfo._id !== member.user._id
+                                  
                                 }
                               >
                                 Rời khỏi bảng
                               </MenuItem>
+                            )}
                           </Select>
                         </FormControl>
                       </Box>
@@ -176,5 +188,3 @@ const Members = () => {
 };
 
 export default Members;
-
-// userInfo._id == member.user._id;
