@@ -112,28 +112,25 @@ const Members = () => {
               </div>
               <div>
                 {members.map((member) => (
-                  <div className="flex items-center mt-3" key={member.user._id}>
+                  <div className="flex items-center" key={member.user._id}>
                     <Avatar className="mr-2 cursor-default bg-white my-3">
                       {getInitials(member.user.name)}
                     </Avatar>
-                    <div
-                      className="flex flex-col"
-                      style={{ minWidth: "300px" }}
-                    >
+                    <div className="flex flex-col">
                       <span>{member.user.name}</span>
                       <span>{member.user.email}</span>
                     </div>
                     <div className="ml-4">
-                      <Box sx={{ minWidth: 200 }}>
+                      <Box sx={{ minWidth: 120 }}>
                         <FormControl fullWidth>
                           <InputLabel id="demo-simple-select-label">
-                            Vai trò
+                            Role
                           </InputLabel>
                           <Select
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
                             value={member.role}
-                            label="Vai trò"
+                            label="Role"
                             onChange={handleChange}
                           >
                             <MenuItem value={"admin"} disabled>
@@ -152,7 +149,7 @@ const Members = () => {
                                   member.role === "admin"
                                 }
                               >
-                                Rời khỏi bảng
+                                left from board
                               </MenuItem>
                               <MenuItem
                                 onClick={handleOut}
