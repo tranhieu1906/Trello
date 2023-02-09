@@ -3,7 +3,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import PropTypes from "prop-types";
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-import { addCard } from "../../services/board/boardAction";
+import { addCard } from "../../services/user/board/boardAction";
 
 const CreateCardForm = ({ listId, setAdding }) => {
   const [title, setTitle] = useState("");

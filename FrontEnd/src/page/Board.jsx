@@ -9,8 +9,7 @@ import CreateList from "../components/board/CreateList";
 import Members from "../components/board/Members";
 import List from "../components/list/List";
 import Navbar from "../components/other/Navbar";
-import { getBoard } from "../services/board/boardAction";
-
+import { getBoard } from "../services/user/board/boardAction";
 
 const Board = () => {
   const params = useParams();

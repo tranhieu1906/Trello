@@ -1,10 +1,8 @@
-import { Fragment, useEffect } from "react";
-
+import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
-import { ChevronDownIcon } from "@heroicons/react/20/solid";
-import { Link } from "react-router-dom";
-import { logout, setCredentials } from "../../redux/features/auth/authSlice";
 import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
+import { logout } from "../../redux/features/auth/authSlice";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");

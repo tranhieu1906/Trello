@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import React, { Fragment, useEffect, useRef, useState } from "react";
 import { Draggable } from "react-beautiful-dnd";
 import { useDispatch, useSelector } from "react-redux";
-import { getCard } from "../../services/board/boardAction";
+import { getCard } from "../../services/user/board/boardAction";
 // import getInitials from "../../utils/getInitials";
 
 import AssignmentTurnedInIcon from "@mui/icons-material/AssignmentTurnedIn";

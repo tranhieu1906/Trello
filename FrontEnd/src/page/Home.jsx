@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
-import { getBoards } from "../services/board/boardAction";
+import { getBoards } from "../services/user/board/boardAction";
 import { getUser } from "../services/user/userService";
 
 function Home() {
