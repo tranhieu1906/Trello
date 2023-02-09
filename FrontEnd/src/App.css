@@ -147,6 +147,7 @@ body {
 .board-and-navbar {
   background-size: cover;
   height: 100vh;
+  overflow-y: hidden;
 }
 
 .board-and-navbar .navbar {

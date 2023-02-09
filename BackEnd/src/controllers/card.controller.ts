@@ -4,7 +4,6 @@ class CardController {
   async addCard(req, res) {
     try {
       const newCard = await CardService.addCard(req);
-      console.log("🚀 ~ file: card.controller.ts:7 ~ CardController ~ addCard ~ newCard", newCard)
       res.status(200).json(newCard);
     } catch (error) {
       res.status(500).json({
