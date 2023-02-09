@@ -1,24 +1,22 @@
-import axios from "./api/axios";
 import { useEffect } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import Login from "./page/Login";
-import SignUp from "./page/SignUp";
-import Home from "./page/Home";
-import Board from "./page/Board";
+import axios from "./api/axios";
 import Layout from "./components/Layout/Layout";
 import PrivateRoute from "./components/Router/PrivateRouter";
-import { useGetDetailsQuery } from "./services/auth/authService";
-import { useDispatch } from "react-redux";
-import { setCredentials } from "./redux/features/auth/authSlice";
+import Board from "./page/Board";
+import Home from "./page/Home";
+import Login from "./page/Login";
+import SignUp from "./page/SignUp";
 
 function App() {
-  const dispatch = useDispatch();
-  const { data } = useGetDetailsQuery("userDetails");
+  const navigate = useNavigate();
   useEffect(() => {
-    if (data) dispatch(setCredentials(data));
-  }, [data, dispatch]);
-
+    if (localStorage.getItem("userToken")) {
+      axios.defaults.headers.common["Authorization"] =
+        "Bearer " + localStorage.getItem("userToken");
+    }
+  }, [navigate]);
   if (localStorage.getItem("userToken")) {
     axios.defaults.headers.common["Authorization"] =
       "Bearer " + localStorage.getItem("userToken");

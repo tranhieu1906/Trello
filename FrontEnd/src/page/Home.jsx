@@ -1,11 +1,13 @@
+
 import React, {useEffect, useState} from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
-
 import CircularProgress from "@mui/material/CircularProgress";
-import Navbar from "../components/other/Navbar";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-
+import { setCredentials } from "../redux/features/auth/authSlice";
+import { useGetDetailsQuery } from "../services/auth/authService";
 import { getBoards } from "../services/board/boardAction";
 import Button from "@mui/material/Button";
 import CreateBoard from "../components/board/CreateBoard"
@@ -24,8 +26,14 @@ function Home() {
   const handleClickOpen = () => {
     setOpen(true)
   }
+
+  const { data } = useGetDetailsQuery("userDetails");
   useEffect(() => {
-    dispatch(getBoards());
+    if (data) dispatch(setCredentials(data));
+  }, [data, dispatch]);
+
+  useEffect(() => {
+    if (localStorage.getItem("userToken")) dispatch(getBoards());
   }, [dispatch]);
 
   useEffect(() => {
@@ -63,7 +71,6 @@ function Home() {
           /> }
         </div>
       </section>
-
     </div>
   );
 }
