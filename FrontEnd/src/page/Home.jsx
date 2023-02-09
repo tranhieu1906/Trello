@@ -7,8 +7,10 @@ import { toast } from "react-toastify";
 import axios from "../api/axios";
 import CreateBoard from "../components/board/CreateBoard";
 import PositionedMenu from "../components/board/Option";
-import { getBoards } from "../services/user/board/boardAction";
+import { getBoards } from "../services/board/boardAction";
 import { getUser } from "../services/user/userService";
+
+
 function Home() {
   const { loading, error } = useSelector((state) => state.board);
   const [open, setOpen] = useState(false);
@@ -17,6 +19,7 @@ function Home() {
   const handleClose = () => {
     setOpen(false);
   };
+
   useEffect(() => {
     if (localStorage.getItem("userToken")) dispatch(getBoards());
   }, [dispatch]);
@@ -50,7 +53,7 @@ function Home() {
     <div>
       <section className="flex flex-col items-center p-12">
         {loading && <CircularProgress className="m-10" />}
-        <div className="m-2 flex flex-row flex-wrap items-center justify-center grid grid-cols-4 gap-4">
+        <div className="m-2 flex flex-row flex-wrap items-center justify-center gap-4">
           {boards.map((board) => (
             <div
               key={board._id}

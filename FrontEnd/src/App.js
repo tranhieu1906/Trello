@@ -1,8 +1,6 @@
 import { useEffect } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import { useDispatch, useSelector } from "react-redux";
-
 import "./App.css";
 import axios from "./api/axios";
 import Layout from "./components/Layout/Layout";
@@ -13,7 +11,6 @@ import Login from "./page/Login";
 import SignUp from "./page/SignUp";
 
 function App() {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   useEffect(() => {
     if (localStorage.getItem("userToken")) {

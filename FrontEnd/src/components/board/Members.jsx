@@ -1,19 +1,21 @@
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import CloseIcon from "@mui/icons-material/Close";
 import { Button } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import AvatarGroup from "@mui/material/AvatarGroup";
-import Box from "@mui/material/Box";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import FormControl from "@mui/material/FormControl";
 import IconButton from "@mui/material/IconButton";
-import InputLabel from "@mui/material/InputLabel";
 import Tooltip from "@mui/material/Tooltip";
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import Typography from "@mui/material/Typography";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
+import FormControl from "@mui/material/FormControl";
+import Box from "@mui/material/Box";
+import InputLabel from "@mui/material/InputLabel";
+
 import { styled } from "@mui/material/styles";
 import CustomizedHook from "./Autocomplete";
 
@@ -50,15 +52,14 @@ function BootstrapDialogTitle(props) {
 }
 const Members = () => {
   const [inviting, setInviting] = useState(false);
+  const { userInfo } = useSelector((state) => state.auth);
 
   const { members } = useSelector((state) => state.board.board);
-
-  const { userInfo } = useSelector((state) => state.auth);
 
   const handleClose = () => {
     setInviting(false);
   };
-  const handleChange = (event) => {};
+
   const getInitials = (name) => {
     let initials = name.match(/\b\w/g) || [];
     return ((initials.shift() || "") + (initials.pop() || "")).toUpperCase();
@@ -67,6 +68,7 @@ const Members = () => {
     if (window.confirm("asdna")) {
     }
   };
+  const handleChange = (event) => {};
 
   return (
     <div className="flex flex-wrap my-0 mx-5 gap-4">
@@ -110,7 +112,7 @@ const Members = () => {
               </div>
               <div>
                 {members.map((member) => (
-                  <div className="flex items-center mt-3" key={member.user._id}>
+                  <div className="flex items-center" key={member.user._id}>
                     <Avatar className="mr-2 cursor-default bg-white my-3">
                       {getInitials(member.user.name)}
                     </Avatar>
@@ -144,9 +146,7 @@ const Members = () => {
                                 left from board
                               </MenuItem>
                             ) : (
-                              <MenuItem
-                                onClick={handleOut}
-                              >
+                              <MenuItem onClick={handleOut}>
                                 Remove from board
                               </MenuItem>
                             )}

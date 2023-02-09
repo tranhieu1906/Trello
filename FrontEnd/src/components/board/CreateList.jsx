@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-import { addList } from "../../services/user/board/boardAction";
+import { addList } from "../../services/board/boardAction";
 import CloseIcon from "@mui/icons-material/Close";
 import { Button, TextField } from "@mui/material";
 

@@ -8,7 +8,7 @@ import { styled } from "@mui/material/styles";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { addMember } from "../../services/user/board/boardAction";
+import { addMember } from "../../services/board/boardAction";
 
 import axios from "../../api/axios";
 
