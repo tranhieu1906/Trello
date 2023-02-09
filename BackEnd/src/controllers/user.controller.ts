@@ -4,7 +4,8 @@ import { User } from "../models/User";
 class UserController {
   async getUser(req, res) {
     try {
-      const user = await UserService.getDataUser(req, res);
+      const id = req.user.id;
+      const user = await User.findOne({ _id: id });
       if (user) {
         res.status(200).json(user);
       } else {

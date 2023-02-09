@@ -6,6 +6,7 @@ export const getUser = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     try {
       const { data } = await axios.get("/users");
+      console.log("🚀 ~ file: userService.js:9 ~ data", data)
       return data;
     } catch (error) {
       if (error.response && error.response.data.message) {
