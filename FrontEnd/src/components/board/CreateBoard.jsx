@@ -6,6 +6,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import ClearIcon from "@mui/icons-material/Clear";
+import { useFormik } from "formik";
 import {
   Box,
   ImageList,
@@ -19,6 +20,8 @@ import FormControl from "@mui/material/FormControl";
 import axios from "../../api/axios";
 import { useDispatch, useSelector } from "react-redux";
 import { getBoardData } from "../../services/board/boardAction";
+import * as Yup from "yup";
+import { userLogin } from "../../services/auth/authActions";
 
 let backgrounds = [
   "http://static1.squarespace.com/static/5fe4caeadae61a2f19719512/5fe5c3a9d85eb525301180ed/5ff082ae17af6f5d1930e6bf/1610530333403/Wallpaper+engine+4k.png?format=1500w",
@@ -38,9 +41,34 @@ export default function CreateBoard(props) {
     title: "",
     classify: "individual",
   });
-  const [titleError, setTitleError] = useState({
-    type: "error",
-    helperText: "ngndgn",
+
+  const formik = useFormik({
+    initialValues: {
+      backgroundURL: "",
+      title: "",
+      classify: "individual",
+    },
+    validationSchema: Yup.object({
+      title: Yup.string().required("Không được để trống"),
+    }),
+    onSubmit: (values) => {
+      formik.values.backgroundURL = selectedPhoto;
+      axios
+        .post("/boards", values)
+        .then(async () => {
+          let data = await getBoardData();
+          updateBoard(data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      handleClose();
+      setDataForm({
+        backgroundURL: "",
+        title: "",
+        classify: "individual",
+      });
+    },
   });
 
   const [img, setImg] = useState(backgrounds);
@@ -119,16 +147,20 @@ export default function CreateBoard(props) {
                 ))}
               </ImageList>
               <br></br>
-              {/*<p><PriorityHighIcon style={{color: "red"}}/>Tiêu đề bảng là bắt buộc</p>*/}
               <TextField
                 fullWidth
                 labelId="demo-simple-select-label"
                 label="tiêu đề"
-                onChange={handleChange}
+                onChange={formik.handleChange}
                 name="title"
-                value={dataForm.title}
+                error={!!formik.errors.title && formik.touched.title}
+                value={formik.values.title}
+                helperText={
+                  formik.errors.title && formik.touched.title
+                    ? formik.errors.title
+                    : null
+                }
               />
-
               <br />
               <br />
               <FormControl sx={{ m: 1, minWidth: 400 }} size="small">
@@ -137,9 +169,9 @@ export default function CreateBoard(props) {
                   name="classify"
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
-                  value={dataForm.classify}
+                  value={formik.values.classify}
                   label="classify"
-                  onChange={handleChange}
+                  onChange={formik.handleChange}
                 >
                   <MenuItem value="individual">cá nhân</MenuItem>
                   <MenuItem value="group">nhóm</MenuItem>
@@ -162,10 +194,10 @@ export default function CreateBoard(props) {
               {/*    </Select>*/}
               {/*</FormControl>*/}
               <Button
-                onClick={handleSubmit}
-                type="button"
+                type="submit"
                 variant="contained"
                 disableElevation
+                onClick={formik.handleSubmit}
               >
                 tạo mới
               </Button>
