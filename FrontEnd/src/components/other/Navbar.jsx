@@ -1,10 +1,9 @@
-import React, { useEffect } from "react";
-import { Disclosure} from '@headlessui/react';
-import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { Disclosure } from "@headlessui/react";
+import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import React from "react";
 import Dropdown from "./Dropdown";
 import DropdownAccount from "./DropdownAccount";
 import Search from "./Search";
-import { getUser } from '../../services/user/userService';
 
 const Navbar = () => {
 
@@ -42,7 +41,6 @@ const Navbar = () => {
                   <div className="flex space-x-4">
                     <Dropdown icon={true} name={"Workspaces"} />
                     <Dropdown icon={false} name={"Create"} />
-
                   </div>
                 </div>
               </div>
@@ -61,12 +59,9 @@ const Navbar = () => {
               </div>
             </div>
           </div>
-
-
         </>
       )}
     </Disclosure>
-
   );
 };
 

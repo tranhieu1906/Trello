@@ -112,29 +112,48 @@ const Members = () => {
               </div>
               <div>
                 {members.map((member) => (
-                  <div className="flex items-center" key={member.user._id}>
+                  <div className="flex items-center mt-3" key={member.user._id}>
                     <Avatar className="mr-2 cursor-default bg-white my-3">
                       {getInitials(member.user.name)}
                     </Avatar>
-                    <div className="flex flex-col">
+                    <div
+                      className="flex flex-col"
+                      style={{ minWidth: "300px" }}
+                    >
                       <span>{member.user.name}</span>
                       <span>{member.user.email}</span>
                     </div>
                     <div className="ml-4">
-                      <Box sx={{ minWidth: 120 }}>
+                      <Box sx={{ minWidth: 200 }}>
                         <FormControl fullWidth>
                           <InputLabel id="demo-simple-select-label">
-                            Role
+                            Vai trò
                           </InputLabel>
                           <Select
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
                             value={member.role}
-                            label="Role"
+                            label="Vai trò"
                             onChange={handleChange}
                           >
-                            <MenuItem value={"admin"}>Admin</MenuItem>
-                            <MenuItem value={"observer"}>Observer</MenuItem>
+                            <MenuItem
+                              value={"admin"}
+                              disabled={
+                                member.role !== "admin" ||
+                                member.role === "admin"
+                              }
+                            >
+                              Quản trị viên
+                            </MenuItem>
+                            <MenuItem
+                              value={"observer"}
+                              disabled={
+                                member.role === "admin" ||
+                                member.role === "observer"
+                              }
+                            >
+                              Thành viên
+                            </MenuItem>
                             {member.role === "admin" ? (
                               <MenuItem
                                 onClick={handleOut}
@@ -143,11 +162,17 @@ const Members = () => {
                                   member.role === "admin"
                                 }
                               >
-                                left from board
+                                Rời khỏi bảng
                               </MenuItem>
                             ) : (
-                              <MenuItem onClick={handleOut}>
-                                Remove from board
+                              <MenuItem
+                                onClick={handleOut}
+                                disabled={
+                                  userInfo._id !== member.user._id
+                                  
+                                }
+                              >
+                                Rời khỏi bảng
                               </MenuItem>
                             )}
                           </Select>
