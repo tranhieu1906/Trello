@@ -91,7 +91,7 @@ const Members = () => {
           variant="contained"
           onClick={() => setInviting(true)}
         >
-          Invite
+          Chia sẻ bảng
         </Button>
       ) : (
         <div>
@@ -124,17 +124,19 @@ const Members = () => {
                       <Box sx={{ minWidth: 120 }}>
                         <FormControl fullWidth>
                           <InputLabel id="demo-simple-select-label">
-                            Role
+                            Vai trò
                           </InputLabel>
                           <Select
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
                             value={member.role}
-                            label="Role"
+                            label="Vai trò"
                             onChange={handleChange}
                           >
-                            <MenuItem value={"admin"}>Admin</MenuItem>
-                            <MenuItem value={"observer"}>Observer</MenuItem>
+                            <MenuItem value={"admin"}>Quản trị viên</MenuItem>
+                            <MenuItem value={"observer"}>
+                              Quan sát viên
+                            </MenuItem>
                             {member.role === "admin" ? (
                               <MenuItem
                                 onClick={handleOut}
@@ -143,11 +145,11 @@ const Members = () => {
                                   member.role === "admin"
                                 }
                               >
-                                left from board
+                                Rời khỏi bảng
                               </MenuItem>
                             ) : (
                               <MenuItem onClick={handleOut}>
-                                Remove from board
+                                Xóa khỏi bảng
                               </MenuItem>
                             )}
                           </Select>

@@ -9,7 +9,7 @@ const Auth = ({ children }) => {
         <div className="flex flex-col gap-3 w-full md:w-2/5 ">
           {children}
 
-          <p className="text-center text-sm my-2">Get the app.</p>
+          <p className="text-center text-sm my-2">Truy cập</p>
           <div className="flex gap-3 justify-center">
             <LazyLoadImage
               draggable="false"

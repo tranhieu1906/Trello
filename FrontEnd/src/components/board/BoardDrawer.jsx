@@ -91,7 +91,7 @@ const BoardDrawer = () => {
                 disabled={activityChunks * 10 > activity.length}
                 onClick={() => setActivityChunks(activityChunks + 1)}
               >
-                View More Activity
+                Xem thêm hoạt động
               </Button>
             </div>
           </div>
@@ -101,7 +101,7 @@ const BoardDrawer = () => {
               <Button onClick={() => setViewingArchivedLists(false)}>
                 <ChevronLeftIcon />
               </Button>
-              <h3>Archived Lists</h3>
+              <h3>Danh sách lưu trữ</h3>
               <Button onClick={handleClose}>
                 <CloseIcon />
               </Button>
@@ -115,7 +115,7 @@ const BoardDrawer = () => {
               <Button onClick={() => setViewingArchivedCards(false)}>
                 <ChevronLeftIcon />
               </Button>
-              <h3>Archived Cards</h3>
+              <h3>Thẻ lưu trữu</h3>
               <Button onClick={handleClose}>
                 <CloseIcon />
               </Button>

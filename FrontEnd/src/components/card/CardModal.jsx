@@ -47,7 +47,7 @@ const CardModal = ({ cardId, open, setOpen, card, list }) => {
               required
               fullWidth
               multiline
-              label="Card title"
+              label="Tiêu đề thẻ"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               onKeyPress={(e) =>
@@ -61,7 +61,7 @@ const CardModal = ({ cardId, open, setOpen, card, list }) => {
             margin="normal"
             fullWidth
             multiline
-            label="Card description"
+            label="Mô tả thẻ"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
@@ -76,13 +76,13 @@ const CardModal = ({ cardId, open, setOpen, card, list }) => {
             }
             className="w-44 mt-0.5"
           >
-            Save All Changes
+            Lưu
           </Button>
         </form>
         <div className="flex justify-between flex-wrap h-auto">
           {/* <CardMembers card={card} /> */}
           <div>
-            <h3 className="mt-5 ml-2">Label</h3>
+            <h3 className="mt-5 ml-2">Nhãn</h3>
             <GithubPicker
               className="min-w-picker"
               // onChange={async (color) =>
@@ -96,7 +96,7 @@ const CardModal = ({ cardId, open, setOpen, card, list }) => {
               //   dispatch(editCard(cardId, { label: "none" }))
               // }
             >
-              No Label
+              Không nhãn
             </Button>
           </div>
         </div>
@@ -109,7 +109,7 @@ const CardModal = ({ cardId, open, setOpen, card, list }) => {
               className="mb-1"
               onClick={onArchiveCard}
             >
-              Archive Card
+              lưu trữ
             </Button>
             {/* <DeleteCard cardId={cardId} setOpen={setOpen} list={list} /> */}
           </div>

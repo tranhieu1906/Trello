@@ -12,7 +12,6 @@ import Navbar from "../components/other/Navbar";
 import { getBoard } from "../services/board/boardAction";
 import { getUser } from "../services/user/userService";
 
-
 const Board = () => {
   const { board } = useSelector((state) => state.board);
   const params = useParams();

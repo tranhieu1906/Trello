@@ -20,7 +20,7 @@ class CardService {
       {
         $push: {
           activity: {
-            text: `${user.name} added '${title}' to '${list.title}'`,
+            text: `${user.name} đã thêm '${title}' đến '${list.title}'`,
           },
         },
       },
