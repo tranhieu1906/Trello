@@ -95,7 +95,7 @@ export default function Dropdown({ icon, name }) {
                                                     to="#"
                                                     className={classNames(
                                                         active ? 'bg-gray-100 text-gray-900 font-bold text-sm' : 'text-gray-700 font-bold text-sm',
-                                                        'block px-4 py-2 text-sm font-bold text-base'
+                                                        'block px-4 py-2 font-bold text-base'
                                                     )}
                                                 >
                                                     Create board

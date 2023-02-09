@@ -15,7 +15,7 @@ function route(app) {
   app.use("/comments", commentRoutes);
   app.use("/boards", boardRoutes);
   app.use("/card", cardRoutes);
-  app.use("/list",listRouters);
+  app.use("/lists",listRouters);
 }
 
 export default route;

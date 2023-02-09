@@ -13,8 +13,7 @@ class ListController {
     async addList(req, res) {
         try {
             const list = await ListService.addDataList(req);
-            console.log(list)
-            res.status(201).json({list:list});
+           res.status(200).json(list);
         } catch (e) {
             res.status(500).json({ message: e.message })
         }

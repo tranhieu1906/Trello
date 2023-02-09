@@ -53,7 +53,7 @@ const Board = () => {
     </Fragment>
   ) : (
     <div
-      className="bg-cover h-screen"
+      className="board-and-navbar"
       style={{
         backgroundImage:
           "url(" +
@@ -64,9 +64,9 @@ const Board = () => {
       }}
     >
       <Navbar />
-      <section className="p-3">
-        <div className="p-1 flex flex-wrap flex-row justify-between pb-8">
-          <div className="flex flex-wrap flex-row">
+      <section className="board">
+        <div className="board-top">
+          <div className="board-top-left">
             <BoardTitle board={board} />
             <Members />
           </div>
@@ -76,12 +76,12 @@ const Board = () => {
           <Droppable droppableId="all-lists" direction="horizontal" type="list">
             {(provided) => (
               <div
-                className="flex flex-row overflow-x-auto"
+                className="lists"
                 ref={provided.innerRef}
                 {...provided.droppableProps}
               >
                 {board.lists.map((listId, index) => (
-                  <List key={listId} listId={listId} index={index} />
+                  <List key={listId._id} listId={listId._id} index={index} />
                 ))}
                 {provided.placeholder}
                 <CreateList />

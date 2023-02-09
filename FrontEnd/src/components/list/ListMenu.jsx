@@ -1,4 +1,6 @@
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+import CloseIcon from "@mui/icons-material/Close";
+
 import { Button, Menu, MenuItem } from "@mui/material";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
@@ -33,10 +35,11 @@ const ListMenu = ({ listId }) => {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <MenuItem onClick={handleClose}>
-          <MoreHorizIcon />
+        <MenuItem onClick={handleClose} className="float-right">
+          <CloseIcon />
         </MenuItem>
         <MenuItem
+          className="w-full"
           onClick={() => {
             archive();
             handleClose();
@@ -45,7 +48,7 @@ const ListMenu = ({ listId }) => {
           Archive This List
         </MenuItem>
         <MenuItem>
-          <MoveList listId={listId} closeMenu={handleClose} />
+          {/* <MoveList listId={listId} closeMenu={handleClose} /> */}
         </MenuItem>
       </Menu>
     </div>
