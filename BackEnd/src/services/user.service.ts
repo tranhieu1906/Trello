@@ -1,8 +1,8 @@
 import { User } from "../models/User";
 class UserService {
   async getDataUser(req, res) {
-    const id = req.user.id;
-    const user = await User.findOne({ _id: id });
+    const id = req.user._id;
+    const user = await User.findOne({ id: id });
     return user;
   }
 }

@@ -9,16 +9,19 @@ import CreateList from "../components/board/CreateList";
 import Members from "../components/board/Members";
 import List from "../components/list/List";
 import Navbar from "../components/other/Navbar";
-import { getBoard } from "../services/user/board/boardAction";
+import { getBoard } from "../services/board/boardAction";
+import { getUser } from "../services/user/userService";
+
 
 const Board = () => {
+  const { board } = useSelector((state) => state.board);
   const params = useParams();
+  const { isAuthenticated } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { board } = useSelector((state) => state.board);
-  const { isAuthenticated } = useSelector((state) => state.auth);
 
   useEffect(() => {
+    dispatch(getUser());
     dispatch(getBoard(params.id));
   }, [dispatch, params.id]);
 

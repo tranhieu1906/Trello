@@ -17,9 +17,6 @@ export const authApi = createApi({
       query: () => ({
         url: "/users",
         method: "GET",
-        options: {
-          credentials: 'same-origin',
-        },
       }),
     }),
   }),
