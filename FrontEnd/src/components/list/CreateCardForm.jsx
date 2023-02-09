@@ -3,7 +3,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import PropTypes from "prop-types";
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-// import { addCard } from "../../actions/board";
+import { addCard } from "../../services/board/boardAction";
 
 const CreateCardForm = ({ listId, setAdding }) => {
   const [title, setTitle] = useState("");
@@ -16,18 +16,18 @@ const CreateCardForm = ({ listId, setAdding }) => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    // dispatch(addCard({ title, listId }));
+    dispatch(addCard({ title, listId }));
     setTitle("");
   };
 
   return (
     <form
       ref={formRef}
-      className="create-card-form"
+      className="mt-1 flex flex-col"
       onSubmit={(e) => onSubmit(e)}
     >
       <Card>
-        <CardContent className="card-edit-content">
+        <CardContent className="pt-0 pb-1">
           <TextField
             margin="normal"
             fullWidth
@@ -41,7 +41,7 @@ const CreateCardForm = ({ listId, setAdding }) => {
           />
         </CardContent>
       </Card>
-      <div className="card-actions">
+      <div className="mb-1 mt-3">
         <Button type="submit" variant="contained" color="primary">
           Add Card
         </Button>

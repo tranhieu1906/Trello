@@ -22,7 +22,7 @@ const ArchivedCards = () => {
         {cards
           .filter((card) => card.archived)
           .map((card, index) => (
-            <ListItem key={index} className="archived-card">
+            <ListItem key={index} className="flex flex-row">
               <Card>
                 <CardContent>{card.title}</CardContent>
               </Card>

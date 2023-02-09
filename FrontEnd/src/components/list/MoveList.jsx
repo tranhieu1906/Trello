@@ -18,16 +18,16 @@ const MoveList = ({ listId, closeMenu }) => {
   const [position, setPosition] = useState(0);
   const [positions, setPositions] = useState([0]);
   const lists = useSelector((state) => state.board.board.lists);
-  const listObjects = useSelector((state) => state.board.board.listObjects);
+  const listObjects = useSelector((state) => state.board.board);
   const dispatch = useDispatch();
 
   useEffect(() => {
     const mappedListObjects = listObjects
-      .sort(
-        (a, b) =>
-          lists.findIndex((id) => id === a._id) -
-          lists.findIndex((id) => id === b._id)
-      )
+      // .sort(
+      //   (a, b) =>
+      //     lists.findIndex((id) => id === a._id) -
+      //     lists.findIndex((id) => id === b._id)
+      // )
       .map((list, index) => ({ list, index }));
     setPositions(
       mappedListObjects
