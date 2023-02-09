@@ -1,37 +1,31 @@
-import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { useNavigate, Link } from "react-router-dom";
-import CircularProgress from "@mui/material/CircularProgress";
-import { toast } from "react-toastify";
-import { getBoardData } from "../services/board/boardAction";
-import { getBoards } from "../services/board/boardAction";
 import Button from "@mui/material/Button";
+import CircularProgress from "@mui/material/CircularProgress";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+import axios from "../api/axios";
 import CreateBoard from "../components/board/CreateBoard";
 import PositionedMenu from "../components/board/Option";
-import { setCredentials } from "../redux/features/auth/authSlice";
-import { useGetDetailsQuery } from "../services/auth/authService";
-import axios from "../api/axios";
+import { getBoards } from "../services/user/board/boardAction";
+import { getUser } from "../services/user/userService";
 function Home() {
-  const { userInfo } = useSelector((state) => state.auth);
   const { loading, error } = useSelector((state) => state.board);
   const [open, setOpen] = useState(false);
   const [boards, setBoards] = useState([]);
   const dispatch = useDispatch();
-  const { data } = useGetDetailsQuery("userDetails");
   const handleClose = () => {
     setOpen(false);
   };
-  useEffect(() => {
-    if (data) dispatch(setCredentials(data));
-  }, [data, dispatch]);
-
   useEffect(() => {
     if (localStorage.getItem("userToken")) dispatch(getBoards());
   }, [dispatch]);
 
   useEffect(() => {
     document.title = "Your Boards | TrelloClone";
-  }, []);
+
+    dispatch(getUser());
+  }, [dispatch]);
 
   const updateBoard = (data) => {
     setBoards(data);
@@ -46,7 +40,6 @@ function Home() {
   const handleClickOpen = () => {
     setOpen(true);
   };
-
   useEffect(() => {
     if (error) {
       toast.error(error);

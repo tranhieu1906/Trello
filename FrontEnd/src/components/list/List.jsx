@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import React, { useEffect, useRef, useState } from "react";
 import { Draggable, Droppable } from "react-beautiful-dnd";
 import { useDispatch, useSelector } from "react-redux";
-import { getList } from "../../services/board/boardAction";
+import { getList } from "../../services/user/board/boardAction";
 import Card from "../card/Card";
 import CreateCardForm from "./CreateCardForm";
 import ListMenu from "./ListMenu";

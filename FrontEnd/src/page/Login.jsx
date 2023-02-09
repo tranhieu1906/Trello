@@ -18,9 +18,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import * as Yup from "yup";
-import { userLogin } from "../services/auth/authActions";
-import Auth from "../components/Auth/auth";
 import logo from "../assests/trello-logo-blue.svg";
+import Auth from "../components/Auth/auth";
+import { userLogin } from "../services/auth/authActions";
 
 function Login() {
   let navigate = useNavigate();
@@ -45,7 +45,7 @@ function Login() {
       toast.error(error);
     }
     if (userToken && !loading) {
-        navigate('/')
+      navigate("/");
     }
   }, [error, userToken, navigate, loading]);
 

@@ -70,6 +70,13 @@ class BoardController {
     }
   }
   // Thêm thành viên vào bảng
+  async changeRoleMember(req, res, next) {
+    try {
+      
+    } catch (err) {
+      next(err);
+    }
+  }
   async addMember(req, res, next) {
     try {
       const board = await Board.findById(req.header("boardId")).populate(

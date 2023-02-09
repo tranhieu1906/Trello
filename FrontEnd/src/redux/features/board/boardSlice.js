@@ -1,10 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getBoards } from "../../../services/board/boardAction";
-import { getBoard } from "../../../services/board/boardAction";
-import { addMember } from "../../../services/board/boardAction";
-import { addList } from "../../../services/board/boardAction";
-import { getList } from "../../../services/board/boardAction";
-import { addCard } from "../../../services/board/boardAction";
+import { getBoards } from "../../../services/user/board/boardAction";
+import { getBoard } from "../../../services/user/board/boardAction";
+import { addMember } from "../../../services/user/board/boardAction";
+import { addList } from "../../../services/user/board/boardAction";
+import { getList } from "../../../services/user/board/boardAction";
+import { addCard } from "../../../services/user/board/boardAction";
 
 const initialState = {
   boards: [],
