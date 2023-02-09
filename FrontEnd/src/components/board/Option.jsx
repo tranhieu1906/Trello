@@ -16,7 +16,7 @@ export default function PositionedMenu({boardId,updateBoard}) {
     };
 
     const handleDelete = async (boardId) => {
-        if(window.confirm('Are you sure you want to')){
+        if(window.confirm('bạn đồng ý xóa bảng náy ?')){
             let dataBoard = await deleteBoard(boardId)
             if (dataBoard) {
                 updateBoard(dataBoard)
