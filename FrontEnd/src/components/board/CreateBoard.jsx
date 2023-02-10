@@ -116,7 +116,7 @@ export default function CreateBoard(props) {
               <br></br>
               <TextField
                 fullWidth
-                labelId="demo-simple-select-label"
+                labelid="demo-simple-select-label"
                 label="Tiêu đề"
                 onChange={formik.handleChange}
                 name="title"
@@ -134,7 +134,7 @@ export default function CreateBoard(props) {
                 <InputLabel id="demo-simple-select-label">Phân loại</InputLabel>
                 <Select
                   name="classify"
-                  labelId="demo-simple-select-label"
+                  labelid="demo-simple-select-label"
                   id="demo-simple-select"
                   value={formik.values.classify}
                   label="classify"

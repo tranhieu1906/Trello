@@ -50,7 +50,6 @@ const boardSlice = createSlice({
     },
     // addList
     [addList.fulfilled]: (state, { payload }) => {
-      console.log(payload);
       state.board = {
         ...state.board,
         lists: payload,

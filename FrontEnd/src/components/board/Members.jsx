@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import CloseIcon from "@mui/icons-material/Close";
 import { Button } from "@mui/material";
@@ -55,6 +55,14 @@ const Members = () => {
   const { userInfo } = useSelector((state) => state.auth);
 
   const { members } = useSelector((state) => state.board.board);
+  const [roleMeberLoginInBoard, setRoleMeberLoginInBoard] = useState();
+
+  useEffect(() => {
+    let userLoginInMember = members.filter(
+      (member) => member.user._id === userInfo._id
+    );
+    setRoleMeberLoginInBoard(userLoginInMember[0].role);
+  }, []);
 
   const handleClose = () => {
     setInviting(false);
@@ -106,7 +114,7 @@ const Members = () => {
             >
               Chia sẻ bảng
             </BootstrapDialogTitle>
-            <DialogContent dividers>
+            <DialogContent dividers style={{ minHeight: "300px" }}>
               <div className="flex gap-2 items-center">
                 <CustomizedHook handleClose={handleClose} />
               </div>
@@ -130,33 +138,47 @@ const Members = () => {
                             Vai trò
                           </InputLabel>
                           <Select
-                            labelId="demo-simple-select-label"
+                            labelid="demo-simple-select-label"
                             id="demo-simple-select"
                             value={member.role}
                             label="Vai trò"
-                            onChange={handleChange}
+                            onChange={() => handleChange()}
                           >
-                            <MenuItem value={"admin"} disabled>
+                            <MenuItem
+                              disabled={roleMeberLoginInBoard === "observer"}
+                              value={"admin"}
+                            >
                               Quản trị viên
                             </MenuItem>
                             <MenuItem
-                              value={"observer"}
                               disabled={
-                                member.role === "admin" ||
-                                member.role === "observer"
+                                roleMeberLoginInBoard === "observer" ||
+                                (roleMeberLoginInBoard === "admin" &&
+                                  member.user._id === userInfo._id)
                               }
+                              value={"observer"}
                             >
                               Thành viên
                             </MenuItem>
-                            <MenuItem
-                              onClick={handleOut}
-                              disabled={
-                                userInfo._id !== member.user._id ||
-                                member.role === "admin"
-                              }
-                            >
-                              Rời khỏi bảng
-                            </MenuItem>
+
+                            {roleMeberLoginInBoard === "observer" ? (
+                              <MenuItem
+                                onClick={handleOut}
+                                disabled={member.user._id !== userInfo._id}
+                              >
+                                Rời khỏi bảng
+                              </MenuItem>
+                            ) : (
+                              <MenuItem
+                                onClick={handleOut}
+                                disabled={
+                                  roleMeberLoginInBoard === "admin" &&
+                                  member.user._id === userInfo._id
+                                }
+                              >
+                                Xóa khỏi bảng
+                              </MenuItem>
+                            )}
                           </Select>
                         </FormControl>
                       </Box>
