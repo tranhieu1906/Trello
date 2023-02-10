@@ -1,5 +1,6 @@
 import { Board } from "../models/Board";
 import { User } from "../models/User";
+import UserService from "./user.service";
 class BoardService {
   async createBoard(req, res) {
     const { title, backgroundURL } = req.body;
@@ -25,22 +26,22 @@ class BoardService {
     for (let i = 0; i < user.boards.length; i++) {
       let board = await Board.findById(user.boards[i]);
       if (board.softErase === false) {
-        boards.push(board)
+        boards.push(board);
       }
     }
     return boards;
   }
 
   async newBoard(req) {
-    let {title, backgroundURL, classify } = req.body;
+    let { title, backgroundURL, classify } = req.body;
     let user = await User.findById(req.user.id);
     let dataUser = {
       user: req.user.id,
-      role: "admin"
+      role: "admin",
     };
     let activity = {
       text: `${user.name} created this board`,
-    }
+    };
     let newBoard = new Board({
       title: title,
       backgroundURL: backgroundURL,
@@ -56,19 +57,18 @@ class BoardService {
 
   async deleteBoard(req) {
     await Board.findOneAndUpdate(
-        {_id: req.params.boardId},
-        {softErase: true},
-        { new: true }
-    )
+      { _id: req.params.boardId },
+      { softErase: true },
+      { new: true }
+    );
   }
 
-    async getBoardById(req) {
-      let dataBoard = await Board.findOne({id: req.params.boardId});
-      if (dataBoard) {
-        return dataBoard
-      }
-    };
-
+  async getBoardById(req) {
+    let dataBoard = await Board.findOne({ id: req.params.boardId });
+    if (dataBoard) {
+      return dataBoard;
+    }
+  }
 
   async renameBoard(req, res) {}
 }
