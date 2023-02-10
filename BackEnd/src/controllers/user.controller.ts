@@ -27,6 +27,23 @@ class UserController {
       res.status(500).json({ message: e.message });
     }
   }
+  async editPassword(req, res) {
+    try {
+      console.log(req.body);
+      const newPassword = await UserService.newPassword(req, res);
+      if (newPassword) {
+        res
+          .status(200)
+          .json({ success: true, message: "đổi mật khẩu thành công!!" });
+      } else {
+        res
+          .status(404)
+          .json({ success: false, message: "mật khẩu cũ không đúng" });
+      }
+    } catch (err) {
+      res.status(500).json({ message: err.message });
+    }
+  }
 }
 
 export default new UserController();

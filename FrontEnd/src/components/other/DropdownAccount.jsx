@@ -38,13 +38,13 @@ export default function DropdownAccount() {
               <h3 className="font-bold ml-4">Tài khoản</h3>
             </Menu.Item>
             <Menu.Item>
-              <p className="font-normal text-sm ml-4">Trung</p>
+              <p className="font-normal text-sm ml-4">trung</p>
             </Menu.Item>
             <hr />
             <Menu.Item>
               {({ active }) => (
                 <Link
-                  to="#"
+                  to="/user"
                   className={classNames(
                     active ? "bg-gray-100" : "",
                     "block px-4 py-2 text-sm text-gray-700"
@@ -57,7 +57,7 @@ export default function DropdownAccount() {
             <Menu.Item>
               {({ active }) => (
                 <Link
-                  to="/userdetails"
+                  to="/#"
                   className={classNames(
                     active ? "bg-gray-100" : "",
                     "block px-4 py-2 text-sm text-gray-700"
@@ -75,13 +75,13 @@ export default function DropdownAccount() {
             <Menu.Item>
               {({ active }) => (
                 <Link
-                  to="#"
+                  to="password"
                   className={classNames(
                     active ? "bg-gray-100" : "",
                     "block px-4 py-2 text-sm text-gray-700"
                   )}
                 >
-                  ...
+                  Đổi mật khẩu
                 </Link>
               )}
             </Menu.Item>

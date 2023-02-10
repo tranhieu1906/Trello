@@ -34,8 +34,8 @@ const Navbar = () => {
                   <a href="/">
                     <img
                       style={{
-                        width: "120px",
-                        height: "65px",
+                        width: "110px",
+                        height: "60px",
                         marginRight: "20px",
                       }}
                       className="hidden h-8 w-auto lg:block"

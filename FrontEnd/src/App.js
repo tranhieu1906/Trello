@@ -9,6 +9,8 @@ import Board from "./page/Board";
 import Home from "./page/Home";
 import Login from "./page/Login";
 import SignUp from "./page/SignUp";
+import Password from "./components/other/Password";
+import UserDetail from "./components/other/UserDetail";
 
 function App() {
   const navigate = useNavigate();
@@ -48,6 +50,8 @@ function App() {
           }
         >
           <Route index element={<Home />} />
+          <Route path="password" element={<Password />} />
+          <Route path="user" element={<UserDetail />} />
         </Route>
         <Route
           path="/board/:id"
