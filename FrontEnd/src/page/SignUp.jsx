@@ -84,7 +84,7 @@ function SignUp() {
         <div className="bg-white border flex flex-col gap-2 p-4 pt-10 drop-shadow-md">
           <img src={logo} alt="logo" className="mx-auto mb-2 h-10 w-52" />
           <p className="mx-auto text-slate-400 font-bold text-lg max-w-xs text-center	">
-            Đăng ký tài khoản .
+            Đăng ký tài khoản.
           </p>
           <form
             onSubmit={formik.handleSubmit}
@@ -107,7 +107,7 @@ function SignUp() {
             />
             <TextField
               fullWidth
-              label="Tên đầy đủ"
+              label="Họ và tên"
               name="name"
               value={formik.values.name}
               onChange={formik.handleChange}
@@ -129,7 +129,7 @@ function SignUp() {
               variant="outlined"
             >
               <InputLabel htmlFor="outlined-adornment-password">
-                Mật Khẩu
+                Mật khẩu
               </InputLabel>
               <OutlinedInput
                 name="password"
@@ -179,9 +179,9 @@ function SignUp() {
               type="submit"
               className="bg-primary-blue font-medium py-2 rounded text-white w-full"
             >
-              Đăng Ký
+              Đăng ký
             </button>
-            <span className="my-3 text-gray-500">OR</span>
+            <span className="my-3 text-gray-500"></span>
             <Link
               to="/password/forgot"
               className="text-sm font-medium  text-blue-800"
@@ -193,7 +193,7 @@ function SignUp() {
 
         <div className="bg-white border p-5 text-center drop-shadow-md">
           <span>
-            Bạn đã có tài khoản ?{" "}
+            Bạn đã có tài khoản?{" "}
             <Link to="/login" className="text-primary-blue">
               Đăng nhập
             </Link>

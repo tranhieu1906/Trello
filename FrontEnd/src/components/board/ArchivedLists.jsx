@@ -23,7 +23,7 @@ const ArchivedLists = () => {
           .map((list, index) => (
             <ListItem key={index}>
               <ListItemText primary={list.title} />
-              <Button onClick={() => onSubmit(list._id)}>Send to Board</Button>
+              <Button onClick={() => onSubmit(list._id)}>Gửi tới bảng</Button>
             </ListItem>
           ))}
       </List>

@@ -5,7 +5,7 @@ class BoardController {
   // Thêm bảng
   async createBoard(req, res, next) {
     try {
-      console.log(req.body)
+      console.log(req.body);
       const board = await BoardService.createBoard(req, res);
       res.status(200).json({ board: board });
     } catch (err) {
@@ -26,9 +26,9 @@ class BoardController {
     try {
       const board = await Board.findById(req.params.id)
         .populate("members.user")
-        .populate("lists")
+        .populate("lists");
       if (!board) {
-        return res.status(404).json("Board not found");
+        return res.status(404).json(" Không tìm thấy bảng");
       }
       res.json(board);
     } catch (err) {
@@ -40,7 +40,7 @@ class BoardController {
     try {
       const board = await Board.findById(req.params.boardId);
       if (!board) {
-        return res.status(404).json("Board not found");
+        return res.status(404).json("Không tìm thấy bảng");
       }
       res.json(board.activity);
     } catch (err) {
@@ -52,13 +52,13 @@ class BoardController {
     try {
       const board = await Board.findById(req.params.id);
       if (!board) {
-        return res.status(404).json("Board not found");
+        return res.status(404).json("Không tìm thấy bảng");
       }
 
       if (req.body.title !== board.title) {
         const user = await User.findById(req.user.id);
         board.activity.unshift({
-          text: `${user.name} renamed this board (from '${board.title}')`,
+          text: `${user.name} thay đổi tên bảng này (từ '${board.title}')`,
         });
         board.title = req.body.title;
       }
@@ -76,16 +76,16 @@ class BoardController {
         "members.user"
       );
       if (!board) {
-        return res.status(404).json("board not found");
+        return res.status(404).json("Không tìm thấy bảng");
       }
       const user = await User.findOne({ _id: { $in: req.body } });
       if (!user) {
-        return res.status(404).json("User not found");
+        return res.status(404).json("Không tìm thấy người dùng");
       }
       if (
         board.members.some((m) => m.user._id.toString() === user._id.toString())
       ) {
-        return res.status(400).json("Already member of board");
+        return res.status(400).json("Đã là thành viên của hội đồng quản trị");
       }
 
       user.boards.unshift(board.id);
@@ -93,7 +93,7 @@ class BoardController {
       board.members.push({ user, role: "observer" });
 
       board.activity.unshift({
-        text: `${user.name} joined this board`,
+        text: `${user.name} đã tham gia bảng này`,
       });
 
       await board.save();
@@ -103,34 +103,34 @@ class BoardController {
     }
   }
 
-  async newBoard(req, res,next) {
+  async newBoard(req, res, next) {
     try {
-      let data = await BoardService.newBoard(req)
+      let data = await BoardService.newBoard(req);
       res.status(200).json({
-        board: data
-      })
-    }catch (err) {
+        board: data,
+      });
+    } catch (err) {
       next(err);
     }
   }
 
   async boardDelete(req, res, next) {
     try {
-      let board = await BoardService.getBoardById(req)
+      let board = await BoardService.getBoardById(req);
       if (board) {
         await BoardService.deleteBoard(req);
-        let boards = await BoardService.getUserBoard(req)
+        let boards = await BoardService.getUserBoard(req);
         res.status(200).json({
           success: true,
-          boards: boards
-        })
+          boards: boards,
+        });
       } else {
         res.status(404).json({
           success: false,
-          message: "the comment doesn't exist"
-        })
+          message: "bình luận không tồn tại",
+        });
       }
-    }catch (error) {
+    } catch (error) {
       next(error);
     }
   }
