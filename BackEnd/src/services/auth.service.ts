@@ -1,5 +1,7 @@
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 import { User } from "../models/User";
+import Token from "../middlewares/jwt.middleware";
 
 class AuthService {
   async getUser(req, res) {
@@ -15,6 +17,17 @@ class AuthService {
       password: passwordHash,
     };
     await User.create(userData);
+  }
+
+  async setToken (user) {
+    let payload = {
+      id: user._id,
+      email: user.email,
+      name: user.name,
+      avatar: user.avatar,
+    };
+    const accessToken = await Token.signAccessToken(payload);
+    return accessToken;
   }
 }
 
