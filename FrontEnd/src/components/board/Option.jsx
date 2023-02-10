@@ -16,7 +16,7 @@ export default function PositionedMenu({ boardId, updateBoard }) {
   };
 
   const handleDelete = async (boardId) => {
-    if (window.confirm("bạn đồng ý xóa bảng này ?")) {
+    if (window.confirm("Bạn đồng ý xóa bảng này ?")) {
       let dataBoard = await deleteBoard(boardId);
       if (dataBoard) {
         updateBoard(dataBoard);
@@ -53,9 +53,9 @@ export default function PositionedMenu({ boardId, updateBoard }) {
           horizontal: "left",
         }}
       >
-        <MenuItem onClick={() => handleDelete(boardId)}>xóa bảng</MenuItem>
-        <MenuItem onClick={handleClose}>tạo bảng</MenuItem>
-        <MenuItem onClick={handleClose}>mở bảng</MenuItem>
+        <MenuItem onClick={() => handleDelete(boardId)}>Xóa bảng</MenuItem>
+        <MenuItem onClick={handleClose}>Tạo bảng</MenuItem>
+        <MenuItem onClick={handleClose}>Mở bảng</MenuItem>
       </Menu>
     </div>
   );

@@ -9,7 +9,7 @@ class UserController {
       if (user) {
         res.status(200).json(user);
       } else {
-        res.status(404).json({ message: "the user doesn't exist" });
+        res.status(404).json({ message: "Người dùng không tồn tại" });
       }
     } catch (e) {
       res.status(500).json({ message: e.message });

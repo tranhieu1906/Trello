@@ -45,7 +45,7 @@ function Login() {
       toast.error(error);
     }
     if (userToken && !loading) {
-        navigate('/')
+      navigate("/");
     }
   }, [error, userToken, navigate, loading]);
 
@@ -67,19 +67,24 @@ function Login() {
       )}
       <Auth>
         <div className="bg-white border flex flex-col gap-2 p-4 pt-10 drop-shadow-md">
-          <LazyLoadImage
-            draggable="false"
-            className="mx-auto h-30 w-36 object-contain"
-            src={logo}
-            alt="logo"
-          />
+          <img src={logo} alt="logo" className="mx-auto mb-2 h-10 w-52" />
+          <p className="mx-auto text-slate-400 font-bold text-lg max-w-xs text-center	">
+            Đăng nhập .
+          </p>
+          {/*<div className="bg-white border flex flex-col gap-2 p-4 pt-10 drop-shadow-md">*/}
+          {/*  <LazyLoadImage*/}
+          {/*    draggable="false"*/}
+          {/*    className="mx-auto h-30 w-36 object-contain"*/}
+          {/*    src={logo}*/}
+          {/*    alt="logo"*/}
+          {/*  />*/}
           <form
             onSubmit={formik.handleSubmit}
             className="flex flex-col justify-center items-center gap-3 m-3 md:m-8"
           >
             <TextField
               fullWidth
-              label="Tên người dùng hoặc email"
+              label="Email"
               name="email"
               value={formik.values.email}
               onChange={formik.handleChange}
@@ -102,7 +107,7 @@ function Login() {
               variant="outlined"
             >
               <InputLabel htmlFor="outlined-adornment-password">
-                Mật Khẩu
+                Mật khẩu
               </InputLabel>
               <OutlinedInput
                 name="password"
@@ -136,7 +141,7 @@ function Login() {
               Đăng Nhập
             </button>
             <div className="flex">
-              <span className="my-3 text-gray-500">Hoặc</span>
+              <span className="my-3 text-gray-500"></span>
             </div>
             <Link
               to="/password/forgot"
@@ -149,7 +154,7 @@ function Login() {
 
         <div className="bg-white border p-5 text-center drop-shadow-md">
           <span>
-            Bạn chưa có tài khoản ư?{" "}
+            Bạn chưa có tài khoản?{" "}
             <Link to="/register" className="text-primary-blue">
               Đăng Ký
             </Link>

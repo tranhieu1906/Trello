@@ -91,7 +91,7 @@ const Members = () => {
           variant="contained"
           onClick={() => setInviting(true)}
         >
-          Invite
+          Chia sẻ bảng
         </Button>
       ) : (
         <div>

@@ -153,7 +153,7 @@ const Card = ({ cardId, list, index }) => {
                 fullWidth
                 multiline
                 required
-                label="Edit this card's title"
+                label="Chỉnh sửa tiêu đề của thẻ này"
                 autoFocus
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
@@ -163,7 +163,7 @@ const Card = ({ cardId, list, index }) => {
           </CardMUI>
           <div className=" mt-1">
             <Button type="submit" variant="contained" color="primary">
-              Save
+              Lưu
             </Button>
             <Button
               onClick={() => {

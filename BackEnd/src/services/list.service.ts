@@ -6,7 +6,7 @@ class ListService {
   async getDataList(req, res) {
     const list = await List.findById(req.params.id).populate("cards");
     if (!list) {
-      return res.status(404).json({ msg: "List not found" });
+      return res.status(404).json({ msg: "Danh sách không tìm thấy" });
     }
     return list;
   }
@@ -22,7 +22,7 @@ class ListService {
       {
         $push: {
           lists: list,
-          activity: { text: `${user.name} added '${title}' to this board` },
+          activity: { text: `${user.name} đã thêm '${title}' vào bảng này` },
         },
       },
       { new: true }

@@ -45,7 +45,7 @@ const ListMenu = ({ listId }) => {
             handleClose();
           }}
         >
-          Archive This List
+          Lưu trữ danh sách này
         </MenuItem>
         <MenuItem>
           {/* <MoveList listId={listId} closeMenu={handleClose} /> */}

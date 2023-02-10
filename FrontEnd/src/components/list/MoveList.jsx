@@ -50,14 +50,14 @@ const MoveList = ({ listId, closeMenu }) => {
       <div onClick={() => setOpenDialog(true)}>Move This List</div>
       <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
         <div className="flex">
-          <DialogTitle>{"Move List"}</DialogTitle>
+          <DialogTitle>{"Di chuyển danh sách"}</DialogTitle>
           <Button onClick={() => setOpenDialog(false)}>
             <CloseIcon />
           </Button>
         </div>
         <DialogActions className="flex flex-col">
           <FormControl>
-            <InputLabel shrink>Position</InputLabel>
+            <InputLabel shrink>Chức vụ</InputLabel>
             <Select
               value={position}
               required
@@ -77,7 +77,7 @@ const MoveList = ({ listId, closeMenu }) => {
               className="mt-5"
               onClick={onSubmit}
             >
-              Move List
+              Di chuyển danh sách
             </Button>
           </FormControl>
         </DialogActions>

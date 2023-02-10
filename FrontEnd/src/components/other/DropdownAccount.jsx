@@ -32,26 +32,22 @@ export default function DropdownAccount() {
         <Menu.Items className="absolute right-0 z-10 mt-2 w-80 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
           <div className="py-1">
             <Menu.Item>
-              <h3 className="font-bold ml-4">Account</h3>
+              <h3 className="font-bold ml-4">Tài khoản</h3>
             </Menu.Item>
             <Menu.Item>
-              <p className="font-normal text-base ml-4">{userInfo?.name}</p>
+              <p className="font-normal text-sm ml-4">{userInfo?.name}</p>
             </Menu.Item>
-            <Menu.Item>
-              <p className="font-normal text-base ml-4">
-                {userInfo?.email}
-              </p>
-            </Menu.Item>
+            <hr />
             <Menu.Item>
               {({ active }) => (
                 <Link
                   to="#"
                   className={classNames(
                     active ? "bg-gray-100" : "",
-                    "block px-4 py-2 text-base text-gray-700"
+                    "block px-4 py-2 text-sm text-gray-700"
                   )}
                 >
-                  Switch Account
+                  Quản lý tài khoản
                 </Link>
               )}
             </Menu.Item>
@@ -61,42 +57,10 @@ export default function DropdownAccount() {
                   to="/userdetails"
                   className={classNames(
                     active ? "bg-gray-100" : "",
-                    "block px-4 py-2 text-base text-gray-700"
-                  )}
-                >
-                  Manager Account
-                </Link>
-              )}
-            </Menu.Item>
-          </div>
-          <hr />
-          <div className="py-1">
-            <Menu.Item>
-              <h3 className="font-bold ml-4">Account</h3>
-            </Menu.Item>
-            <Menu.Item>
-              {({ active }) => (
-                <Link
-                  to="#"
-                  className={classNames(
-                    active ? "bg-gray-100" : "",
                     "block px-4 py-2 text-sm text-gray-700"
                   )}
                 >
-                  Switch Account
-                </Link>
-              )}
-            </Menu.Item>
-            <Menu.Item>
-              {({ active }) => (
-                <Link
-                  to="#"
-                  className={classNames(
-                    active ? "bg-gray-100" : "",
-                    "block px-4 py-2 text-sm text-gray-700"
-                  )}
-                >
-                  Manager Account
+                  Hoạt động
                 </Link>
               )}
             </Menu.Item>
@@ -112,7 +76,7 @@ export default function DropdownAccount() {
                     "block px-4 py-2 text-sm text-gray-700"
                   )}
                 >
-                  logout
+                  Đăng xuất
                 </button>
               )}
             </Menu.Item>
