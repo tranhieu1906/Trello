@@ -27,6 +27,7 @@ function Home() {
   const handleClose = () => {
     setOpen(false);
   };
+
   useEffect(() => {
     if (data) dispatch(setCredentials(data));
   }, [data, dispatch]);
@@ -45,6 +46,7 @@ function Home() {
 
   useEffect(() => {
     axios.get("/boards").then((res) => {
+      console.log(userInfo);
       setBoards(res.data);
     });
   }, []);
