@@ -5,7 +5,6 @@ class BoardController {
   // Thêm bảng
   async createBoard(req, res, next) {
     try {
-      console.log(req.body);
       const board = await BoardService.createBoard(req, res);
       res.status(200).json({ board: board });
     } catch (err) {
@@ -75,25 +74,81 @@ class BoardController {
       const board = await Board.findById(req.header("boardId")).populate(
         "members.user"
       );
-      if (!board) {
-        return res.status(404).json("Không tìm thấy bảng");
-      }
-      const user = await User.findOne({ _id: { $in: req.body } });
-      if (!user) {
-        return res.status(404).json("Không tìm thấy người dùng");
-      }
-      if (
-        board.members.some((m) => m.user._id.toString() === user._id.toString())
-      ) {
-        return res.status(400).json("Đã là thành viên của hội đồng quản trị");
-      }
+      if (!board) return res.status(404).json("Không tìm thấy bảng");
 
-      user.boards.unshift(board.id);
-      await user.save();
-      board.members.push({ user, role: "observer" });
+      const users = await User.find({ _id: { $in: req.body } });
+      if (!users) return res.status(404).json("Không tìm thấy người dùng");
 
+      const duplicate = board.members.some(({ user: { _id } }) =>
+        users.some((user) => _id.equals(user._id))
+      );
+
+      if (duplicate) return res.status(409).json("Người dùng đã có trong bảng");
+
+      users.map((user) => {
+        user.boards.unshift(board.id);
+        board.members.push({ user: user, role: "observer" });
+        board.activity.unshift({
+          text: `${user.name} đã tham gia bảng này`,
+        });
+      });
+
+      await Promise.all(users.map((user) => user.save()));
+      await board.save();
+      res.json(board.members);
+    } catch (err) {
+      next(err);
+    }
+  }
+  async removeMember(req, res, next) {
+    try {
+      const board = await Board.findById(req.header("boardId")).populate(
+        "members.user"
+      );
+      if (!board) return res.status(404).json("Bảng không tồn tại");
+
+      const memberIndex = board.members.findIndex(({ user: { _id } }) =>
+        _id.equals(req.params.userId)
+      );
+
+      if (memberIndex === -1)
+        return res.status(404).json("Người dùng không tồn tại");
+
+      const member = board.members[memberIndex];
+      board.members.splice(memberIndex, 1);
+      member.user.boards = member.user.boards.filter(
+        (boardId) => !boardId.equals(board._id)
+      );
       board.activity.unshift({
-        text: `${user.name} đã tham gia bảng này`,
+        text: `${member.user.name} đã rời khỏi bảng này`,
+      });
+
+      await Promise.all([member.user.save(), board.save()]);
+      res.json(board.members);
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async changeRole(req, res, next) {
+    try {
+      const board = await Board.findById(req.header("boardId")).populate(
+        "members.user"
+      );
+      if (!board) return res.status(404).json("Board not found");
+
+      const memberIndex = board.members.findIndex(({ user: { _id } }) =>
+        _id.equals(req.params.userId)
+      );
+      if (memberIndex === -1) return res.status(404).json("Member not found");
+
+      const member = board.members[memberIndex];
+      if (req.body.role === member.role)
+        return res.status(409).json("Role already set");
+
+      member.role = req.body.role;
+      board.activity.unshift({
+        text: `${member.user.name}'s role đã được thay đổi thành ${req.body.role}`,
       });
 
       await board.save();
