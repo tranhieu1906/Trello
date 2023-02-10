@@ -211,5 +211,3 @@ const Members = () => {
 };
 
 export default Members;
-
-// userInfo._id == member.user._id;

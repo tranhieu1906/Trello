@@ -22,17 +22,19 @@ const BoardTitle = ({ board }) => {
   return !editing ? (
     <h2
       className="cursor-pointer text-snow-900 max-w-lg overflow-hidden whitespace-nowrap"
+      style={{ color: "white" }}
       onClick={() => setEditing(true)}
     >
       {board.title}
     </h2>
   ) : (
-    <form className="bg-snow-900" onSubmit={(e) => onSubmit(e)}>
+    <form className="bg-white" onSubmit={(e) => onSubmit(e)}>
       <TextField
         variant="outlined"
         required
         value={title}
         size="small"
+        id="standard-basic"
         onChange={(e) => setTitle(e.target.value)}
       />
     </form>
