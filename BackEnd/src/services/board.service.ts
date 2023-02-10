@@ -62,13 +62,77 @@ class BoardService {
     );
   }
 
-  async getBoardById(req) {
-    let dataBoard = await Board.findOne({ id: req.params.boardId });
-    if (dataBoard) {
-      return dataBoard;
+  async getBoardById(id) {
+    const board = await Board.findById(id)
+      .populate("members.user")
+      .populate("lists");
+    if (board) {
+      return board;
     }
   }
 
-  async renameBoard(req, res) {}
+  async renameBoard(req, res, board) {
+    if (req.body.title !== board.title) {
+      const user = await User.findById(req.user.id);
+      board.activity.unshift({
+        text: `${user.name} thay đổi tên bảng này (từ '${board.title}')`,
+      });
+      board.title = req.body.title;
+    }
+    await board.save();
+  }
+
+  async addMember(users, board) {
+    users.map((user) => {
+      user.boards.unshift(board.id);
+      board.members.push({ user: user, role: "observer" });
+      board.activity.unshift({
+        text: `${user.name} đã tham gia bảng này`,
+      });
+    });
+
+    await Promise.all(users.map((user) => user.save()));
+    await board.save();
+  }
+
+  async removeMember(req, res, board) {
+    const memberIndex = board.members.findIndex(({ user: { _id } }) =>
+      _id.equals(req.params.userId)
+    );
+
+    if (memberIndex === -1)
+      return res.status(404).json("Người dùng không tồn tại");
+
+    const member = board.members[memberIndex];
+    board.members.splice(memberIndex, 1);
+    member.user.boards = member.user.boards.filter(
+      (boardId) => !boardId.equals(board._id)
+    );
+    board.activity.unshift({
+      text: `${member.user.name} đã rời khỏi bảng này`,
+    });
+
+    await Promise.all([member.user.save(), board.save()]);
+    res.json(board.members);
+  }
+
+  async changeRole(req, res, board) {
+    const memberIndex = board.members.findIndex(({ user: { _id } }) =>
+      _id.equals(req.params.userId)
+    );
+    if (memberIndex === -1) return res.status(404).json("Member not found");
+
+    const member = board.members[memberIndex];
+    if (req.body.role === member.role)
+      return res.status(409).json("Role already set");
+
+    member.role = req.body.role;
+    board.activity.unshift({
+      text: `${member.user.name}'s role đã được thay đổi thành ${req.body.role}`,
+    });
+
+    await board.save();
+    res.json(board.members);
+  }
 }
 export default new BoardService();
