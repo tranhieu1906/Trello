@@ -1,10 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getBoards } from "../../../services/board/boardAction";
-import { getBoard } from "../../../services/board/boardAction";
-import { addMember } from "../../../services/board/boardAction";
-import { addList } from "../../../services/board/boardAction";
-import { getList } from "../../../services/board/boardAction";
-import { addCard } from "../../../services/board/boardAction";
+import {
+  addCard,
+  addList,
+  addMember,
+  changeRole,
+  getBoard,
+  getBoards,
+  getList,
+  removeMember,
+} from "../../../services/board/boardAction";
 
 const initialState = {
   boards: [],
@@ -46,6 +50,22 @@ const boardSlice = createSlice({
       state.loading = false;
     },
     [addMember.rejected]: (state, { payload }) => {
+      state.error = payload;
+    },
+    // removeMember
+    [removeMember.fulfilled]: (state, { payload }) => {
+      state.board = { ...state.board, members: payload };
+      state.loading = false;
+    },
+    [removeMember.rejected]: (state, { payload }) => {
+      state.error = payload;
+    },
+    // changeRole
+    [changeRole.fulfilled]: (state, { payload }) => {
+      state.board = { ...state.board, members: payload };
+      state.loading = false;
+    },
+    [changeRole.rejected]: (state, { payload }) => {
       state.error = payload;
     },
     // addList
