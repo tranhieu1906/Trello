@@ -166,7 +166,7 @@ export default function CustomizedHook(props) {
   const [inputValue, setInputValue] = useState("");
 
   const boardMembers = useSelector((state) => state.board.board.members);
-  const {error} = useSelector((state) => state.board);
+  const { error } = useSelector((state) => state.board);
 
   const searchOptions = users.filter((user) =>
     boardMembers.find((boardMember) => boardMember.user === user._id)
@@ -210,9 +210,9 @@ export default function CustomizedHook(props) {
       id.push(i._id);
     });
     dispatch(addMember(id));
-    if (error){
+    if (error) {
       toast.error(error);
-    } else{
+    } else {
       handleClose();
     }
   };

@@ -36,10 +36,10 @@ const ArchivedCards = () => {
                     )
                   }
                 >
-                  Delete Card
+                  Xóa thẻ
                 </Button>
                 <Button onClick={() => onSendBack(card._id)}>
-                  Send to List
+                  Gửi đến danh sách
                 </Button>
               </div>
             </ListItem>

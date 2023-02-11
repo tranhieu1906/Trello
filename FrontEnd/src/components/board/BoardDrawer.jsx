@@ -31,11 +31,12 @@ const BoardDrawer = () => {
   return (
     <div>
       <Button
+        sx={{ width: "200px" }}
         onClick={() => setOpen(true)}
         variant="contained"
         className={open ? "!hidden" : "flex justify-between w-40"}
       >
-        <MoreHorizIcon fontSize="small" /> Show Menu
+        <MoreHorizIcon fontSize="small" /> Hiển thị menu
       </Button>
       <Drawer
         className={open ? "w-80 shrink-0" : "hidden"}
@@ -91,7 +92,7 @@ const BoardDrawer = () => {
                 disabled={activityChunks * 10 > activity.length}
                 onClick={() => setActivityChunks(activityChunks + 1)}
               >
-                View More Activity
+                Xem thêm hoạt động
               </Button>
             </div>
           </div>
@@ -101,7 +102,7 @@ const BoardDrawer = () => {
               <Button onClick={() => setViewingArchivedLists(false)}>
                 <ChevronLeftIcon />
               </Button>
-              <h3>Archived Lists</h3>
+              <h3>Danh sách lưu trữ</h3>
               <Button onClick={handleClose}>
                 <CloseIcon />
               </Button>
@@ -115,7 +116,7 @@ const BoardDrawer = () => {
               <Button onClick={() => setViewingArchivedCards(false)}>
                 <ChevronLeftIcon />
               </Button>
-              <h3>Archived Cards</h3>
+              <h3>Thẻ lưu trữu</h3>
               <Button onClick={handleClose}>
                 <CloseIcon />
               </Button>

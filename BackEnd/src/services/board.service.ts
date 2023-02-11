@@ -1,6 +1,5 @@
 import { Board } from "../models/Board";
 import { User } from "../models/User";
-import UserService from "./user.service";
 class BoardService {
   async createBoard(req, res) {
     const { title, backgroundURL } = req.body;
@@ -15,7 +14,7 @@ class BoardService {
     await user.save();
     board.members.push({ user: user._id, name: user.name });
     board.activity.unshift({
-      text: `${user.name} created this board`,
+      text: `${user.name} đã tạo bảng này`,
     });
     await board.save();
     return board;
@@ -40,7 +39,7 @@ class BoardService {
       role: "admin",
     };
     let activity = {
-      text: `${user.name} created this board`,
+      text: `${user.name} đã tạo bảng này `,
     };
     let newBoard = new Board({
       title: title,

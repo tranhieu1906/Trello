@@ -3,13 +3,14 @@ import React, { Fragment, useEffect } from "react";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { getBoard, moveCard, moveList } from "../services/board/boardAction";
 import BoardDrawer from "../components/board/BoardDrawer";
 import BoardTitle from "../components/board/BoardTitle";
 import CreateList from "../components/board/CreateList";
 import Members from "../components/board/Members";
 import List from "../components/list/List";
 import Navbar from "../components/other/Navbar";
+import { getBoard } from "../services/board/boardAction";
+import { getUser } from "../services/user/userService";
 
 const Board = () => {
   const { board } = useSelector((state) => state.board);
@@ -19,6 +20,7 @@ const Board = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    dispatch(getUser());
     dispatch(getBoard(params.id));
   }, [dispatch, params.id]);
 

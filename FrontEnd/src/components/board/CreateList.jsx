@@ -38,14 +38,14 @@ const CreateList = () => {
           fullWidth
           margin="normal"
           required
-          label="Enter list title"
+          label="Nhập tiêu đề"
           autoFocus
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
         <div>
           <Button type="submit" variant="contained" color="primary">
-            Add List
+            Thêm danh sách
           </Button>
           <Button
             onClick={() => {

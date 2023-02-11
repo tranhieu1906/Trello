@@ -4,11 +4,12 @@ import { User } from "../models/User";
 class UserController {
   async getUser(req, res) {
     try {
-      const user = await UserService.getDataUser(req);
+      const id = req.user.id;
+      const user = await User.findOne({ _id: id });
       if (user) {
         res.status(200).json(user);
       } else {
-        res.status(404).json({ message: "the user doesn't exist" });
+        res.status(404).json({ message: "Người dùng không tồn tại" });
       }
     } catch (e) {
       res.status(500).json({ message: e.message });

@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { useNavigate, Link } from "react-router-dom";
-import CircularProgress from "@mui/material/CircularProgress";
-import { toast } from "react-toastify";
-import { getBoardData } from "../services/board/boardAction";
-import { getBoards } from "../services/board/boardAction";
 import Button from "@mui/material/Button";
+import CircularProgress from "@mui/material/CircularProgress";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 import CreateBoard from "../components/board/CreateBoard";
 import PositionedMenu from "../components/board/Option";
 import { setCredentials } from "../redux/features/auth/authSlice";
@@ -16,21 +14,19 @@ import HttpsIcon from "@mui/icons-material/Https";
 import ListItemText from "@mui/material/ListItemText";
 import Divider from "@mui/material/Divider";
 
+import { getBoards } from "../services/board/boardAction";
+import { getUser } from "../services/user/userService";
+
+
 function Home() {
-  const { userInfo } = useSelector((state) => state.auth);
   const { loading, error } = useSelector((state) => state.board);
   const [open, setOpen] = useState(false);
   const [boards, setBoards] = useState([]);
   const [boardGroups, setBoardGroups] = useState([]);
   const dispatch = useDispatch();
-  const { data } = useGetDetailsQuery("userDetails");
   const handleClose = () => {
     setOpen(false);
   };
-
-  useEffect(() => {
-    if (data) dispatch(setCredentials(data));
-  }, [data, dispatch]);
 
   useEffect(() => {
     if (localStorage.getItem("userToken")) dispatch(getBoards());
@@ -38,7 +34,9 @@ function Home() {
 
   useEffect(() => {
     document.title = "Your Boards | TrelloClone";
-  }, []);
+
+    dispatch(getUser());
+  }, [dispatch]);
 
   const updateBoard = (data) => {
     setBoards(data);
@@ -46,7 +44,6 @@ function Home() {
 
   useEffect(() => {
     axios.get("/boards").then((res) => {
-      console.log(userInfo);
       setBoards(res.data);
     });
   }, []);

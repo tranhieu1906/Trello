@@ -89,7 +89,7 @@ const List = ({ listId, index }) => {
                     variant="contained"
                     onClick={() => setAddingCard(true)}
                   >
-                    + Add a card
+                    + Thêm
                   </Button>
                 </div>
               )}

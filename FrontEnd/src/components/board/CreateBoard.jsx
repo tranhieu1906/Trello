@@ -93,7 +93,8 @@ export default function CreateBoard(props) {
                 loading="lazy"
                 className="object-cover h-52 w-full"
               />
-              <b>background</b>
+              <br />
+              <p>Ảnh nền</p>
               <ImageList
                 sx={{ width: 420, height: 200 }}
                 cols={3}
@@ -115,8 +116,8 @@ export default function CreateBoard(props) {
               <br></br>
               <TextField
                 fullWidth
-                labelId="demo-simple-select-label"
-                label="tiêu đề"
+                labelid="demo-simple-select-label"
+                label="Tiêu đề"
                 onChange={formik.handleChange}
                 name="title"
                 error={!!formik.errors.title && formik.touched.title}
@@ -133,15 +134,15 @@ export default function CreateBoard(props) {
                 <InputLabel id="demo-simple-select-label">Phân loại</InputLabel>
                 <Select
                   name="classify"
-                  labelId="demo-simple-select-label"
+                  labelid="demo-simple-select-label"
                   id="demo-simple-select"
                   value={formik.values.classify}
                   label="classify"
                   onChange={formik.handleChange}
                 >
-                  <MenuItem value="individual">cá nhân</MenuItem>
-                  <MenuItem value="group">nhóm</MenuItem>
-                  <MenuItem value="public">công khai</MenuItem>
+                  <MenuItem value="individual">Cá nhân</MenuItem>
+                  <MenuItem value="group">Nhóm</MenuItem>
+                  <MenuItem value="public">Công khai</MenuItem>
                 </Select>
               </FormControl>
               <br />
@@ -165,7 +166,7 @@ export default function CreateBoard(props) {
                 disableElevation
                 onClick={formik.handleSubmit}
               >
-                tạo mới
+                Tạo mới
               </Button>
             </Box>
           </form>
