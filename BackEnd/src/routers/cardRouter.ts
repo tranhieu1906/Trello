@@ -8,4 +8,5 @@ cardRoutes.put("/:id/update", CardController.cardUpdate);
 cardRoutes.delete("/:id/delete", CardController.cardDelete);
 cardRoutes.get("/:id/data", CardController.getOneCard)
 cardRoutes.get("/list/:id", CardController.getCards)
+cardRoutes.patch("/move/:id", CardController.moveCards);
 export default cardRoutes;

@@ -71,6 +71,52 @@ class CardService {
     const card = await Card.findById(req.params.id);
     return card;
   }
+  async moveCard(req, res) {
+    const { fromId, toId, toIndex } = req.body;
+    const boardId = req.header("boardId");
+
+    const cardId = req.params.id;
+    const from = await List.findById(fromId).populate("cards");
+    let to = await List.findById(toId);
+    if (!cardId || !from || !to) {
+      return res.status(404).json("List/card không tồn tại");
+    } else if (fromId === toId) {
+      to = from;
+    }
+
+    const fromIndex = from.cards.indexOf(cardId);
+    if (fromIndex !== -1) {
+      from.cards.splice(fromIndex, 1);
+      await from.save();
+    }
+
+    if (!to.cards.includes(cardId)) {
+      if (toIndex === 0 || toIndex) {
+        to.cards.splice(toIndex, 0, cardId);
+      } else {
+        to.cards.push(cardId);
+      }
+      await to.save();
+    }
+
+    if (fromId !== toId) {
+      const user = await User.findById(req.user.id);
+      const board = await Board.findById(boardId).populate({
+        path: "activity",
+        populate: {
+          path: "user",
+          select: "name",
+        },
+      });
+      const card = await Card.findById(cardId);
+      board.activity.unshift({
+        text: `${user.name} di chuyển '${card.title}' từ '${from.title}' tới '${to.title}'`,
+        user,
+      });
+      await board.save();
+    }
+    return { cardId, from, to };
+  }
 }
 
 export default new CardService();

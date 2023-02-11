@@ -73,5 +73,16 @@ class CardController {
       });
     }
   }
+  async moveCards(req, res) {
+    try {
+      let card = await CardService.moveCard(req, res);
+      res.json(card);
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: error.message,
+      });
+    }
+  }
 }
 export default new CardController();

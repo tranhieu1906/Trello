@@ -188,3 +188,19 @@ export const moveList = createAsyncThunk(
     }
   }
 );
+export const moveCard = createAsyncThunk(
+  "board/moveCard",
+  async (data, { rejectWithValue }) => {
+    const { cardId, formData } = data;
+    try {
+      const { data } = await axios.patch(`/card/move/${cardId}`, formData);
+      return data;
+    } catch (error) {
+      if (error.response && error.response.data) {
+        return rejectWithValue(error.response.data);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);
