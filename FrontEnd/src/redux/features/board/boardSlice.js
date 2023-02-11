@@ -8,6 +8,7 @@ import {
   getBoards,
   getList,
   removeMember,
+  moveList,
 } from "../../../services/board/boardAction";
 
 const initialState = {
@@ -105,6 +106,17 @@ const boardSlice = createSlice({
       state.loading = false;
     },
     [getList.rejected]: (state, { payload }) => {
+      state.error = payload;
+    },
+    // moveList
+    [moveList.pending]: (state) => {
+      state.loading = true;
+    },
+    [moveList.fulfilled]: (state, { payload }) => {
+      state.board = { ...state.board, lists: payload };
+      state.loading = false;
+    },
+    [moveList.rejected]: (state, { payload }) => {
       state.error = payload;
     },
   },

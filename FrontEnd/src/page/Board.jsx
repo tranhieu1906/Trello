@@ -10,7 +10,7 @@ import CreateList from "../components/board/CreateList";
 import Members from "../components/board/Members";
 import List from "../components/list/List";
 import Navbar from "../components/other/Navbar";
-import { getBoard } from "../services/board/boardAction";
+import { getBoard, moveList } from "../services/board/boardAction";
 import { getUser } from "../services/user/userService";
 
 const Board = () => {
@@ -33,7 +33,13 @@ const Board = () => {
   }, [error]);
 
   const onDragEnd = (result) => {
-    
+    const { source, destination, draggableId, type } = result;
+    if (!destination) {
+      return;
+    }
+    if (type === "list") {
+      dispatch(moveList({ listId: draggableId, toIndex: destination.index }));
+    }
   };
 
   return !board ? (

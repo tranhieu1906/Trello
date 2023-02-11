@@ -1,6 +1,10 @@
 import axios from "../../api/axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-
+const config = {
+  headers: {
+    "Content-Type": "application/json",
+  },
+};
 export const getBoards = createAsyncThunk(
   "board/getBoards",
   async (data, { rejectWithValue }) => {
@@ -165,3 +169,22 @@ export const getBoardData = async () => {
     return error;
   }
 };
+export const moveList = createAsyncThunk(
+  "board/moveList",
+  async (data, { rejectWithValue }) => {
+    const { listId, toIndex } = data;
+    try {
+      const { data } = await axios.patch(
+        `/lists/move/${listId}`,
+        toIndex,
+      );
+      return data;
+    } catch (error) {
+      if (error.response && error.response.data) {
+        return rejectWithValue(error.response.data);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);
