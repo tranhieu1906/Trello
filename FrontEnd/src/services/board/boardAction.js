@@ -1,10 +1,5 @@
 import axios from "../../api/axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-const config = {
-  headers: {
-    "Content-Type": "application/json",
-  },
-};
 export const getBoards = createAsyncThunk(
   "board/getBoards",
   async (data, { rejectWithValue }) => {

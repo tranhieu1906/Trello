@@ -9,7 +9,8 @@ import {
   getList,
   removeMember,
   moveList,
-  moveCard
+  moveCard,
+  getCard,
 } from "../../../services/board/boardAction";
 
 const initialState = {
@@ -127,13 +128,19 @@ const boardSlice = createSlice({
     [moveCard.fulfilled]: (state, { payload }) => {
       state.board = {
         ...state.board,
-        lists: state.board.lists.map((list) =>
-          list._id === payload.from._id
-            ? payload.from
-            : list._id === payload.to._id
-            ? payload.to
-            : list
-        ),
+        lists: state.board.lists.map((list) => {
+          const filteredList = list.cards.filter(
+            (card) =>
+              card._id !== payload.cardId ||
+              payload.toList._id === payload.fromList._id
+          );
+
+          return list._id === payload.fromList._id
+            ? payload.fromList
+            : list._id === payload.toList._id
+            ? payload.toList
+            : filteredList;
+        }),
       };
       state.loading = false;
     },

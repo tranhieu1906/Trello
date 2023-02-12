@@ -76,10 +76,10 @@ class CardService {
     const boardId = req.header("boardId");
 
     const cardId = req.params.id;
-    const from = await List.findById(fromId).populate("cards");
+    const from = await List.findById(fromId);
     let to = await List.findById(toId);
     if (!cardId || !from || !to) {
-      return res.status(404).json("List/card không tồn tại");
+      return res.status(404).json({ msg: "List/card không tồn tại" });
     } else if (fromId === toId) {
       to = from;
     }
@@ -98,24 +98,18 @@ class CardService {
       }
       await to.save();
     }
-
     if (fromId !== toId) {
       const user = await User.findById(req.user.id);
-      const board = await Board.findById(boardId).populate({
-        path: "activity",
-        populate: {
-          path: "user",
-          select: "name",
-        },
-      });
+      const board = await Board.findById(boardId);
       const card = await Card.findById(cardId);
       board.activity.unshift({
         text: `${user.name} di chuyển '${card.title}' từ '${from.title}' tới '${to.title}'`,
-        user,
       });
       await board.save();
     }
-    return { cardId, from, to };
+    const fromList = await List.findById(fromId).populate("cards");
+    let toList = await List.findById(toId).populate("cards");
+    return { cardId, fromList, toList };
   }
 }
 
