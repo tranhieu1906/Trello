@@ -28,7 +28,7 @@ export class AuthController {
           user.password
         );
         if (!comparePass) {
-          return res.status(401).json({ message: "Mật khẩu không chính xác" });
+          return res.status(401).json({ message: "Mật khẩu không chính xác!" });
         }
         let payload = {
           id: user._id,

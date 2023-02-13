@@ -57,6 +57,7 @@ function SignUp() {
       toast.error(error);
     }
     if (success) {
+      toast.success("Đăng ký thành công!");
       navigate("/login");
     }
     if (userInfo) {
@@ -148,7 +149,7 @@ function SignUp() {
                     </IconButton>
                   </InputAdornment>
                 }
-                label="Password"
+                label="PasswordChange"
               />
               <PasswordStrengthBar
                 password={formik.values.password}

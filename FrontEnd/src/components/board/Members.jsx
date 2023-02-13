@@ -1,20 +1,21 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
 import CloseIcon from "@mui/icons-material/Close";
 import { Button } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import AvatarGroup from "@mui/material/AvatarGroup";
+import Box from "@mui/material/Box";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
+import FormControl from "@mui/material/FormControl";
 import IconButton from "@mui/material/IconButton";
-import Tooltip from "@mui/material/Tooltip";
-import Typography from "@mui/material/Typography";
+import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
-import FormControl from "@mui/material/FormControl";
-import Box from "@mui/material/Box";
-import InputLabel from "@mui/material/InputLabel";
+import Tooltip from "@mui/material/Tooltip";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { removeMember } from "../../services/board/boardAction";
+import { changeRole } from "../../services/board/boardAction";
 
 import { styled } from "@mui/material/styles";
 import CustomizedHook from "./Autocomplete";
@@ -51,10 +52,19 @@ function BootstrapDialogTitle(props) {
   );
 }
 const Members = () => {
+  const dispatch = useDispatch();
   const [inviting, setInviting] = useState(false);
   const { userInfo } = useSelector((state) => state.auth);
 
   const { members } = useSelector((state) => state.board.board);
+  const [roleMeberLoginInBoard, setRoleMeberLoginInBoard] = useState();
+
+  useEffect(() => {
+    let userLoginInMember = members.filter(
+      (member) => member.user._id === userInfo._id
+    );
+    setRoleMeberLoginInBoard(userLoginInMember[0].role);
+  }, []);
 
   const handleClose = () => {
     setInviting(false);
@@ -64,11 +74,20 @@ const Members = () => {
     let initials = name.match(/\b\w/g) || [];
     return ((initials.shift() || "") + (initials.pop() || "")).toUpperCase();
   };
-  const handleOut = () => {
-    if (window.confirm("asdna")) {
+  const handleOut = (id) => {
+    if (roleMeberLoginInBoard === "admin") {
+      if (window.confirm("Bạn có muốn xóa người dùng này ra khỏi bảng !")) {
+        dispatch(removeMember(id));
+      }
+    } else {
+      if (window.confirm("Bạn có muốn rơì khỏi bảng này !")) {
+        dispatch(removeMember(id));
+      }
     }
   };
-  const handleChange = (event) => {};
+  const handleChange = (data) => {
+    dispatch(changeRole(data));
+  };
 
   return (
     <div className="flex flex-wrap my-0 mx-5 gap-4">
@@ -106,49 +125,73 @@ const Members = () => {
             >
               Chia sẻ bảng
             </BootstrapDialogTitle>
-            <DialogContent dividers>
+            <DialogContent dividers style={{ minHeight: "300px" }}>
               <div className="flex gap-2 items-center">
                 <CustomizedHook handleClose={handleClose} />
               </div>
               <div>
                 {members.map((member) => (
-                  <div className="flex items-center" key={member.user._id}>
+                  <div className="flex items-center mt-3" key={member.user._id}>
                     <Avatar className="mr-2 cursor-default bg-white my-3">
                       {getInitials(member.user.name)}
                     </Avatar>
-                    <div className="flex flex-col">
+                    <div
+                      className="flex flex-col"
+                      style={{ minWidth: "300px" }}
+                    >
                       <span>{member.user.name}</span>
                       <span>{member.user.email}</span>
                     </div>
                     <div className="ml-4">
-                      <Box sx={{ minWidth: 120 }}>
+                      <Box sx={{ minWidth: 200 }}>
                         <FormControl fullWidth>
                           <InputLabel id="demo-simple-select-label">
                             Vai trò
                           </InputLabel>
                           <Select
-                            labelId="demo-simple-select-label"
+                            labelid="demo-simple-select-label"
                             id="demo-simple-select"
                             value={member.role}
                             label="Vai trò"
-                            onChange={handleChange}
+                            onChange={(e) =>
+                              handleChange({
+                                userId: member.user._id,
+                                role: e.target.value,
+                              })
+                            }
                           >
-                            <MenuItem value={"admin"}>Quản trị viên</MenuItem>
-                            <MenuItem value={"observer"}>
-                              Quan sát viên
+                            <MenuItem
+                              disabled={roleMeberLoginInBoard === "observer"}
+                              value={"admin"}
+                            >
+                              Quản trị viên
                             </MenuItem>
-                            {member.role === "admin" ? (
+                            <MenuItem
+                              disabled={
+                                roleMeberLoginInBoard === "observer" ||
+                                (roleMeberLoginInBoard === "admin" &&
+                                  member.user._id === userInfo._id)
+                              }
+                              value={"observer"}
+                            >
+                              Thành viên
+                            </MenuItem>
+
+                            {roleMeberLoginInBoard === "observer" ? (
                               <MenuItem
-                                onClick={handleOut}
-                                disabled={
-                                  userInfo._id !== member.user._id ||
-                                  member.role === "admin"
-                                }
+                                onClick={() => handleOut(member.user._id)}
+                                disabled={member.user._id !== userInfo._id}
                               >
                                 Rời khỏi bảng
                               </MenuItem>
                             ) : (
-                              <MenuItem onClick={handleOut}>
+                              <MenuItem
+                                onClick={() => handleOut(member.user._id)}
+                                disabled={
+                                  roleMeberLoginInBoard === "admin" &&
+                                  member.user._id === userInfo._id
+                                }
+                              >
                                 Xóa khỏi bảng
                               </MenuItem>
                             )}
@@ -168,3 +211,5 @@ const Members = () => {
 };
 
 export default Members;
+
+// userInfo._id == member.user._id;

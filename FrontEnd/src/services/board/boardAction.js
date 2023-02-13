@@ -40,7 +40,37 @@ export const addMember = createAsyncThunk(
   "board/addMember",
   async (userId, { rejectWithValue }) => {
     try {
-      const { data } = await axios.put("/boards/addMember", userId);
+      const { data } = await axios.post("/boards/member", userId);
+      return data;
+    } catch (error) {
+      if (error.response && error.response.data) {
+        return rejectWithValue(error.response.data);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);
+export const removeMember = createAsyncThunk(
+  "board/removeMember",
+  async (userId, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.delete(`/boards/member/${userId}`);
+      return data;
+    } catch (error) {
+      if (error.response && error.response.data) {
+        return rejectWithValue(error.response.data);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);
+export const changeRole = createAsyncThunk(
+  "board/changeRole",
+  async ({ userId, role }, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.put(`/boards/member/${userId}`, { role });
       return data;
     } catch (error) {
       if (error.response && error.response.data) {

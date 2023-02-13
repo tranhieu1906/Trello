@@ -9,8 +9,9 @@ import Board from "./page/Board";
 import Home from "./page/Home";
 import Login from "./page/Login";
 import SignUp from "./page/SignUp";
-import Password from "./components/other/Password";
+import PasswordChange from "./components/other/PasswordChange";
 import UserDetail from "./components/other/UserDetail";
+import LayoutUser from "./components/Layout/LayoutUser";
 
 function App() {
   const navigate = useNavigate();
@@ -50,7 +51,19 @@ function App() {
           }
         >
           <Route index element={<Home />} />
-          <Route path="password" element={<Password />} />
+          {/*<Route path="password" element={<PasswordChange />} />*/}
+          {/*<Route path="user" element={<UserDetail />} />*/}
+        </Route>
+        <Route
+          path="/manager-profile"
+          element={
+            <PrivateRoute>
+              <LayoutUser />
+            </PrivateRoute>
+          }
+        >
+          <Route index element={<UserDetail />} />
+          <Route path="password" element={<PasswordChange />} />
           <Route path="user" element={<UserDetail />} />
         </Route>
         <Route

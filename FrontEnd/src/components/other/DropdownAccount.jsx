@@ -1,6 +1,7 @@
 import { Fragment } from "react";
+
 import { Menu, Transition } from "@headlessui/react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { logout } from "../../redux/features/auth/authSlice";
 
@@ -10,17 +11,13 @@ function classNames(...classes) {
 
 export default function DropdownAccount() {
   const dispatch = useDispatch();
-
+  const { userInfo } = useSelector((state) => state.auth);
   return (
     <Menu as="div" className="relative ml-3">
       <div>
         <Menu.Button className="flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
           <span className="sr-only">Open user menu</span>
-          <img
-            className="h-8 w-8 rounded-full"
-            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-            alt=""
-          />
+          <img className="h-8 w-8 rounded-full" src={userInfo?.avatar} alt="" />
         </Menu.Button>
       </div>
       <Transition
@@ -38,13 +35,13 @@ export default function DropdownAccount() {
               <h3 className="font-bold ml-4">Tài khoản</h3>
             </Menu.Item>
             <Menu.Item>
-              <p className="font-normal text-sm ml-4">trung</p>
+              <p className="font-normal text-sm ml-4">{userInfo?.name}</p>
             </Menu.Item>
             <hr />
             <Menu.Item>
               {({ active }) => (
                 <Link
-                  to="/user"
+                  to="/manager-profile"
                   className={classNames(
                     active ? "bg-gray-100" : "",
                     "block px-4 py-2 text-sm text-gray-700"
@@ -106,8 +103,8 @@ export default function DropdownAccount() {
                 <button
                   onClick={() => dispatch(logout())}
                   className={classNames(
-                    active ? "bg-gray-100" : "",
-                    "block px-4 py-2 text-sm text-gray-700"
+                    active ? "bg-gray-100 w-full" : "",
+                    "block px-4 py-2 text-sm text-gray-700 w-full"
                   )}
                 >
                   Đăng xuất

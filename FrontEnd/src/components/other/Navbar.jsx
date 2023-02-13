@@ -46,7 +46,7 @@ const Navbar = () => {
                 </div>
                 <div
                   style={{ marginTop: "15px " }}
-                  sclassName="hidden sm:ml-6 sm:block"
+                  className="hidden sm:ml-6 sm:block"
                 >
                   <div className="flex space-x-4">
                     <Dropdown icon={true} name={"Các không gian làm việc"} />
