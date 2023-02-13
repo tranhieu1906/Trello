@@ -167,7 +167,8 @@ export default function CustomizedHook(props) {
 
   const boardMembers = useSelector((state) => state.board.board.members);
   const { error } = useSelector((state) => state.board);
-
+  const { socket } = useSelector((state) => state.auth);
+  console.log(socket);
   const searchOptions = users.filter((user) =>
     boardMembers.find((boardMember) => boardMember.user === user._id)
       ? false

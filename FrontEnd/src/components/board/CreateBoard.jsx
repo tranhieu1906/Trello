@@ -120,7 +120,7 @@ export default function CreateBoard(props) {
                 label="Tiêu đề"
                 onChange={formik.handleChange}
                 name="title"
-                error={!!formik.errors.title && formik.touched.title}
+                error={formik.errors.title && formik.touched.title}
                 value={formik.values.title}
                 helperText={
                   formik.errors.title && formik.touched.title

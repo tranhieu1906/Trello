@@ -5,6 +5,8 @@ var bodyParser = require("body-parser");
 import { ConnectDatabase } from "./src/configs/connectDatabase";
 import route from "./src/routers/index.router";
 import { Server } from "socket.io";
+const setupSocket = require("./src/realTimeHandle/operatingStatus.realTime");
+const NotificationRealTime = require("./src/realTimeHandle/notification.realTime");
 dotenv.config();
 ConnectDatabase.connect();
 
@@ -39,5 +41,8 @@ const io = new Server(server, {
   },
 });
 
-const onConnection = (socket) => {};
+const onConnection = (socket) => {
+  setupSocket(io, socket);
+  NotificationRealTime(io, socket);
+};
 io.on("connection", onConnection);

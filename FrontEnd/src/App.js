@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "./App.css";
@@ -18,6 +18,7 @@ function App() {
         "Bearer " + localStorage.getItem("userToken");
     }
   }, [navigate]);
+
   if (localStorage.getItem("userToken")) {
     axios.defaults.headers.common["Authorization"] =
       "Bearer " + localStorage.getItem("userToken");

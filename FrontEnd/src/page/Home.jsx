@@ -6,20 +6,14 @@ import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import CreateBoard from "../components/board/CreateBoard";
 import PositionedMenu from "../components/board/Option";
-import { setCredentials } from "../redux/features/auth/authSlice";
-import { useGetDetailsQuery } from "../services/auth/authService";
 import axios from "../api/axios";
-import { Avatar, ListItem } from "@mui/material";
-import HttpsIcon from "@mui/icons-material/Https";
-import ListItemText from "@mui/material/ListItemText";
 import Divider from "@mui/material/Divider";
-
 import { getBoards } from "../services/board/boardAction";
 import { getUser } from "../services/user/userService";
 
-
 function Home() {
   const { loading, error } = useSelector((state) => state.board);
+  const { socket, userInfo } = useSelector((state) => state.auth);
   const [open, setOpen] = useState(false);
   const [boards, setBoards] = useState([]);
   const [boardGroups, setBoardGroups] = useState([]);
@@ -27,6 +21,12 @@ function Home() {
   const handleClose = () => {
     setOpen(false);
   };
+
+  useEffect(() => {
+    if (userInfo !== null) {
+      socket?.emit("setup", userInfo);
+    }
+  }, [userInfo]);
 
   useEffect(() => {
     if (localStorage.getItem("userToken")) dispatch(getBoards());

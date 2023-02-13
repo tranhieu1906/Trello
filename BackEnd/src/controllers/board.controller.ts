@@ -1,6 +1,7 @@
 import { Board } from "../models/Board";
 import { User } from "../models/User";
 import BoardService from "../services/board.service";
+import NotificationService from "../services/notification.service";
 class BoardController {
   // Thêm bảng
   async createBoard(req, res, next) {
@@ -75,7 +76,6 @@ class BoardController {
         "members.user"
       );
       if (!board) return res.status(404).json("Không tìm thấy bảng");
-
       const users = await User.find({ _id: { $in: req.body } });
       if (!users) return res.status(404).json("Không tìm thấy người dùng");
 
@@ -92,9 +92,9 @@ class BoardController {
           text: `${user.name} đã tham gia bảng này`,
         });
       });
-
       await Promise.all(users.map((user) => user.save()));
       await board.save();
+      await NotificationService.addNotification(req);
       res.json(board.members);
     } catch (err) {
       next(err);
