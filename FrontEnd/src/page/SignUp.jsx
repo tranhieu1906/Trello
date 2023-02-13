@@ -37,7 +37,7 @@ function SignUp() {
       password: "",
     },
     validationSchema: Yup.object({
-      name: Yup.string().required("Không được để trống").min(4, "Tên quá ngắn"),
+      name: Yup.string().required("Không được để trống"),
       email: Yup.string()
         .required("Không được để trống")
         .email("Vui lòng nhập đúng định dạng Email"),
@@ -59,6 +59,7 @@ function SignUp() {
     if (success) {
       toast.success("Đăng ký thành công!");
       navigate("/login");
+      toast.success("Đăng ký tài khoản thành công");
     }
     if (userInfo) {
       navigate("/");
@@ -165,17 +166,6 @@ function SignUp() {
                 </FormHelperText>
               ) : null}
             </FormControl>
-
-            <p className="mx-auto max-w-xs text-center text-xs text-slate-400">
-              Những người dùng dịch vụ của chúng tôi có thể đã tải thông tin
-              liên hệ của bạn lên Instagram.{" "}
-              <a
-                href="https://www.facebook.com/help/instagram/261704639352628"
-                className="text-blue-400"
-              >
-                Tìm hiểu thêm
-              </a>
-            </p>
             <button
               type="submit"
               className="bg-primary-blue font-medium py-2 rounded text-white w-full"

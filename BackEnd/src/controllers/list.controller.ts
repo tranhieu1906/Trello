@@ -1,5 +1,5 @@
+import { Board } from "../models/Board";
 import ListService from "../services/list.service";
-import CommentService from "../services/comment.service";
 
 class ListController {
   async getlist(req, res) {
@@ -43,6 +43,35 @@ class ListController {
       res.status(200).json({ listUpdate });
     } catch (e) {
       res.status(500).json({ message: e.message });
+    }
+  }
+  async moveList(req, res) {
+    try {
+      const toIndex = Object.keys(req.body)[0] || 0;
+      const boardId = req.header("boardId");
+      const board = await Board.findById(boardId);
+      const listId = req.params.idList;
+      if (!listId) {
+        return res.status(404).json("List không tồn tại");
+      }
+
+      const listIndex = board.lists.indexOf(listId);
+      if (listIndex === -1) {
+        return res.status(400).json("List không có trong bảng");
+      }
+
+      board.lists.splice(listIndex, 1);
+      board.lists.splice(toIndex, 0, listId);
+      await board.save();
+      const newBoard = await Board.findById(boardId).populate({
+        path: "lists",
+        populate: {
+          path: "cards",
+        },
+      });
+      res.status(200).json(newBoard.lists);
+    } catch (e) {
+      res.status(500).json(e.message);
     }
   }
 }

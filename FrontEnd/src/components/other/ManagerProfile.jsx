@@ -1,6 +1,6 @@
 import Box from "@mui/material/Box";
 
-export default function UserDetail() {
+export default function ManagerProfile() {
   return (
     <Box
       sx={{

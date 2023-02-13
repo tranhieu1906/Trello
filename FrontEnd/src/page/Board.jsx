@@ -2,22 +2,21 @@ import { Box, CircularProgress } from "@mui/material";
 import React, { Fragment, useEffect } from "react";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 import BoardDrawer from "../components/board/BoardDrawer";
 import BoardTitle from "../components/board/BoardTitle";
 import CreateList from "../components/board/CreateList";
 import Members from "../components/board/Members";
 import List from "../components/list/List";
 import Navbar from "../components/other/Navbar";
-import { getBoard } from "../services/board/boardAction";
+import { getBoard, moveList } from "../services/board/boardAction";
 import { getUser } from "../services/user/userService";
 
 const Board = () => {
-  const { board } = useSelector((state) => state.board);
+  const { board, error } = useSelector((state) => state.board);
   const params = useParams();
-  const { isAuthenticated } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(getUser());
@@ -27,22 +26,19 @@ const Board = () => {
   useEffect(() => {
     if (board?.title) document.title = board.title + " | Trello";
   }, [board?.title]);
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+    }
+  }, [error]);
 
   const onDragEnd = (result) => {
     const { source, destination, draggableId, type } = result;
     if (!destination) {
       return;
     }
-    if (type === "card") {
-      // dispatch(
-      //   moveCard(draggableId, {
-      //     fromId: source.droppableId,
-      //     toId: destination.droppableId,
-      //     toIndex: destination.index,
-      //   })
-      // );
-    } else {
-      // dispatch(moveList(draggableId, { toIndex: destination.index }));
+    if (type === "list") {
+      dispatch(moveList({ listId: draggableId, toIndex: destination.index }));
     }
   };
 
@@ -68,7 +64,7 @@ const Board = () => {
       <Navbar />
       <section className="board">
         <div className="board-top">
-          <div className="board-top-left">
+          <div className="board-top-left items-center">
             <BoardTitle board={board} />
             <Members />
           </div>

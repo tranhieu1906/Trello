@@ -5,7 +5,7 @@ import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import Navbar from "../other/Navbar";
-import SidebarUser from "../other/SidebarUser";
+import SidebarManagerProfile from "../other/SidebarManagerProfile";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -15,7 +15,7 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-export default function LayoutUser() {
+export default function LayoutManagerProfie() {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid container>
@@ -23,7 +23,7 @@ export default function LayoutUser() {
           <Navbar />
         </Grid>
         <Grid item xs={2}>
-          <SidebarUser />
+          <SidebarManagerProfile />
         </Grid>
         <Grid item xs={10}>
           <Item>

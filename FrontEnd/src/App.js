@@ -10,8 +10,8 @@ import Home from "./page/Home";
 import Login from "./page/Login";
 import SignUp from "./page/SignUp";
 import PasswordChange from "./components/other/PasswordChange";
-import UserDetail from "./components/other/UserDetail";
-import LayoutUser from "./components/Layout/LayoutUser";
+import ManagerProfile from "./components/other/ManagerProfile";
+import LayoutManagerProfie from "./components/Layout/LayoutManagerProfie";
 
 function App() {
   const navigate = useNavigate();
@@ -52,19 +52,19 @@ function App() {
         >
           <Route index element={<Home />} />
           {/*<Route path="password" element={<PasswordChange />} />*/}
-          {/*<Route path="user" element={<UserDetail />} />*/}
+          {/*<Route path="user" element={<ManagerProfile />} />*/}
         </Route>
         <Route
           path="/manager-profile"
           element={
             <PrivateRoute>
-              <LayoutUser />
+              <LayoutManagerProfie />
             </PrivateRoute>
           }
         >
-          <Route index element={<UserDetail />} />
+          <Route index element={<ManagerProfile />} />
           <Route path="password" element={<PasswordChange />} />
-          <Route path="user" element={<UserDetail />} />
+          <Route path="user" element={<ManagerProfile />} />
         </Route>
         <Route
           path="/board/:id"

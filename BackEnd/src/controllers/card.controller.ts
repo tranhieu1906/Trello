@@ -61,7 +61,7 @@ class CardController {
     try {
       let card = await CardService.getCardByList(req);
       if (!card) {
-        return res.status(404).json({ msg: "Thẻ không tìm thấy" });
+        return res.status(404).json("Thẻ không tìm thấy");
       }
       res.status(200).json({
         card,

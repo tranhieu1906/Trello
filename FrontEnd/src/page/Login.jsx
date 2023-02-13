@@ -12,7 +12,6 @@ import {
 import FormHelperText from "@mui/material/FormHelperText";
 import { useFormik } from "formik";
 import React, { useEffect, useState } from "react";
-import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -46,6 +45,7 @@ function Login() {
     }
     if (userToken && !loading) {
       navigate("/");
+      toast.success("Đăng nhập thành công");
     }
   }, [error, userToken, navigate, loading]);
 

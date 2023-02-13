@@ -1,7 +1,7 @@
-import jwt from "jsonwebtoken";
+
 import bcrypt from "bcrypt";
 import AuthService from "../services/auth.service";
-import Token from "../middlewares/jwt.middleware";
+
 
 export class AuthController {
   async register(req, res) {
@@ -21,7 +21,6 @@ export class AuthController {
   async login(req, res) {
     try {
       const user = await AuthService.getUser(req, res);
-
       if (user) {
         const comparePass = await bcrypt.compare(
           req.body.password,
@@ -30,13 +29,8 @@ export class AuthController {
         if (!comparePass) {
           return res.status(401).json({ message: "Mật khẩu không chính xác!" });
         }
-        let payload = {
-          id: user._id,
-          email: user.email,
-          name: user.name,
-          avatar: user.avatar,
-        };
-        const accessToken = await Token.signAccessToken(payload);
+        const accessToken = await AuthService.setToken(user);
+        console.log(accessToken)
         res.status(200).json({
           userToken: accessToken,
           user,
