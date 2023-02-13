@@ -9,7 +9,7 @@ import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { addMember } from "../../services/board/boardAction";
-
+import { notificationAddMember } from "../../services/notification/notificationService.js";
 import axios from "../../api/axios";
 
 const Root = styled("div")(
@@ -159,16 +159,15 @@ const Listbox = styled("ul")(
 );
 
 export default function CustomizedHook(props) {
-  const { handleClose } = props;
+  const { handleClose, membersInBoard } = props;
   const dispatch = useDispatch();
 
   const [users, setUsers] = useState([]);
   const [inputValue, setInputValue] = useState("");
 
   const boardMembers = useSelector((state) => state.board.board.members);
-  const { error } = useSelector((state) => state.board);
-  const { socket } = useSelector((state) => state.auth);
-  console.log(socket);
+  const { error, board } = useSelector((state) => state.board);
+  const { socket, userInfo } = useSelector((state) => state.auth);
   const searchOptions = users.filter((user) =>
     boardMembers.find((boardMember) => boardMember.user === user._id)
       ? false
@@ -207,14 +206,28 @@ export default function CustomizedHook(props) {
   }, [value]);
   const onSubmit = async () => {
     let id = [];
+    let userExists = [];
     value.forEach((i) => {
-      id.push(i._id);
+      let check = membersInBoard.some((member) => member.user._id === i._id);
+      if (check) {
+        userExists.push(i);
+      } else {
+        id.push(i._id);
+      }
     });
-    dispatch(addMember(id));
-    if (error) {
-      toast.error(error);
+    if (userExists.length > 0) {
+      let message = "";
+      userExists.forEach((user) => (message += `${user.email}, `));
+      toast.error(`Người dùng : ${message} đã có sẵn trong bảng!`);
     } else {
-      handleClose();
+      await notificationAddMember(id, board, userInfo);
+      dispatch(addMember(id));
+      if (error) {
+        toast.error(error);
+      }
+
+      toast.success("Thêm người dùng vào bảng thành công");
+      // handleClose();
     }
   };
   return (

@@ -14,7 +14,7 @@ const notificationSchema = new Schema(
       ref: "User",
     },
 
-    Content: {
+    content: {
       required: true,
       type: String,
     },

@@ -6,7 +6,7 @@ class ListService {
   async getDataList(req, res) {
     const list = await List.findById(req.params.id).populate("cards");
     if (!list) {
-      return res.status(404).json({ msg: "Danh sách không tìm thấy" });
+      return res.status(404).json("Danh sách không tìm thấy");
     }
     return list;
   }

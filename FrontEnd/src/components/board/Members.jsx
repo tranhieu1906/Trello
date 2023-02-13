@@ -55,7 +55,6 @@ const Members = () => {
   const dispatch = useDispatch();
   const [inviting, setInviting] = useState(false);
   const { userInfo } = useSelector((state) => state.auth);
-
   const { members } = useSelector((state) => state.board.board);
   const [roleMeberLoginInBoard, setRoleMeberLoginInBoard] = useState();
 
@@ -127,7 +126,10 @@ const Members = () => {
             </BootstrapDialogTitle>
             <DialogContent dividers style={{ minHeight: "300px" }}>
               <div className="flex gap-2 items-center">
-                <CustomizedHook handleClose={handleClose} />
+                <CustomizedHook
+                  handleClose={handleClose}
+                  membersInBoard={members}
+                />
               </div>
               <div>
                 {members.map((member) => (
@@ -211,5 +213,3 @@ const Members = () => {
 };
 
 export default Members;
-
-// userInfo._id == member.user._id;

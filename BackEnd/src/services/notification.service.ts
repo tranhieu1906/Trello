@@ -4,24 +4,18 @@ import { Board } from "../models/Board";
 class NotificationService {
   //tạo thông báo mới
   async addNotification(req) {
-    const board = await Board.findById(req.header("boardId")).populate(
-      "members"
-    );
-    console.log(board.members);
-    // for () {}
-    // let NewNotification = new Notification({
-    //   sender: req.user._id,
-    //   receiver: req.body.receiver,
-    //   Content: req.body.content,
-    // });
-    // NewNotification = await NewNotification.save();
-    // if (NewNotification) {
-    //   return NewNotification;
-    // }
+    let usersId = req.body.usersId;
+    for (let i = 0; i < usersId.length; i++) {
+      let newNotification = {
+        sender: req.user.id,
+        receiver: usersId[i],
+        content: req.body.content,
+      };
+      await Notification.create(newNotification);
+    }
   }
-
   async getNotification(req) {
-    let notificationList = await Notification.find({ sender: req.user._id });
+    let notificationList = await Notification.find({ receiver: req.user.id });
     if (notificationList) {
       return notificationList;
     }

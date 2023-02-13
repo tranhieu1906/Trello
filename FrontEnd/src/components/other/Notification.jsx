@@ -8,14 +8,22 @@ import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
+import { useState, useEffect } from "react";
+import { getNotification } from "../../services/notification/notificationService";
 
 export default function Notification() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [value, setValue] = React.useState("1");
-
+  const [notification, setNotification] = useState([]);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
+  useEffect(() => {
+    let data = getNotification();
+    console.log(data);
+  }, []);
+
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
