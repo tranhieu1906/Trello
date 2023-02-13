@@ -6,9 +6,8 @@ import { GithubPicker } from "react-color";
 import { useDispatch } from "react-redux";
 // import { archiveCard, editCard } from "../../actions/board";
 // import Checklist from "../checklist/Checklist";
-// import CardMembers from "./CardMembers";
+import CardMembers from "./CardMembers";
 // import DeleteCard from "./DeleteCard";
-// import MoveCard from "./MoveCard";
 
 const CardModal = ({ cardId, open, setOpen, card, list }) => {
   const [title, setTitle] = useState(card.title);
@@ -80,7 +79,7 @@ const CardModal = ({ cardId, open, setOpen, card, list }) => {
           </Button>
         </form>
         <div className="flex justify-between flex-wrap h-auto">
-          {/* <CardMembers card={card} /> */}
+          <CardMembers card={card} />
           <div>
             <h3 className="mt-5 ml-2">Nhãn</h3>
             <GithubPicker
@@ -90,7 +89,7 @@ const CardModal = ({ cardId, open, setOpen, card, list }) => {
               // }
             />
             <Button
-              className="w-28 !mt-2"
+              className="w-32 !mt-2"
               variant="outlined"
               // onClick={async () =>
               //   dispatch(editCard(cardId, { label: "none" }))

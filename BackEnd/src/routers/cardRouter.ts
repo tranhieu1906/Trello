@@ -9,4 +9,5 @@ cardRoutes.delete("/:id/delete", CardController.cardDelete);
 cardRoutes.get("/:id/data", CardController.getOneCard)
 cardRoutes.get("/list/:id", CardController.getCards)
 cardRoutes.patch("/move/:id", CardController.moveCards);
+cardRoutes.put("/addMember/:add/:cardId/:userId", CardController.addCardMember);
 export default cardRoutes;

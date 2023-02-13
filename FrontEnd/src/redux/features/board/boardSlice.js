@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, current } from "@reduxjs/toolkit";
 import {
   addCard,
   addList,
@@ -10,7 +10,7 @@ import {
   removeMember,
   moveList,
   moveCard,
-  getCard,
+  addCardMember,
 } from "../../../services/board/boardAction";
 
 const initialState = {
@@ -145,6 +145,30 @@ const boardSlice = createSlice({
       state.loading = false;
     },
     [moveCard.rejected]: (state, { payload }) => {
+      state.error = payload;
+    },
+    // addCardMember
+    [addCardMember.pending]: (state) => {
+      state.loading = true;
+    },
+    [addCardMember.fulfilled]: (state, { payload }) => {
+      const updatedLists = state.board.lists.map((list) => {
+        const newCards = list.cards.map((card) =>
+          card._id === payload._id ? payload : card
+        );
+        return {
+          ...list,
+          cards: newCards,
+        };
+      });
+
+      state.board = {
+        ...state.board,
+        lists: updatedLists,
+      };
+      state.loading = false;
+    },
+    [addCardMember.rejected]: (state, { payload }) => {
       state.error = payload;
     },
   },

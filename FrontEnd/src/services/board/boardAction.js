@@ -199,3 +199,21 @@ export const moveCard = createAsyncThunk(
     }
   }
 );
+export const addCardMember = createAsyncThunk(
+  "board/addCardMember",
+  async (data, { rejectWithValue }) => {
+    const { add, cardId, userId } = data;
+    try {
+      const { data } = await axios.put(
+        `/card/addMember/${add}/${cardId}/${userId}`
+      );
+      return data;
+    } catch (error) {
+      if (error.response && error.response.data) {
+        return rejectWithValue(error.response.data);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);

@@ -71,6 +71,7 @@ class CardService {
     const card = await Card.findById(req.params.id);
     return card;
   }
+
   async moveCard(req, res) {
     const { fromId, toId, toIndex } = req.body;
     const boardId = req.header("boardId");
@@ -111,6 +112,35 @@ class CardService {
     let toList = await List.findById(toId).populate("cards");
     return { cardId, fromList, toList };
   }
+  async addCardMember(req, res) {
+    const { cardId, userId } = req.params;
+    const card = await Card.findById(cardId);
+    const user = await User.findById(userId);
+    if (!card || !user) {
+      return res.status(404).json("Card/User not found");
+    }
+    const add = req.params.add === "true";
+    if (add) {
+      card.members.push({ user: user._id });
+    } else {
+      card.members = card.members.filter((member) => member.user.toString() !== userId.toString());
+    }
+    await card.save();
+  
+    // get the board in order to update its activity
+    const board = await Board.findById(req.header("boardId")).populate([
+      { path: "activity", populate: { path: "user", select: "name" } },
+    ]);
+    board.activity.unshift({
+      text: `${user.name} ${add ? "joined" : "left"} '${card.title}'`,
+      user,
+    });
+    await board.save();
+  
+    return card;
+  }
+  
+  
 }
 
 export default new CardService();
