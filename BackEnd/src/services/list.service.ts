@@ -4,7 +4,13 @@ import { User } from "../models/User";
 
 class ListService {
   async getDataList(req, res) {
-    const list = await List.findById(req.params.id).populate("cards");
+    const list = await List.findById(req.params.id)
+      .populate({
+        path: "cards",
+        populate: {
+          path: "members.user",
+        },
+      })
     if (!list) {
       return res.status(404).json("Danh sách không tìm thấy");
     }

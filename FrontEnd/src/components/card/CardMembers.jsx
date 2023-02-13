@@ -12,7 +12,7 @@ import {
 const CardMembers = ({ card }) => {
   const boardMembers = useSelector((state) => state.board.board.members);
   const members = card.members.map((member) => {
-    return member.user
+    return member.user._id
   })
   const dispatch = useDispatch();
 

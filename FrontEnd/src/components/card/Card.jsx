@@ -11,11 +11,10 @@ import SubjectIcon from "@mui/icons-material/Subject";
 import { Avatar, Button, CardContent, TextField, Tooltip } from "@mui/material";
 import CardMUI from "@mui/material/Card";
 import CardModal from "./CardModal";
-const getInitials = (name) => {
-  console.log("🚀 ~ file: Card.jsx:15 ~ getInitials ~ name", name)
-  let initials = name.match(/\b\w/g) || [];
-  return ((initials.shift() || "") + (initials.pop() || "")).toUpperCase();
-};
+// const getInitials = (name) => {
+//   let initials = name.match(/\b\w/g) || [];
+//   return ((initials.shift() || "") + (initials.pop() || "")).toUpperCase();
+// };
 const Card = ({ cardId, list, index }) => {
   const [editing, setEditing] = useState(false);
   const [openModal, setOpenModal] = useState(false);
@@ -135,9 +134,9 @@ const Card = ({ cardId, list, index }) => {
                   <div className="card-member-avatars">
                     {card.members.map((member) => {
                       return (
-                        <Tooltip title={member.name} key={member.user}>
+                        <Tooltip title={member.user.name} key={member.user._id}>
                           <Avatar className="avatar">
-                            {getInitials(member)}
+                            {/* {getInitials(member.user.name)} */}
                           </Avatar>
                         </Tooltip>
                       );
