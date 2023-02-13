@@ -25,7 +25,7 @@ function SignUp() {
   let navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { loading, userInfo, error, success } = useSelector(
+  const { loading, userInfo, error } = useSelector(
     (state) => state.auth
   );
   const [showPassword, setShowPassword] = useState(false);
@@ -50,20 +50,18 @@ function SignUp() {
     }),
     onSubmit: (values) => {
       dispatch(registerUser(values));
+      navigate("/login");
+      toast.success("Đăng ký tài khoản thành công");
     },
   });
   useEffect(() => {
     if (error) {
       toast.error(error);
     }
-    if (success) {
-      navigate("/login");
-      toast.success("Đăng ký tài khoản thành công");
-    }
     if (userInfo) {
       navigate("/");
     }
-  }, [dispatch, error, success, navigate, userInfo]);
+  }, [dispatch, error, navigate, userInfo]);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
