@@ -67,6 +67,9 @@ class ListController {
         path: "lists",
         populate: {
           path: "cards",
+          populate: {
+            path: "members.user",
+          },
         },
       });
       res.status(200).json(newBoard.lists);

@@ -4,7 +4,12 @@ import { User } from "../models/User";
 
 class ListService {
   async getDataList(req, res) {
-    const list = await List.findById(req.params.id).populate("cards");
+    const list = await List.findById(req.params.id).populate({
+      path: "cards",
+      populate: {
+        path: "members.user",
+      },
+    });
     if (!list) {
       return res.status(404).json("Danh sách không tìm thấy");
     }
@@ -15,6 +20,7 @@ class ListService {
     const title = req.body.title;
     const boardId = req.header("boardId");
     const user = await User.findById(req.user.id);
+
     const newList = new List({ title });
     const list = await newList.save();
     const board = await Board.findByIdAndUpdate(
@@ -30,9 +36,11 @@ class ListService {
       path: "lists",
       populate: {
         path: "cards",
+        populate: {
+          path: "members.user",
+        },
       },
     });
-
     return board.lists;
   }
 
