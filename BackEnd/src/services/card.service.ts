@@ -80,7 +80,7 @@ class CardService {
     const from = await List.findById(fromId);
     let to = await List.findById(toId);
     if (!cardId || !from || !to) {
-      return res.status(404).json({ msg: "List/card không tồn tại" });
+      return res.status(404).json("List/card không tồn tại");
     } else if (fromId === toId) {
       to = from;
     }
@@ -102,29 +102,40 @@ class CardService {
     if (fromId !== toId) {
       const user = await User.findById(req.user.id);
       const board = await Board.findById(boardId);
-      const card = await Card.findById(cardId)
+      const card = await Card.findById(cardId);
       board.activity.unshift({
         text: `${user.name} di chuyển '${card.title}' từ '${from.title}' tới '${to.title}'`,
       });
       await board.save();
     }
-    const fromList = await List.findById(fromId).populate("cards");
-    let toList = await List.findById(toId).populate("cards");
+    const fromList = await List.findById(fromId).populate({
+      path: "cards",
+      populate: {
+        path: "members.user",
+      },
+    });
+    let toList = await List.findById(toId).populate({
+      path: "cards",
+      populate: {
+        path: "members.user",
+      },
+    });
     return { cardId, fromList, toList };
   }
+
   async addCardMember(req, res) {
     const { cardId, userId } = req.params;
-    const card = await Card.findById(cardId).populate("members.user");;
+    const card = await Card.findById(cardId).populate("members.user");
     const user = await User.findById(userId);
     if (!card || !user) {
       return res.status(404).json("Card/User không tồn tại");
     }
     const add = req.params.add === "true";
     if (add) {
-      card.members.push({ user: user._id });
+      card.members.push({ user: user });
     } else {
       card.members = card.members.filter(
-        (member) => member.user.toString() !== userId.toString()
+        (member) => member.user._id.toString() !== userId.toString()
       );
     }
     await card.save();

@@ -63,9 +63,19 @@ class BoardService {
   }
 
   async getBoardById(id) {
-    const board = await Board.findById(id)
-      .populate("members.user")
-      .populate("lists");
+   const board = await Board.findById(id).populate([
+     { path: 'members.user' },
+     {
+       path: 'lists',
+       populate: {
+         path: 'cards',
+         populate: {
+           path: 'members.user'
+         }
+       }
+     }
+   ]);
+   
     if (board) {
       return board;
     }

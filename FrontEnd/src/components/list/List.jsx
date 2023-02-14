@@ -62,14 +62,14 @@ const List = ({ listId, index }) => {
                     ref={provided.innerRef}
                   >
                     <div className="cards">
-                      {list.cards.map((cardId, index) => (
+                      {list.cards.map((cardId, index) =>
                         <Card
-                          key={cardId._id || cardId}
-                          cardId={cardId._id || cardId}
+                          key={cardId._id}
+                          cardId={cardId._id}
                           list={list}
                           index={index}
                         />
-                      ))}
+                      )}
                     </div>
                     {provided.placeholder}
                     {addingCard && (
