@@ -124,7 +124,7 @@ class BoardController {
 
   async boardDelete(req, res, next) {
     try {
-      let board = await BoardService.getBoardById(req);
+      let board = await BoardService.getBoardById(req.params.boardId);
       if (board) {
         await BoardService.deleteBoard(req);
         let boards = await BoardService.getUserBoard(req);
@@ -135,7 +135,7 @@ class BoardController {
       } else {
         res.status(404).json({
           success: false,
-          message: "bình luận không tồn tại",
+          message: "bảng không tồn tại",
         });
       }
     } catch (error) {

@@ -19,7 +19,23 @@ class NotificationController {
         all: listNotification,
         new: newNotifications,
       };
-      console.log(listNotification);
+      res.status(200).json({
+        notification: data,
+      });
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  }
+
+  async readNotifications(req, res) {
+    try {
+      let read = await NotificationService.readNotifications(req);
+      let listNotification = await NotificationService.getNotification(req);
+      let newNotifications = await NotificationService.getNewNotification(req);
+      let data = {
+        all: listNotification,
+        new: newNotifications,
+      };
       res.status(200).json({
         notification: data,
       });

@@ -25,8 +25,13 @@ function Home() {
   useEffect(() => {
     if (userInfo !== null) {
       socket?.emit("setup", userInfo);
+      socket?.on("new-notifications", (data) => {
+        axios.get("/boards").then((res) => {
+          setBoards(res.data);
+        });
+      });
     }
-  }, [userInfo]);
+  }, [userInfo, socket]);
 
   useEffect(() => {
     if (localStorage.getItem("userToken")) dispatch(getBoards());

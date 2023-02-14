@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, current } from "@reduxjs/toolkit";
 import {
   addCard,
   addList,
@@ -9,6 +9,8 @@ import {
   getList,
   removeMember,
   moveList,
+  moveCard,
+  addCardMember,
 } from "../../../services/board/boardAction";
 
 const initialState = {
@@ -117,6 +119,51 @@ const boardSlice = createSlice({
       state.loading = false;
     },
     [moveList.rejected]: (state, { payload }) => {
+      state.error = payload;
+    },
+    // moveCard
+    [moveCard.pending]: (state) => {
+      state.loading = true;
+    },
+    [moveCard.fulfilled]: (state, { payload }) => {
+      const { fromList, toList } = payload;
+      state.board = {
+        ...state.board,
+        lists: state.board.lists.map((list) => {
+          return list._id === fromList._id
+            ? fromList
+            : list._id === toList._id
+            ? toList
+            : list;
+        }),
+      };
+      state.loading = false;
+    },
+    [moveCard.rejected]: (state, { payload }) => {
+      state.error = payload;
+    },
+    // addCardMember
+    [addCardMember.pending]: (state) => {
+      state.loading = true;
+    },
+    [addCardMember.fulfilled]: (state, { payload }) => {
+      const updatedLists = state.board.lists.map((list) => {
+        const newCards = list.cards.map((card) =>
+          card._id === payload._id ? payload : card
+        );
+        return {
+          ...list,
+          cards: newCards,
+        };
+      });
+
+      state.board = {
+        ...state.board,
+        lists: updatedLists,
+      };
+      state.loading = false;
+    },
+    [addCardMember.rejected]: (state, { payload }) => {
       state.error = payload;
     },
   },

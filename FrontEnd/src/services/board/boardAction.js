@@ -1,10 +1,5 @@
 import axios from "../../api/axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-const config = {
-  headers: {
-    "Content-Type": "application/json",
-  },
-};
 export const getBoards = createAsyncThunk(
   "board/getBoards",
   async (data, { rejectWithValue }) => {
@@ -175,6 +170,56 @@ export const moveList = createAsyncThunk(
     const { listId, toIndex } = data;
     try {
       const { data } = await axios.patch(`/lists/move/${listId}`, toIndex);
+      return data;
+    } catch (error) {
+      if (error.response && error.response.data) {
+        return rejectWithValue(error.response.data);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);
+export const moveCard = createAsyncThunk(
+  "board/moveCard",
+  async (data, { rejectWithValue }) => {
+    const { cardId, formData } = data;
+    try {
+      const { data } = await axios.patch(`/card/move/${cardId}`, formData);
+      return data;
+    } catch (error) {
+      if (error.response && error.response.data) {
+        return rejectWithValue(error.response.data);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);
+export const addCardMember = createAsyncThunk(
+  "board/addCardMember",
+  async (data, { rejectWithValue }) => {
+    const { add, cardId, userId } = data;
+    try {
+      const { data } = await axios.put(
+        `/card/addMember/${add}/${cardId}/${userId}`
+      );
+      return data;
+    } catch (error) {
+      if (error.response && error.response.data) {
+        return rejectWithValue(error.response.data);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);
+export const editCard = createAsyncThunk(
+  "board/editCard",
+  async (dataForm, { rejectWithValue }) => {
+    const { cardId, dataInput } = dataForm;
+    try {
+      const { data } = await axios.patch(`card/edit/${cardId}`, dataInput);
       return data;
     } catch (error) {
       if (error.response && error.response.data) {

@@ -6,12 +6,9 @@ module.exports = (io, socket) => {
       email: dataUser.email,
     };
     socket.join(dataUser._id);
-    console.log(`userId: ${socket.id} connected`);
   };
 
-  const setupDisconnect = () => {
-    console.log(`userId: ${socket.id} disconnect`);
-  };
+  const setupDisconnect = () => {};
 
   socket.on("setup", setupConnect);
   socket.on("disconnect", setupDisconnect);

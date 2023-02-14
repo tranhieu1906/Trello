@@ -6,7 +6,6 @@ export const notificationAddMember = (users, board, user) => {
     content: `${user.name} đã thêm bạn vào bảng: `,
     board: board,
   };
-  console.log(data);
   axios
     .post("/notification/add", data)
     .then((res) => {
@@ -27,4 +26,11 @@ export const getNotification = () => {
       console.log(err);
       return [];
     });
+};
+
+export const readNotification = async () => {
+  let dataRes = await axios.put("/notification/read");
+  if (dataRes) {
+    return dataRes;
+  }
 };

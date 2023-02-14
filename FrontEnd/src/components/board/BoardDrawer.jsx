@@ -15,7 +15,6 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import ArchivedCards from "./ArchivedCards";
 import ArchivedLists from "./ArchivedLists";
-import { display } from "@mui/system";
 
 const BoardDrawer = () => {
   const [open, setOpen] = useState(false);

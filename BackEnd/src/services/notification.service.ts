@@ -20,6 +20,7 @@ class NotificationService {
     let notificationList = await Notification.find({
       receiver: req.user.id,
     })
+      .sort({ createdAt: -1 })
       .populate("attachBoard")
       .populate("sender");
     if (notificationList) {
@@ -32,10 +33,23 @@ class NotificationService {
       receiver: req.user.id,
       new: true,
     })
+      .sort({ createdAt: -1 })
       .populate("attachBoard")
       .populate("sender");
     if (newNotification) {
       return newNotification;
+    }
+  }
+
+  async readNotifications(req) {
+    let read = await Notification.updateMany(
+      { new: true, receiver: req.user.id },
+      {
+        $set: { new: false },
+      }
+    );
+    if (read) {
+      return read;
     }
   }
 }

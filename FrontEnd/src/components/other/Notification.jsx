@@ -4,7 +4,6 @@ import Menu from "@mui/material/Menu";
 import { BellIcon } from "@heroicons/react/24/outline";
 import Box from "@mui/material/Box";
 import { useState, useEffect } from "react";
-
 import axios from "../../api/axios";
 import Grid from "@mui/material/Grid";
 import {
@@ -19,7 +18,9 @@ import Divider from "@mui/material/Divider";
 import ListItemText from "@mui/material/ListItemText";
 import List from "@mui/material/List";
 import { useSelector } from "react-redux";
-import Moment from "react-moment";
+import { readNotification } from "../../services/notification/notificationService";
+import moment from "moment";
+moment.locale("vi");
 
 export default function Notification() {
   const { socket } = useSelector((state) => state.auth);
@@ -33,6 +34,7 @@ export default function Notification() {
       .get("/notification/get")
       .then((res) => {
         setNotification(res.data.notification.new);
+        setNewNotification(res.data.notification.new.length);
       })
       .catch((err) => {
         console.log(err);
@@ -40,19 +42,28 @@ export default function Notification() {
   }, []);
 
   useEffect(() => {
-    socket.on("new-notifications", (data) => {
+    socket?.on("new-notifications", (data) => {
       axios
         .get("/notification/get")
         .then((res) => {
-          let data = res.data.notification.all;
+          let data = res.data.notification.new;
+          setNewNotification(res.data.notification.new.length);
           setNotification(data);
+          setChecked(true);
         })
         .catch((err) => {
           console.log(err);
         });
-      setNewNotification(newNotification + 1);
     });
   }, [socket]);
+
+  const handleReadNotification = () => {
+    readNotification().then((res) => {
+      let data = res.data.notification.new;
+      setNotification(data);
+      setNewNotification(res.data.notification.new.length);
+    });
+  };
 
   const handleChange = (event) => {
     setChecked(event.target.checked);
@@ -123,7 +134,12 @@ export default function Notification() {
                 </Typography>
               </Grid>
               <Grid item>
-                <Typography gutterBottom variant="h6" component="div">
+                <Typography
+                  gutterBottom
+                  variant="h6"
+                  component="div"
+                  className="flex items-center"
+                >
                   <p className="text-sm">chỉ hiển thị chưa đọc</p>
                   <Switch
                     checked={checked}
@@ -131,6 +147,17 @@ export default function Notification() {
                     inputProps={{ "aria-label": "controlled" }}
                   />
                 </Typography>
+                {checked && notification.length > 0 ? (
+                  <Button
+                    style={{ paddingLeft: 100 }}
+                    onClick={handleReadNotification}
+                    color="secondary"
+                  >
+                    đọc tất cả
+                  </Button>
+                ) : (
+                  <span />
+                )}
               </Grid>
             </Grid>
             <Typography color="text.secondary" variant="body2">
@@ -154,6 +181,7 @@ export default function Notification() {
                     key={i._id}
                   >
                     <Typography
+                      component="div"
                       gutterBottom
                       variant="body1"
                       style={{ height: 30, paddingTop: 2 }}
@@ -212,24 +240,24 @@ export default function Notification() {
                     >
                       {`${i.content} ${i.attachBoard.title}`}
                       <br />
-                      {<Moment fromNow>{i.createdAt}</Moment>}
+                      {moment(i.createdAt).fromNow()}
                     </Typography>
                   </div>
                 ))}
               </List>
             ) : (
-              <>
+              <div>
                 <div className="flex items-center justify-center ">
                   <img
                     src={`https://a.trellocdn.com/prgb/assets/ee2660df9335718b1a80.svg`}
                     srcSet={`https://a.trellocdn.com/prgb/assets/ee2660df9335718b1a80.svg`}
                     loading="lazy"
                   />
-                  <div className="text-center">
-                    <h3>không có thông báo</h3>
-                  </div>
                 </div>
-              </>
+                <div className="text-center">
+                  <h3>không có thông báo mới</h3>
+                </div>
+              </div>
             )}
           </Box>
           {/*<Box sx={{ mt: 3, ml: 1, mb: 1 }}></Box>*/}

@@ -54,8 +54,6 @@ export default function PositionedMenu({ boardId, updateBoard }) {
         }}
       >
         <MenuItem onClick={() => handleDelete(boardId)}>Xóa bảng</MenuItem>
-        <MenuItem onClick={handleClose}>Tạo bảng</MenuItem>
-        <MenuItem onClick={handleClose}>Mở bảng</MenuItem>
       </Menu>
     </div>
   );
