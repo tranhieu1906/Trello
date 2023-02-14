@@ -51,7 +51,7 @@ function App() {
           }
         >
           <Route index element={<Home />} />
-          {/*<Route path="password" element={<PasswordChange />} />*/}
+          {/* <Route path="password" element={<PasswordChange />} /> */}
           {/*<Route path="user" element={<ManagerProfile />} />*/}
         </Route>
         <Route

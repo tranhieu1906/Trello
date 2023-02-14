@@ -21,6 +21,21 @@ export const getUser = createAsyncThunk(
 );
 export const editPassword = (value) => {};
 
+export const changePassword = createAsyncThunk(
+  "user/changePassword",
+  async ({ userId, role }, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.put(`/boards/member/${userId}`, { role });
+      return data;
+    } catch (error) {
+      if (error.response && error.response.data) {
+        return rejectWithValue(error.response.data);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);
 // export const password = (value) => {
 //     axios.put("/users/password",value)
 //         .then()

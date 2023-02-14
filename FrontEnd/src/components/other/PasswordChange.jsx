@@ -213,7 +213,7 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import FormHelperText from "@mui/material/FormHelperText";
 import { useNavigate } from "react-router-dom";
 
-function Copyright(props: any) {
+function Copyright(props) {
   return (
     <Typography
       variant="body2"
@@ -256,7 +256,8 @@ export default function PasswordChange() {
       confirmPassword: "",
     },
     validationSchema: Yup.object({
-      password: Yup.string().required("Không được để trống"),
+      password: Yup.string()
+        .required("Không được để trống"),
       newPassword: Yup.string()
         .required("Không được để trống")
         .matches(
@@ -266,22 +267,23 @@ export default function PasswordChange() {
 
       confirmPassword: Yup.string()
         .required("Không được để trống!")
-        .oneOf([Yup.ref("newPassword"), null], "Mật khẩu không khớp"),
+        .oneOf([Yup.ref('newPassword')],"Mật khẩu không khớp")
     }),
-    onSubmit: (value, { resetForm }) => {
-      axios
-        .put("/users/password", value)
-        .then((res) => {
-          if (res.status === 200) {
-            toast.success(res.data.message);
-            // navigate("/manager-profile");
-          } else {
-            toast.error(res.data.message);
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+    onSubmit: (values, { resetForm }) => {
+      // axios
+      //   .put("/users/password", values)
+      //   .then((res) => {
+      //     if (res.status === 200) {
+      //       toast.success(res.data.message);
+      //       // navigate("/manager-profile");
+      //     } else {
+      //       toast.error(res.data.message);
+      //     }
+      //   })
+      //   .catch((error) => {
+      //     console.log(error);
+      //   });
+      console.log(values)
       resetForm();
     },
   });
@@ -328,6 +330,7 @@ export default function PasswordChange() {
                     required
                     value={formik.values.password}
                     onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
                     variant="outlined"
                   >
                     <InputLabel htmlFor="outlined-adornment-password">
@@ -362,11 +365,12 @@ export default function PasswordChange() {
 
                 <Grid item xs={12}>
                   <FormControl
-                    error={!!formik.errors.password && formik.touched.password}
+                    error={!!formik.errors.newPassword && formik.touched.newPassword}
                     fullWidth
                     required
                     value={formik.values.password}
                     onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
                     variant="outlined"
                   >
                     <InputLabel htmlFor="outlined-adornment-password">
@@ -395,9 +399,9 @@ export default function PasswordChange() {
                       }
                       label="Mật khẩu mới "
                     />
-                    {formik.errors.password && formik.touched.password ? (
+                    {formik.errors.newPassword && formik.touched.newPassword ? (
                       <FormHelperText style={{ color: "#d32f2f" }}>
-                        {formik.errors.password}
+                        {formik.errors.newPassword}
                       </FormHelperText>
                     ) : null}
                   </FormControl>
@@ -406,12 +410,13 @@ export default function PasswordChange() {
                 <Grid item xs={12}>
                   <FormControl
                     error={
-                      !!formik.errors.newPassword && formik.touched.newPassword
+                      !!formik.errors.confirmPassword && formik.touched.confirmPassword
                     }
                     fullWidth
                     required
                     value={formik.values.newPassword}
                     onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
                     variant="outlined"
                   >
                     <InputLabel htmlFor="outlined-adornment-password">
@@ -441,7 +446,7 @@ export default function PasswordChange() {
                       label="Nhập lại mật khẩu "
                     />
                     {formik.errors.confirmPassword &&
-                    formik.touched.confirmPassword ? (
+                      formik.touched.confirmPassword ? (
                       <FormHelperText style={{ color: "#d32f2f" }}>
                         {formik.errors.confirmPassword}
                       </FormHelperText>
