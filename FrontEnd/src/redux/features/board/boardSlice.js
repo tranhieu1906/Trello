@@ -126,20 +126,15 @@ const boardSlice = createSlice({
       state.loading = true;
     },
     [moveCard.fulfilled]: (state, { payload }) => {
+      const { fromList, toList } = payload;
       state.board = {
         ...state.board,
         lists: state.board.lists.map((list) => {
-          const filteredList = list.cards.filter(
-            (card) =>
-              card._id !== payload.cardId ||
-              payload.toList._id === payload.fromList._id
-          );
-
-          return list._id === payload.fromList._id
-            ? payload.fromList
-            : list._id === payload.toList._id
-            ? payload.toList
-            : filteredList;
+          return list._id === fromList._id
+            ? fromList
+            : list._id === toList._id
+            ? toList
+            : list;
         }),
       };
       state.loading = false;

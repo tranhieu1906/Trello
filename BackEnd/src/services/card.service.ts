@@ -14,7 +14,12 @@ class CardService {
       listId,
       { $push: { cards: card.id } },
       { new: true }
-    ).populate("cards");
+    ).populate({
+      path: "cards",
+      populate: {
+        path: "members.user",
+      },
+    });
     const board = await Board.findByIdAndUpdate(
       boardId,
       {
