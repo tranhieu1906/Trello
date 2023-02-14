@@ -1,11 +1,11 @@
 module.exports = (io, socket) => {
   const setupConnect = (dataUser) => {
-    socket.id = dataUser._id;
     socket.user = {
       id: dataUser._id,
       name: dataUser.name,
       email: dataUser.email,
     };
+    socket.join(dataUser._id);
     console.log(`userId: ${socket.id} connected`);
   };
 

@@ -222,6 +222,7 @@ export default function CustomizedHook(props) {
     } else {
       await notificationAddMember(id, board, userInfo);
       dispatch(addMember(id));
+      socket.emit("send-notifications", id);
       if (error) {
         toast.error(error);
       }

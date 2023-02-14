@@ -19,11 +19,18 @@ const notificationSchema = new Schema(
       type: String,
     },
 
+    attachBoard: {
+      type: Schema.Types.ObjectId,
+      required: true,
+      ref: "Board",
+    },
+
     new: {
       type: Boolean,
       default: true,
     },
   },
+
   {
     timestamps: true,
   }

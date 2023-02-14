@@ -14,9 +14,14 @@ class NotificationController {
   async getNotifications(req, res) {
     try {
       let listNotification = await NotificationService.getNotification(req);
+      let newNotifications = await NotificationService.getNewNotification(req);
+      let data = {
+        all: listNotification,
+        new: newNotifications,
+      };
       console.log(listNotification);
       res.status(200).json({
-        success: true,
+        notification: data,
       });
     } catch (error) {
       res.status(500).json({ message: error.message });

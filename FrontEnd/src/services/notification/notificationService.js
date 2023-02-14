@@ -3,7 +3,8 @@ import axios from "../../api/axios";
 export const notificationAddMember = (users, board, user) => {
   let data = {
     usersId: users,
-    content: `Người dùng ${user.name} đã thêm bạn vào bảng: ${board.title}`,
+    content: `${user.name} đã thêm bạn vào bảng: `,
+    board: board,
   };
   console.log(data);
   axios
@@ -19,8 +20,8 @@ export const notificationAddMember = (users, board, user) => {
 export const getNotification = () => {
   axios
     .get("/notification/get")
-    .then((res) => {
-      return res.data;
+    .then(({ data }) => {
+      return data;
     })
     .catch((err) => {
       console.log(err);
