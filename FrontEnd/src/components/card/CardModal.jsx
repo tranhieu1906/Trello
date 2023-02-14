@@ -85,14 +85,24 @@ const CardModal = ({ cardId, open, setOpen, card, list }) => {
             <GithubPicker
               className="min-w-picker"
               onChange={async (color) =>
-                dispatch(editCard({ cardId, dataInput: { label: color.hex } }))
+                dispatch(
+                  editCard({
+                    cardId,
+                    dataInput: { title, description, label: color.hex },
+                  })
+                )
               }
             />
             <Button
               className="w-32 !mt-2"
               variant="outlined"
               onClick={async () =>
-                dispatch(editCard({ cardId, dataInput: { label: "none" } }))
+                dispatch(
+                  editCard({
+                    cardId,
+                    dataInput: { title, description, label: "none" },
+                  })
+                )
               }
             >
               Không nhãn
