@@ -57,9 +57,8 @@ function SignUp() {
       toast.error(error);
     }
     if (success) {
-      toast.success("Đăng ký thành công!");
-      navigate("/login");
       toast.success("Đăng ký tài khoản thành công");
+      navigate("/login");
     }
     if (userInfo) {
       navigate("/");
