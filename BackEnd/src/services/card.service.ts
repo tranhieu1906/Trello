@@ -77,7 +77,6 @@ class CardService {
     return card;
   }
   async editCard(req, res) {
-    console.log(req.body)
     const { title, description, label } = req.body;
     if (title === "") {
       return res.status(400).json("Title là bắt buộc");
