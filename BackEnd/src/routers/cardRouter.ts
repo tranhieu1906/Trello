@@ -10,4 +10,5 @@ cardRoutes.get("/:id/data", CardController.getOneCard)
 cardRoutes.get("/list/:id", CardController.getCards)
 cardRoutes.patch("/move/:id", CardController.moveCards);
 cardRoutes.put("/addMember/:add/:cardId/:userId", CardController.addCardMember);
+cardRoutes.patch("/edit/:id", CardController.editCard);
 export default cardRoutes;

@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 import { GithubPicker } from "react-color";
 import { useDispatch } from "react-redux";
-// import { archiveCard, editCard } from "../../actions/board";
+import { editCard } from "../../services/board/boardAction";
 // import Checklist from "../checklist/Checklist";
 import CardMembers from "./CardMembers";
 // import DeleteCard from "./DeleteCard";
@@ -21,7 +21,7 @@ const CardModal = ({ cardId, open, setOpen, card, list }) => {
 
   const onTitleDescriptionSubmit = async (e) => {
     e.preventDefault();
-    // dispatch(editCard(cardId, { title, description }));
+    dispatch(editCard({ cardId, data: { title, description } }));
   };
 
   const onArchiveCard = async () => {
@@ -84,16 +84,16 @@ const CardModal = ({ cardId, open, setOpen, card, list }) => {
             <h3 className="mt-5 ml-2">Nhãn</h3>
             <GithubPicker
               className="min-w-picker"
-              // onChange={async (color) =>
-              //   dispatch(editCard(cardId, { label: color.hex }))
-              // }
+              onChange={async (color) =>
+                dispatch(editCard({ cardId, data: { label: color.hex } }))
+              }
             />
             <Button
               className="w-32 !mt-2"
               variant="outlined"
-              // onClick={async () =>
-              //   dispatch(editCard(cardId, { label: "none" }))
-              // }
+              onClick={async () =>
+                dispatch(editCard({ cardId, data: { label: "none" } }))
+              }
             >
               Không nhãn
             </Button>
@@ -101,7 +101,6 @@ const CardModal = ({ cardId, open, setOpen, card, list }) => {
         </div>
         {/* <Checklist card={card} /> */}
         <div className="flex justify-between flex-wrap h-auto">
-          {/* <MoveCard cardId={cardId} setOpen={setOpen} thisList={list} /> */}
           <div className="flex flex-col justify-end mt-5">
             <Button
               variant="contained"

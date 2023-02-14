@@ -76,6 +76,25 @@ class CardService {
     const card = await Card.findById(req.params.id);
     return card;
   }
+  async editCard(req, res) {
+    console.log(req.body)
+    const { title, description, label } = req.body;
+    if (title === "") {
+      return res.status(400).json("Title là bắt buộc");
+    }
+    const card = await Card.findById(req.params.id);
+    if (!card) {
+      return res.status(404).json("Card không tồn tại");
+    }
+    card.title = title;
+    if (description || description === "") {
+      card.description = description;
+    }
+    if (label || label === "none") {
+      card.label = label;
+    }
+    await card.save();
+  }
 
   async moveCard(req, res) {
     const { fromId, toId, toIndex } = req.body;
