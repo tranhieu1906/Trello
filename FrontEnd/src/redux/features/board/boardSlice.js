@@ -168,16 +168,29 @@ const boardSlice = createSlice({
       state.error = payload;
     },
 
-    // [editCard.pending]: (state) => {
-    //   state.loading = true;
-    // },
-    // [editCard.fulfilled]: (state, { payload }) => {
-      
-    //   state.loading = false;
-    // },
-    // [editCard.rejected]: (state, { payload }) => {
-    //   state.error = payload;
-    // },
+    [editCard.pending]: (state) => {
+      state.loading = true;
+    },
+    [editCard.fulfilled]: (state, { payload }) => {
+      const updatedLists = state.board.lists.map((list) => {
+        const newCards = list.cards.map((card) =>
+          card._id === payload._id ? payload : card
+        );
+        return {
+          ...list,
+          cards: newCards,
+        };
+      });
+
+      state.board = {
+        ...state.board,
+        lists: updatedLists,
+      };
+      state.loading = false;
+    },
+    [editCard.rejected]: (state, { payload }) => {
+      state.error = payload;
+    },
   },
 });
 
