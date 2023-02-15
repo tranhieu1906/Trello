@@ -1,5 +1,5 @@
 import { Box, CircularProgress } from "@mui/material";
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
@@ -18,6 +18,8 @@ const Board = () => {
   const params = useParams();
   const dispatch = useDispatch();
 
+  const [listsBoad, setListsBoad] = useState();
+  console.log("🚀 ~ file: Board.jsx:22 ~ Board ~ listsBoad", listsBoad);
   useEffect(() => {
     dispatch(getUser());
     dispatch(getBoard(params.id));
@@ -31,6 +33,9 @@ const Board = () => {
       toast.error(error);
     }
   }, [error]);
+  useEffect(() => {
+    if (board) setListsBoad(board?.lists);
+  }, [board, board?.lists]);
 
   const onDragEnd = (result) => {
     const { source, destination, draggableId, type } = result;
