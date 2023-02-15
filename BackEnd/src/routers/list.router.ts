@@ -8,5 +8,5 @@ listRouters.post('/',ListController.addList);
 listRouters.put('/edit',ListController.updateList);
 listRouters.patch("/move/:idList", ListController.moveList);
 listRouters.patch("/rename/:id", ListController.renameList);
-listRouters.patch("/archive/:id", ListController.archiveList);
+listRouters.patch("/archive/:archive/:id", ListController.archiveList);
 export default listRouters

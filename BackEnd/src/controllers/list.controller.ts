@@ -28,7 +28,7 @@ class ListController {
       if (!list) {
         res.status(404).json("Danh sách không tồn tại");
       } else {
-        list.archived = "true";
+        list.archived = req.params.archive === "true";
         await list.save();
         const user = await User.findById(req.user.id);
         const board = await Board.findById(req.header("boardId"));

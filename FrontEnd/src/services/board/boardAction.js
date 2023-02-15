@@ -264,9 +264,13 @@ export const renameBoard = createAsyncThunk(
 );
 export const archiveList = createAsyncThunk(
   "board/archiveList",
-  async (listId, { rejectWithValue }) => {
+  async (data, { rejectWithValue }) => {
+    console.log("🚀 ~ file: boardAction.js:268 ~ data", data)
+    const { archive, listId } = data;
     try {
-      const { data } = await axios.patch(`/lists/archive/${listId}`);
+      const { data } = await axios.patch(
+        `/lists/archive/${archive}/${listId}`
+      );
       return data;
     } catch (error) {
       if (error.response && error.response.data) {
