@@ -74,9 +74,17 @@ class CardController {
       next(error);
     }
   }
-  async editCard (req, res, next) {
+  async editCard(req, res, next) {
     try {
       let card = await CardService.editCard(req, res);
+      res.json(card);
+    } catch (error) {
+      next(error);
+    }
+  }
+  async archiveCard(req, res, next) {
+    try {
+      let card = await CardService.archiveCard(req, res);
       res.json(card);
     } catch (error) {
       next(error);

@@ -15,6 +15,7 @@ import {
   renameList,
   renameBoard,
   archiveList,
+  archiveCard,
 } from "../../../services/board/boardAction";
 
 const initialState = {
@@ -235,6 +236,29 @@ const boardSlice = createSlice({
       state.loading = false;
     },
     [archiveList.rejected]: (state, { payload }) => {
+      state.error = payload;
+    },
+    // archiveCard
+    [archiveCard.pending]: (state) => {
+      state.loading = true;
+    },
+    [archiveCard.fulfilled]: (state, { payload }) => {
+      const updatedLists = state.board.lists.map((list) => {
+        const newCards = list.cards.map((card) =>
+          card._id === payload._id ? payload : card
+        );
+        return {
+          ...list,
+          cards: newCards,
+        };
+      });
+      state.board = {
+        ...state.board,
+        lists: updatedLists,
+      };
+      state.loading = false;
+    },
+    [archiveCard.rejected]: (state, { payload }) => {
       state.error = payload;
     },
   },

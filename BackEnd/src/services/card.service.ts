@@ -59,6 +59,26 @@ class CardService {
       return cardUpdate;
     }
   }
+  async archiveCard(req, res) {
+    const card = await Card.findById(req.params.id).populate("members.user");;
+    if (!card) {
+      return res.status(404).json("Thẻ không tồn tại");
+    }
+
+    card.archived = req.params.archive === "true";
+    await card.save();
+
+    const user = await User.findById(req.user.id);
+    const board = await Board.findById(req.header("boardId"));
+    board.activity.unshift({
+      text: card.archived
+        ? `${user.name} đã lưu trữ thẻ '${card.title}'`
+        : `${user.name} đã trả '${card.title}' về bảng`,
+    });
+    await board.save();
+
+    res.json(card);
+  }
 
   async cardDelete(req) {
     await Card.findOneAndDelete({ _id: req.params.id });
@@ -81,7 +101,7 @@ class CardService {
     if (title === "") {
       return res.status(400).json("Title là bắt buộc");
     }
-    const card = await Card.findById(req.params.id).populate("members.user");;
+    const card = await Card.findById(req.params.id).populate("members.user");
     if (!card) {
       return res.status(404).json("Card không tồn tại");
     }
@@ -93,7 +113,7 @@ class CardService {
       card.label = label;
     }
     await card.save();
-    return card
+    return card;
   }
 
   async moveCard(req, res) {

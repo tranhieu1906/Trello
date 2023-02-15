@@ -33,7 +33,9 @@ class ListController {
         const user = await User.findById(req.user.id);
         const board = await Board.findById(req.header("boardId"));
         board.activity.unshift({
-          text: `${user.name} lưu trữ danh sách '${list.title}'`,
+          text: list.archived
+            ? `${user.name} lưu trữ danh sách '${list.title}'`
+            : `${user.name} trả danh sách '${list.title}' về bảng`,
         });
         await board.save();
         res.status(200).json(list);
