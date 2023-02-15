@@ -233,10 +233,25 @@ export const editCard = createAsyncThunk(
 export const renameList = createAsyncThunk(
   "board/renameList",
   async (data, { rejectWithValue }) => {
-    console.log(data)
     const { listId, title } = data;
     try {
       const { data } = await axios.patch(`/lists/rename/${listId}`, title);
+      return data;
+    } catch (error) {
+      if (error.response && error.response.data) {
+        return rejectWithValue(error.response.data);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);
+export const renameBoard = createAsyncThunk(
+  "board/renameBoard",
+  async (data, { rejectWithValue }) => {
+    const { boardId, title } = data;
+    try {
+      const { data } = await axios.patch(`/boards/rename/${boardId}`, title);
       return data;
     } catch (error) {
       if (error.response && error.response.data) {
