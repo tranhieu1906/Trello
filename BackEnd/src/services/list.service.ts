@@ -58,6 +58,20 @@ class ListService {
     );
     return listEdit;
   }
+  async renameList(req, res) {
+    const list = await List.findById(req.params.id).populate({
+      path: "cards",
+      populate: {
+        path: "members.user",
+      },
+    });
+    if (!list) {
+      return res.status(404).json("Danh sách không tồn tại");
+    }
+    list.title = Object.keys(req.body)[0];
+    await list.save();
+    return list
+  }
 }
 
 export default new ListService();

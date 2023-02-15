@@ -77,12 +77,11 @@ class CardService {
     return card;
   }
   async editCard(req, res) {
-    console.log(req.body)
     const { title, description, label } = req.body;
     if (title === "") {
       return res.status(400).json("Title là bắt buộc");
     }
-    const card = await Card.findById(req.params.id);
+    const card = await Card.findById(req.params.id).populate("members.user");;
     if (!card) {
       return res.status(404).json("Card không tồn tại");
     }
@@ -94,6 +93,7 @@ class CardService {
       card.label = label;
     }
     await card.save();
+    return card
   }
 
   async moveCard(req, res) {

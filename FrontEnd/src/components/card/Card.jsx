@@ -2,8 +2,7 @@ import PropTypes from "prop-types";
 import React, { Fragment, useEffect, useRef, useState } from "react";
 import { Draggable } from "react-beautiful-dnd";
 import { useDispatch, useSelector } from "react-redux";
-import { getCard } from "../../services/board/boardAction";
-
+import { editCard, getCard } from "../../services/board/boardAction";
 import AssignmentTurnedInIcon from "@mui/icons-material/AssignmentTurnedIn";
 import CloseIcon from "@mui/icons-material/Close";
 import EditIcon from "@mui/icons-material/Edit";
@@ -53,7 +52,7 @@ const Card = ({ cardId, list, index }) => {
 
   const onSubmitEdit = async (e) => {
     e.preventDefault();
-    // dispatch(editCard(cardId, { title }));
+    dispatch(editCard({ cardId, dataInput: { title } }));
     setEditing(false);
     setMouseOver(false);
   };
