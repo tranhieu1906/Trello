@@ -15,7 +15,9 @@ const ListTitle = ({ list }) => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    dispatch(renameList({ listId: list._id, title }));
+    if(title !== list.title){
+      dispatch(renameList({ listId: list._id, title }));
+    }
     setEditing(false);
   };
 
@@ -24,7 +26,7 @@ const ListTitle = ({ list }) => {
       {list.title}
     </h3>
   ) : (
-    <form onSubmit={(e) => onSubmit(e)}>
+    <form onSubmit={(e) => onSubmit(e)} onBlur={(e) => onSubmit(e)}>
       <TextField
         required
         value={title}
