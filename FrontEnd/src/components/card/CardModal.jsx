@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 import { editCard, archiveCard } from "../../services/board/boardAction";
 // import Checklist from "../checklist/Checklist";
 import CardMembers from "./CardMembers";
-// import DeleteCard from "./DeleteCard";
+import DeleteCard from "./DeleteCard";
 
 const CardModal = ({ cardId, open, setOpen, card, list }) => {
   const [title, setTitle] = useState(card.title);
@@ -110,8 +110,8 @@ const CardModal = ({ cardId, open, setOpen, card, list }) => {
           </div>
         </div>
         {/* <Checklist card={card} /> */}
-        <div className="flex justify-between flex-wrap h-auto">
-          <div className="flex flex-col justify-end mt-5">
+        <div className="flex justify-end flex-wrap h-auto">
+          <div className="flex justify-end mt-5 gap-2">
             <Button
               variant="contained"
               className="mb-1"
@@ -119,7 +119,7 @@ const CardModal = ({ cardId, open, setOpen, card, list }) => {
             >
               lưu trữ
             </Button>
-            {/* <DeleteCard cardId={cardId} setOpen={setOpen} list={list} /> */}
+            <DeleteCard cardId={cardId} setOpen={setOpen} list={list} />
           </div>
         </div>
       </div>
