@@ -44,11 +44,6 @@ class ListService {
     return board.lists;
   }
 
-  async deleteDataList(req, res) {
-    let { listId } = req.params;
-    let listDelete = await List.findOneAndDelete({ _id: listId });
-  }
-
   async editList(req, res) {
     let { listId } = req.body;
     let listEdit = await List.findOneAndUpdate(
@@ -57,6 +52,20 @@ class ListService {
       { new: true }
     );
     return listEdit;
+  }
+  async renameList(req, res) {
+    const list = await List.findById(req.params.id).populate({
+      path: "cards",
+      populate: {
+        path: "members.user",
+      },
+    });
+    if (!list) {
+      return res.status(404).json("Danh sách không tồn tại");
+    }
+    list.title = Object.keys(req.body)[0];
+    await list.save();
+    return list
   }
 }
 

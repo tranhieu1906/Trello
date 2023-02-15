@@ -21,7 +21,7 @@ const CardModal = ({ cardId, open, setOpen, card, list }) => {
 
   const onTitleDescriptionSubmit = async (e) => {
     e.preventDefault();
-    dispatch(editCard({ cardId, data: { title, description } }));
+    dispatch(editCard({ cardId, dataInput: { title, description } }));
   };
 
   const onArchiveCard = async () => {
@@ -85,14 +85,24 @@ const CardModal = ({ cardId, open, setOpen, card, list }) => {
             <GithubPicker
               className="min-w-picker"
               onChange={async (color) =>
-                dispatch(editCard({ cardId, data: { label: color.hex } }))
+                dispatch(
+                  editCard({
+                    cardId,
+                    dataInput: { title, description, label: color.hex },
+                  })
+                )
               }
             />
             <Button
               className="w-32 !mt-2"
               variant="outlined"
               onClick={async () =>
-                dispatch(editCard({ cardId, data: { label: "none" } }))
+                dispatch(
+                  editCard({
+                    cardId,
+                    dataInput: { title, description, label: "none" },
+                  })
+                )
               }
             >
               Không nhãn

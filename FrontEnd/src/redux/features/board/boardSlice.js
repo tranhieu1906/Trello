@@ -1,4 +1,4 @@
-import { createSlice, current } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import {
   addCard,
   addList,
@@ -11,6 +11,10 @@ import {
   moveList,
   moveCard,
   addCardMember,
+  editCard,
+  renameList,
+  renameBoard,
+  archiveList,
 } from "../../../services/board/boardAction";
 
 const initialState = {
@@ -164,6 +168,73 @@ const boardSlice = createSlice({
       state.loading = false;
     },
     [addCardMember.rejected]: (state, { payload }) => {
+      state.error = payload;
+    },
+    // editCard
+    [editCard.pending]: (state) => {
+      state.loading = true;
+    },
+    [editCard.fulfilled]: (state, { payload }) => {
+      const updatedLists = state.board.lists.map((list) => {
+        const newCards = list.cards.map((card) =>
+          card._id === payload._id ? payload : card
+        );
+        return {
+          ...list,
+          cards: newCards,
+        };
+      });
+
+      state.board = {
+        ...state.board,
+        lists: updatedLists,
+      };
+      state.loading = false;
+    },
+    [editCard.rejected]: (state, { payload }) => {
+      state.error = payload;
+    },
+    // renameList
+    [renameList.pending]: (state) => {
+      state.loading = true;
+    },
+    [renameList.fulfilled]: (state, { payload }) => {
+      state.board = {
+        ...state.board,
+        lists: state.board.lists.map((list) =>
+          list._id === payload._id ? payload : list
+        ),
+      };
+      state.loading = false;
+    },
+    [renameList.rejected]: (state, { payload }) => {
+      state.error = payload;
+    },
+    // renameBoard
+    [renameBoard.pending]: (state) => {
+      state.loading = true;
+    },
+    [renameBoard.fulfilled]: (state, { payload }) => {
+      state.board = payload;
+      state.loading = false;
+    },
+    [renameBoard.rejected]: (state, { payload }) => {
+      state.error = payload;
+    },
+    // archiveList
+    [archiveList.pending]: (state) => {
+      state.loading = true;
+    },
+    [archiveList.fulfilled]: (state, { payload }) => {
+      state.board = {
+        ...state.board,
+        lists: state.board.lists.map((list) =>
+          list._id === payload._id ? payload : list
+        ),
+      };
+      state.loading = false;
+    },
+    [archiveList.rejected]: (state, { payload }) => {
       state.error = payload;
     },
   },
