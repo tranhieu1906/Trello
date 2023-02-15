@@ -6,7 +6,6 @@ import PropTypes from "prop-types";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 // import { archiveList } from "../../actions/board";
-import MoveList from "./MoveList";
 
 const ListMenu = ({ listId }) => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -46,9 +45,6 @@ const ListMenu = ({ listId }) => {
           }}
         >
           Lưu trữ danh sách này
-        </MenuItem>
-        <MenuItem>
-          {/* <MoveList listId={listId} closeMenu={handleClose} /> */}
         </MenuItem>
       </Menu>
     </div>
