@@ -24,8 +24,9 @@ class CommentService {
       card: req.params.idCard,
     });
     let commentNew = await comment.save();
-    if (commentNew) {
-      return commentNew;
+    let data = await Comment.findOne({ _id: commentNew._id }).populate("user");
+    if (data) {
+      return data;
     }
   }
 

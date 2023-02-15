@@ -3,7 +3,6 @@ class CommentController {
   async getComments(req, res) {
     try {
       const comments = await CommentService.getDataComments(req);
-      console.log(comments);
       res.status(200).json({ comments: comments });
     } catch (e) {
       res.status(500).json({ message: e.message });

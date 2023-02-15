@@ -17,15 +17,14 @@ import SendIcon from "@mui/icons-material/Send";
 import CardMembers from "./CardMembers";
 import ListItemText from "@mui/material/ListItemText";
 import Divider from "@mui/material/Divider";
-import ImageIcon from "@mui/icons-material/Image";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
+import ScrollToBottom from "react-scroll-to-bottom";
 import List from "@mui/material/List";
 import Paper from "@mui/material/Paper";
 import IconButton from "@mui/material/IconButton";
 import { sendComment } from "../../services/comment/commentActions";
 import { getComment } from "../../services/comment/commentActions";
 import { archiveCard } from "../../services/board/boardAction";
-// import Checklist from "../checklist/Checklist";
 import DeleteCard from "./DeleteCard";
 
 const CardModal = ({ cardId, open, setOpen, card, list }) => {
@@ -42,8 +41,16 @@ const CardModal = ({ cardId, open, setOpen, card, list }) => {
   }, [card]);
 
   useEffect(() => {
+    if (open) {
+      socket?.emit("join-card", cardId);
+      socket.on("comment-new", (commentNew) => {
+        setComment([...comment, commentNew]);
+      });
+    }
+  }, [open]);
+
+  useEffect(() => {
     getComment(card._id).then((data) => {
-      console.log(data);
       setComment(data);
     });
   }, []);
@@ -62,6 +69,8 @@ const CardModal = ({ cardId, open, setOpen, card, list }) => {
     if (value !== "") {
       let commentNew = await sendComment(card._id, value);
       setComment([...comment, commentNew]);
+      socket?.emit("send-comment", commentNew);
+      setValue("");
     }
   };
 
@@ -187,28 +196,30 @@ const CardModal = ({ cardId, open, setOpen, card, list }) => {
             </div>
           </form>
           <List style={{ maxHeight: "40%" }}>
-            {comment.map((comment) => (
-              <ListItem>
-                <ListItemAvatar>
-                  <Avatar
-                    src={comment.user.avatar}
-                    sx={{ width: 30, height: 30 }}
-                    className="mr-3"
+            <ScrollToBottom className="h-96 ">
+              {comment.map((comment, index) => (
+                <ListItem key={index}>
+                  <ListItemAvatar>
+                    <Avatar
+                      src={comment.user.avatar}
+                      sx={{ width: 30, height: 30 }}
+                      className="mr-3"
+                    />
+                  </ListItemAvatar>
+                  <ListItemText
+                    primary={comment.user.name}
+                    secondary={comment.content}
                   />
-                </ListItemAvatar>
-                <ListItemText
-                  primary={comment.user.name}
-                  secondary={comment.content}
-                />
-              </ListItem>
-            ))}
+                </ListItem>
+              ))}
+            </ScrollToBottom>
           </List>
         </div>
         <div className="flex justify-end flex-wrap h-auto">
           <div className="flex justify-end mt-5 gap-2">
             <Button
               variant="contained"
-              className="mb-1"
+              className="mb-1 "
               onClick={onArchiveCard}
             >
               lưu trữ
