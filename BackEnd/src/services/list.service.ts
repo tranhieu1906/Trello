@@ -44,11 +44,6 @@ class ListService {
     return board.lists;
   }
 
-  async deleteDataList(req, res) {
-    let { listId } = req.params;
-    let listDelete = await List.findOneAndDelete({ _id: listId });
-  }
-
   async editList(req, res) {
     let { listId } = req.body;
     let listEdit = await List.findOneAndUpdate(

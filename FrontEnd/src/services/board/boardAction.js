@@ -262,3 +262,53 @@ export const renameBoard = createAsyncThunk(
     }
   }
 );
+export const archiveList = createAsyncThunk(
+  "board/archiveList",
+  async (data, { rejectWithValue }) => {
+    const { archive, listId } = data;
+    try {
+      const { data } = await axios.patch(
+        `/lists/archive/${archive}/${listId}`
+      );
+      return data;
+    } catch (error) {
+      if (error.response && error.response.data) {
+        return rejectWithValue(error.response.data);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);
+export const archiveCard = createAsyncThunk(
+  "board/archiveCard",
+  async (data, { rejectWithValue }) => {
+    const { archive, cardId } = data;
+    try {
+      const { data } = await axios.patch(`/card/archive/${archive}/${cardId}`);
+      return data;
+    } catch (error) {
+      if (error.response && error.response.data) {
+        return rejectWithValue(error.response.data);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);
+export const deleteCard = createAsyncThunk(
+  "board/deleteCard",
+  async (data, { rejectWithValue }) => {
+    const { listId, cardId } = data;
+    try {
+      const { data } = await axios.delete(`card/${listId}/${cardId}`);
+      return data;
+    } catch (error) {
+      if (error.response && error.response.data) {
+        return rejectWithValue(error.response.data);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);
