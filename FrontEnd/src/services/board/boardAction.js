@@ -262,3 +262,22 @@ export const renameBoard = createAsyncThunk(
     }
   }
 );
+export const archiveList = createAsyncThunk(
+  "board/archiveList",
+  async (data, { rejectWithValue }) => {
+    console.log("🚀 ~ file: boardAction.js:268 ~ data", data)
+    const { archive, listId } = data;
+    try {
+      const { data } = await axios.patch(
+        `/lists/archive/${archive}/${listId}`
+      );
+      return data;
+    } catch (error) {
+      if (error.response && error.response.data) {
+        return rejectWithValue(error.response.data);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);
