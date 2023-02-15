@@ -60,7 +60,7 @@ class CardService {
     }
   }
   async archiveCard(req, res) {
-    const card = await Card.findById(req.params.id).populate("members.user");;
+    const card = await Card.findById(req.params.id).populate("members.user");
     if (!card) {
       return res.status(404).json("Thẻ không tồn tại");
     }
@@ -80,8 +80,22 @@ class CardService {
     res.json(card);
   }
 
-  async cardDelete(req) {
-    await Card.findOneAndDelete({ _id: req.params.id });
+  async cardDelete(req, res) {
+    const card = await Card.findById(req.params.id);
+    const list = await List.findById(req.params.listId);
+    if (!card || !list) {
+      return res.status(404).json("List/card không tồn tại");
+    }
+    list.cards = list.cards.filter(c => c != req.params.id);
+    await list.save();
+    await card.remove();
+    const user = await User.findById(req.user.id);
+    const board = await Board.findById(req.header("boardId"));
+    board.activity.unshift({
+      text: `${user.name} xóa '${card.title}' khỏi '${list.title}'`,
+    });
+    await board.save();
+    
   }
 
   async getOneCard(req) {

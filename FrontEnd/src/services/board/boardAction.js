@@ -296,3 +296,19 @@ export const archiveCard = createAsyncThunk(
     }
   }
 );
+export const deleteCard = createAsyncThunk(
+  "board/deleteCard",
+  async (data, { rejectWithValue }) => {
+    const { listId, cardId } = data;
+    try {
+      const { data } = await axios.delete(`card/${listId}/${cardId}`);
+      return data;
+    } catch (error) {
+      if (error.response && error.response.data) {
+        return rejectWithValue(error.response.data);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);

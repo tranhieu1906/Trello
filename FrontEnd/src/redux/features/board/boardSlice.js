@@ -16,6 +16,7 @@ import {
   renameBoard,
   archiveList,
   archiveCard,
+  deleteCard,
 } from "../../../services/board/boardAction";
 
 const initialState = {
@@ -259,6 +260,24 @@ const boardSlice = createSlice({
       state.loading = false;
     },
     [archiveCard.rejected]: (state, { payload }) => {
+      state.error = payload;
+    },
+    // deleteCard
+    [deleteCard.pending]: (state) => {
+      state.loading = true;
+    },
+    [deleteCard.fulfilled]: (state, { payload }) => {
+      state.loading = false;
+      state.board = {
+        ...state.board,
+        lists: state.board.lists.map((list) => {
+          return { ...list, cards: list.cards.filter(card => card._id !== payload) };
+        }),
+      };
+    },
+    
+    [deleteCard.rejected]: (state, { payload }) => {
+      state.loading = false;
       state.error = payload;
     },
   },

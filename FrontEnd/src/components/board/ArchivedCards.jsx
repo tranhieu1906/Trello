@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { archiveCard } from "../../services/board/boardAction";
+import { archiveCard, deleteCard } from "../../services/board/boardAction";
 
 import { Card, List, ListItem, CardContent, Button } from "@mui/material";
 
@@ -8,9 +8,8 @@ const ArchivedCards = () => {
   const { lists } = useSelector((state) => state.board.board);
   const dispatch = useDispatch();
   const onDelete = async (listId, cardId) => {
-    // dispatch(deleteCard(listId, cardId));
+    dispatch(deleteCard({ listId, cardId }));
   };
-
   const onSendBack = async (cardId) => {
     dispatch(archiveCard({ cardId, archive: false }));
   };
@@ -29,12 +28,7 @@ const ArchivedCards = () => {
                 <div>
                   <Button
                     color="secondary"
-                    onClick={() =>
-                      onDelete(
-                        lists.find((list) => list.cards.includes(card._id))._id,
-                        card._id
-                      )
-                    }
+                    onClick={() => onDelete(list._id, card._id)}
                   >
                     Xóa thẻ
                   </Button>

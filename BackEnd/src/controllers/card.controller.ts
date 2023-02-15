@@ -24,10 +24,8 @@ class CardController {
 
   async cardDelete(req, res, next) {
     try {
-      await CardService.cardDelete(req);
-      res.status(200).json({
-        success: true,
-      });
+      await CardService.cardDelete(req,res);
+      res.status(200).json(req.params.id);
     } catch (error) {
       next(error);
     }
