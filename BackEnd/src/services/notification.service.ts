@@ -1,17 +1,22 @@
 import { Notification } from "../models/Notification";
 import { Board } from "../models/Board";
-
+import BoardService from "./board.service";
 class NotificationService {
   //tạo thông báo mới
   async addNotification(req) {
     let usersId = req.body.usersId;
-    console.log(req.user);
+    let boarData = await BoardService.getBoardById(req.body.board._id);
+
+    let board = {
+      title: boarData.title,
+      backgroundURL: boarData.backgroundURL,
+    };
     for (let i = 0; i < usersId.length; i++) {
       let newNotification = {
         sender: req.user.id,
         receiver: usersId[i],
         content: req.body.content,
-        attachBoard: req.body.board._id,
+        attachBoard: board,
       };
       await Notification.create(newNotification);
     }

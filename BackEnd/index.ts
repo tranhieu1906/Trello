@@ -6,7 +6,8 @@ import { ConnectDatabase } from "./src/configs/connectDatabase";
 import route from "./src/routers/index.router";
 import { Server } from "socket.io";
 const setupSocket = require("./src/realTimeHandle/operatingStatus.realTime");
-const NotificationRealTime = require("./src/realTimeHandle/notification.realTime");
+const handleNotificationRealTime = require("./src/realTimeHandle/notification.realTime");
+const handleBoardRealTime = require("./src/realTimeHandle/board.realTime");
 dotenv.config();
 ConnectDatabase.connect();
 
@@ -43,6 +44,7 @@ const io = new Server(server, {
 
 const onConnection = (socket) => {
   setupSocket(io, socket);
-  NotificationRealTime(io, socket);
+  handleNotificationRealTime(io, socket);
+  handleBoardRealTime(io, socket);
 };
 io.on("connection", onConnection);

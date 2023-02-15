@@ -9,9 +9,11 @@ import Board from "./page/Board";
 import Home from "./page/Home";
 import Login from "./page/Login";
 import SignUp from "./page/SignUp";
+import { useSelector } from "react-redux";
 
 function App() {
   const navigate = useNavigate();
+  const { socket, userInfo } = useSelector((state) => state.auth);
   useEffect(() => {
     if (localStorage.getItem("userToken")) {
       axios.defaults.headers.common["Authorization"] =
@@ -23,6 +25,13 @@ function App() {
     axios.defaults.headers.common["Authorization"] =
       "Bearer " + localStorage.getItem("userToken");
   }
+
+  useEffect(() => {
+    if (userInfo !== null) {
+      socket?.emit("setup", userInfo);
+    }
+  }, [userInfo, socket]);
+
   return (
     <>
       <ToastContainer

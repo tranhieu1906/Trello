@@ -1,4 +1,4 @@
-const {Schema, model} = require("mongoose");
+const { Schema, model } = require("mongoose");
 
 const boardSchema = new Schema(
   {
@@ -26,11 +26,6 @@ const boardSchema = new Schema(
 
     backgroundURL: {
       type: String,
-    },
-
-    softErase: {
-      type: Boolean,
-      default: false,
     },
 
     members: [

@@ -19,10 +19,19 @@ const notificationSchema = new Schema(
       type: String,
     },
 
+    // attachBoard: {
+    //   type: Schema.Types.ObjectId,
+    //   required: true,
+    //   ref: "Board",
+    // },
+
     attachBoard: {
-      type: Schema.Types.ObjectId,
-      required: true,
-      ref: "Board",
+      title: {
+        type: String,
+      },
+      backgroundURL: {
+        type: String,
+      },
     },
 
     new: {

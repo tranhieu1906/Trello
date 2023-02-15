@@ -55,7 +55,7 @@ export default function Notification() {
           console.log(err);
         });
     });
-  }, [socket]);
+  }, []);
 
   const handleReadNotification = () => {
     readNotification().then((res) => {
@@ -174,11 +174,11 @@ export default function Notification() {
                   bgcolor: "background.paper",
                 }}
               >
-                {notification.map((i) => (
+                {notification.map((item) => (
                   <div
                     className="border border-gray-900"
                     style={{ marginBottom: 15 }}
-                    key={i._id}
+                    key={item._id}
                   >
                     <Typography
                       component="div"
@@ -189,33 +189,33 @@ export default function Notification() {
                       <ListItem style={{ padding: 0 }}>
                         <img
                           style={{ height: 30, width: 50 }}
-                          src={`${i.attachBoard.backgroundURL}`}
-                          srcSet={`${i.attachBoard.backgroundURL}`}
-                          alt={i.attachBoard.title}
+                          src={`${item.attachBoard.backgroundURL}`}
+                          srcSet={`${item.attachBoard.backgroundURL}`}
+                          alt={item.attachBoard.title}
                           loading="lazy"
                         />
                         <ListItemText
                           style={{ paddingLeft: 10 }}
-                          primary={i.attachBoard.title}
+                          primary={item.attachBoard.title}
                         />
                       </ListItem>
                     </Typography>
                     <ListItem
                       style={
-                        i.new
+                        item.new
                           ? { backgroundColor: "#CCFFFF" }
                           : { backgroundColor: "#dadbe5" }
                       }
                     >
                       <ListItemAvatar>
                         <Avatar
-                          alt={i.sender.name}
-                          src={i.sender.avatar}
+                          alt={item.sender.name}
+                          src={item.sender.avatar}
                           sx={{ width: 30, height: 30 }}
                         />
                       </ListItemAvatar>
                       <ListItemText
-                        primary={i.sender.name}
+                        primary={item.sender.name}
                         // secondary={`${i.content} ${i.attachBoard.title}`}
                       />
                     </ListItem>
@@ -223,7 +223,7 @@ export default function Notification() {
                       gutterBottom
                       variant="body1"
                       style={
-                        i.new
+                        item.new
                           ? {
                               backgroundColor: "#CCFFFF",
                               marginBottom: 0,
@@ -238,9 +238,9 @@ export default function Notification() {
                             }
                       }
                     >
-                      {`${i.content} ${i.attachBoard.title}`}
+                      {`${item.content} ${item.attachBoard.title}`}
                       <br />
-                      {moment(i.createdAt).fromNow()}
+                      {moment(item.createdAt).fromNow()}
                     </Typography>
                   </div>
                 ))}

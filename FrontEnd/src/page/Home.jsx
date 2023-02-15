@@ -13,7 +13,7 @@ import { getUser } from "../services/user/userService";
 
 function Home() {
   const { loading, error } = useSelector((state) => state.board);
-  const { socket, userInfo } = useSelector((state) => state.auth);
+  const { socket } = useSelector((state) => state.auth);
   const [open, setOpen] = useState(false);
   const [boards, setBoards] = useState([]);
   const [boardGroups, setBoardGroups] = useState([]);
@@ -23,15 +23,23 @@ function Home() {
   };
 
   useEffect(() => {
-    if (userInfo !== null) {
-      socket?.emit("setup", userInfo);
-      socket?.on("new-notifications", (data) => {
-        axios.get("/boards").then((res) => {
-          setBoards(res.data);
-        });
+    axios.get("/boards").then((res) => {
+      setBoards(res.data);
+    });
+  }, []);
+
+  useEffect(() => {
+    socket?.on("new-notifications", (data) => {
+      axios.get("/boards").then((res) => {
+        setBoards(res.data);
       });
-    }
-  }, [userInfo, socket]);
+    });
+    socket?.on("update-board-list", (data) => {
+      axios.get("/boards").then((res) => {
+        setBoards(res.data);
+      });
+    });
+  }, []);
 
   useEffect(() => {
     if (localStorage.getItem("userToken")) dispatch(getBoards());
@@ -46,12 +54,6 @@ function Home() {
   const updateBoard = (data) => {
     setBoards(data);
   };
-
-  useEffect(() => {
-    axios.get("/boards").then((res) => {
-      setBoards(res.data);
-    });
-  }, []);
 
   const handleClickOpen = () => {
     setOpen(true);
