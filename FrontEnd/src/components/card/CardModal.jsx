@@ -24,6 +24,9 @@ import Paper from "@mui/material/Paper";
 import IconButton from "@mui/material/IconButton";
 import { sendComment } from "../../services/comment/commentActions";
 import { getComment } from "../../services/comment/commentActions";
+import { archiveCard } from "../../services/board/boardAction";
+// import Checklist from "../checklist/Checklist";
+import DeleteCard from "./DeleteCard";
 
 const CardModal = ({ cardId, open, setOpen, card, list }) => {
   const [title, setTitle] = useState(card.title);
@@ -51,7 +54,7 @@ const CardModal = ({ cardId, open, setOpen, card, list }) => {
   };
 
   const onArchiveCard = async () => {
-    // dispatch(archiveCard(cardId, true));
+    dispatch(archiveCard({ cardId, archive: true }));
     setOpen(false);
   };
 
@@ -65,7 +68,11 @@ const CardModal = ({ cardId, open, setOpen, card, list }) => {
   return (
     <Modal open={open} onClose={() => setOpen(false)}>
       <div
-        style={{ width: "800px", top: "10%" }}
+        style={{
+          width: "800px",
+          top: "10%",
+          maxHeight: "-webkit-fill-available",
+        }}
         className={`flex flex-col absolute left-1/2 translate-x-2/4 overflow-auto bg-white rounded-sm pt-1 pb-2 p-1.5 `}
       >
         <form onSubmit={(e) => onTitleDescriptionSubmit(e)}>
@@ -179,17 +186,7 @@ const CardModal = ({ cardId, open, setOpen, card, list }) => {
               </Paper>
             </div>
           </form>
-          <List
-            style={{ paddingTop: 0, paddingBottom: 4 }}
-            sx={{
-              width: 550,
-              height: 64,
-              maxWidth: 550,
-              bgcolor: "background.paper",
-              marginTop: 3,
-              backgroundColor: "#CCFFFF",
-            }}
-          >
+          <List style={{ maxHeight: "40%" }}>
             {comment.map((comment) => (
               <ListItem>
                 <ListItemAvatar>
@@ -207,8 +204,8 @@ const CardModal = ({ cardId, open, setOpen, card, list }) => {
             ))}
           </List>
         </div>
-        <div className="flex justify-between flex-wrap h-auto">
-          <div className="flex flex-col justify-end mt-5">
+        <div className="flex justify-end flex-wrap h-auto">
+          <div className="flex justify-end mt-5 gap-2">
             <Button
               variant="contained"
               className="mb-1"
@@ -216,7 +213,7 @@ const CardModal = ({ cardId, open, setOpen, card, list }) => {
             >
               lưu trữ
             </Button>
-            {/* <DeleteCard cardId={cardId} setOpen={setOpen} list={list} /> */}
+            <DeleteCard cardId={cardId} setOpen={setOpen} list={list} />
           </div>
         </div>
       </div>
