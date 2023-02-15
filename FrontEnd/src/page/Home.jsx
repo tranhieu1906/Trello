@@ -10,7 +10,6 @@ import axios from "../api/axios";
 import Divider from "@mui/material/Divider";
 import { getBoards } from "../services/board/boardAction";
 import { getUser } from "../services/user/userService";
-
 function Home() {
   const { loading, error } = useSelector((state) => state.board);
   const { socket } = useSelector((state) => state.auth);

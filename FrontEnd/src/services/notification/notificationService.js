@@ -17,15 +17,8 @@ export const notificationAddMember = (users, board, user) => {
 };
 
 export const getNotification = () => {
-  axios
-    .get("/notification/get")
-    .then(({ data }) => {
-      return data;
-    })
-    .catch((err) => {
-      console.log(err);
-      return [];
-    });
+  let data = axios.get("/notification/get");
+  return data;
 };
 
 export const readNotification = async () => {

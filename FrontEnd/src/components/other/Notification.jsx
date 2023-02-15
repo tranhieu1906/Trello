@@ -4,7 +4,6 @@ import Menu from "@mui/material/Menu";
 import { BellIcon } from "@heroicons/react/24/outline";
 import Box from "@mui/material/Box";
 import { useState, useEffect } from "react";
-import axios from "../../api/axios";
 import Grid from "@mui/material/Grid";
 import {
   Avatar,
@@ -19,6 +18,7 @@ import ListItemText from "@mui/material/ListItemText";
 import List from "@mui/material/List";
 import { useSelector } from "react-redux";
 import { readNotification } from "../../services/notification/notificationService";
+import { getNotification } from "../../services/notification/notificationService";
 import moment from "moment";
 moment.locale("vi");
 
@@ -30,8 +30,7 @@ export default function Notification() {
   const [notification, setNotification] = useState([]);
 
   useEffect(() => {
-    axios
-      .get("/notification/get")
+    getNotification()
       .then((res) => {
         setNotification(res.data.notification.new);
         setNewNotification(res.data.notification.new.length);
@@ -43,13 +42,10 @@ export default function Notification() {
 
   useEffect(() => {
     socket?.on("new-notifications", (data) => {
-      axios
-        .get("/notification/get")
+      getNotification()
         .then((res) => {
-          let data = res.data.notification.new;
+          setNotification(res.data.notification.new);
           setNewNotification(res.data.notification.new.length);
-          setNotification(data);
-          setChecked(true);
         })
         .catch((err) => {
           console.log(err);
@@ -68,19 +64,19 @@ export default function Notification() {
   const handleChange = (event) => {
     setChecked(event.target.checked);
     if (!checked) {
-      axios
-        .get("/notification/get")
+      getNotification()
         .then((res) => {
           setNotification(res.data.notification.new);
+          setNewNotification(res.data.notification.new.length);
         })
         .catch((err) => {
           console.log(err);
         });
     } else {
-      axios
-        .get("/notification/get")
+      getNotification()
         .then((res) => {
-          setNotification(res.data.notification.all);
+          setNotification(res.data.notification.new);
+          setNewNotification(res.data.notification.new.length);
         })
         .catch((err) => {
           console.log(err);

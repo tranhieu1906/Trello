@@ -1,16 +1,35 @@
-import { Button, Modal, TextField } from "@mui/material";
+import {
+  Avatar,
+  Button,
+  InputBase,
+  ListItem,
+  ListItemAvatar,
+  Modal,
+  TextField,
+} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 import { GithubPicker } from "react-color";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { editCard } from "../../services/board/boardAction";
-// import Checklist from "../checklist/Checklist";
+import SendIcon from "@mui/icons-material/Send";
 import CardMembers from "./CardMembers";
-// import DeleteCard from "./DeleteCard";
+import ListItemText from "@mui/material/ListItemText";
+import Divider from "@mui/material/Divider";
+import ImageIcon from "@mui/icons-material/Image";
+import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
+import List from "@mui/material/List";
+import Paper from "@mui/material/Paper";
+import IconButton from "@mui/material/IconButton";
+import { sendComment } from "../../services/comment/commentActions";
+import { getComment } from "../../services/comment/commentActions";
 
 const CardModal = ({ cardId, open, setOpen, card, list }) => {
   const [title, setTitle] = useState(card.title);
+  const { socket, userInfo } = useSelector((state) => state.auth);
+  let [comment, setComment] = useState([]);
+  let [value, setValue] = useState("");
   const [description, setDescription] = useState(card.description);
   const dispatch = useDispatch();
 
@@ -18,6 +37,13 @@ const CardModal = ({ cardId, open, setOpen, card, list }) => {
     setTitle(card.title);
     setDescription(card.description);
   }, [card]);
+
+  useEffect(() => {
+    getComment(card._id).then((data) => {
+      console.log(data);
+      setComment(data);
+    });
+  }, []);
 
   const onTitleDescriptionSubmit = async (e) => {
     e.preventDefault();
@@ -27,6 +53,13 @@ const CardModal = ({ cardId, open, setOpen, card, list }) => {
   const onArchiveCard = async () => {
     // dispatch(archiveCard(cardId, true));
     setOpen(false);
+  };
+
+  const handleSend = async () => {
+    if (value !== "") {
+      let commentNew = await sendComment(card._id, value);
+      setComment([...comment, commentNew]);
+    }
   };
 
   return (
@@ -62,7 +95,6 @@ const CardModal = ({ cardId, open, setOpen, card, list }) => {
             multiline
             label="Mô tả thẻ"
             value={description}
-            onChange={(e) => setDescription(e.target.value)}
           />
           <Button
             type="submit"
@@ -109,7 +141,72 @@ const CardModal = ({ cardId, open, setOpen, card, list }) => {
             </Button>
           </div>
         </div>
-        {/* <Checklist card={card} /> */}
+        {/*<Checklist card={card} />*/}
+        <div>
+          <form>
+            <FormatListBulletedIcon />
+            <b style={{ marginLeft: 10 }}>Bình luận.</b>
+            <div className="flex items-center mt-3">
+              <Avatar
+                src={userInfo.avatar}
+                sx={{ width: 30, height: 30 }}
+                className="mr-3"
+              />
+              <Paper
+                sx={{
+                  p: "2px 4px",
+                  display: "flex",
+                  alignItems: "center",
+                  width: 500,
+                }}
+              >
+                <InputBase
+                  sx={{ ml: 1, flex: 1 }}
+                  placeholder="viết bình luận"
+                  inputProps={{ "aria-label": "viết bình luận" }}
+                  value={value}
+                  onChange={(e) => setValue(e.target.value)}
+                />
+                <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
+                <IconButton
+                  onClick={handleSend}
+                  color="primary"
+                  sx={{ p: "10px" }}
+                  aria-label="directions"
+                >
+                  <SendIcon />
+                </IconButton>
+              </Paper>
+            </div>
+          </form>
+          <List
+            style={{ paddingTop: 0, paddingBottom: 4 }}
+            sx={{
+              width: 550,
+              height: 64,
+              maxWidth: 550,
+              bgcolor: "background.paper",
+              marginTop: 3,
+              backgroundColor: "#CCFFFF",
+            }}
+          >
+            {comment.map((comment) => (
+              <ListItem>
+                <ListItemAvatar>
+                  <Avatar
+                    src={comment.user.avatar}
+                    sx={{ width: 30, height: 30 }}
+                    className="mr-3"
+                  />
+                </ListItemAvatar>
+                <ListItemText
+                  primary={comment.user.name}
+                  secondary={comment.content}
+                />
+              </ListItem>
+            ))}
+          </List>
+        </div>
         <div className="flex justify-between flex-wrap h-auto">
           <div className="flex flex-col justify-end mt-5">
             <Button
