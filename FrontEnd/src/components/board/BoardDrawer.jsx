@@ -43,7 +43,7 @@ const BoardDrawer = () => {
         anchor="right"
         open={open}
         PaperProps={{
-          sx: { width: "20%" },
+          sx: { width: "25%" },
         }}
       >
         {!viewingArchivedLists && !viewingArchivedCards ? (
@@ -115,7 +115,7 @@ const BoardDrawer = () => {
               <Button onClick={() => setViewingArchivedCards(false)}>
                 <ChevronLeftIcon />
               </Button>
-              <h3>Thẻ lưu trữu</h3>
+              <h3>Thẻ lưu trữ</h3>
               <Button onClick={handleClose}>
                 <CloseIcon />
               </Button>

@@ -24,10 +24,8 @@ class CardController {
 
   async cardDelete(req, res, next) {
     try {
-      await CardService.cardDelete(req);
-      res.status(200).json({
-        success: true,
-      });
+      await CardService.cardDelete(req,res);
+      res.status(200).json(req.params.id);
     } catch (error) {
       next(error);
     }
@@ -74,9 +72,17 @@ class CardController {
       next(error);
     }
   }
-  async editCard (req, res, next) {
+  async editCard(req, res, next) {
     try {
       let card = await CardService.editCard(req, res);
+      res.json(card);
+    } catch (error) {
+      next(error);
+    }
+  }
+  async archiveCard(req, res, next) {
+    try {
+      let card = await CardService.archiveCard(req, res);
       res.json(card);
     } catch (error) {
       next(error);

@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 import { GithubPicker } from "react-color";
 import { useDispatch } from "react-redux";
-import { editCard } from "../../services/board/boardAction";
+import { editCard, archiveCard } from "../../services/board/boardAction";
 // import Checklist from "../checklist/Checklist";
 import CardMembers from "./CardMembers";
 // import DeleteCard from "./DeleteCard";
@@ -25,7 +25,7 @@ const CardModal = ({ cardId, open, setOpen, card, list }) => {
   };
 
   const onArchiveCard = async () => {
-    // dispatch(archiveCard(cardId, true));
+    dispatch(archiveCard({ cardId, archive: true }));
     setOpen(false);
   };
 
