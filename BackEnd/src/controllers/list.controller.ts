@@ -40,7 +40,7 @@ class ListController {
   async updateList(req, res) {
     try {
       let listUpdate = await ListService.editList(req, res);
-      res.status(200).json({ listUpdate });
+      res.status(200).json(listUpdate);
     } catch (e) {
       res.status(500).json({ message: e.message });
     }
@@ -73,6 +73,14 @@ class ListController {
         },
       });
       res.status(200).json(newBoard.lists);
+    } catch (e) {
+      res.status(500).json(e.message);
+    }
+  }
+  async renameList(req, res) {
+    try {
+      let listUpdate = await ListService.renameList(req, res);
+      res.status(200).json(listUpdate);
     } catch (e) {
       res.status(500).json(e.message);
     }

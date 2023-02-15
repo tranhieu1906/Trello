@@ -12,6 +12,7 @@ import {
   moveCard,
   addCardMember,
   editCard,
+  renameList,
 } from "../../../services/board/boardAction";
 
 const initialState = {
@@ -167,7 +168,7 @@ const boardSlice = createSlice({
     [addCardMember.rejected]: (state, { payload }) => {
       state.error = payload;
     },
-
+    // editCard
     [editCard.pending]: (state) => {
       state.loading = true;
     },
@@ -189,6 +190,22 @@ const boardSlice = createSlice({
       state.loading = false;
     },
     [editCard.rejected]: (state, { payload }) => {
+      state.error = payload;
+    },
+
+    [renameList.pending]: (state) => {
+      state.loading = true;
+    },
+    [renameList.fulfilled]: (state, { payload }) => {
+      state.board = {
+        ...state.board,
+        lists: state.board.lists.map((list) =>
+          list._id === payload._id ? payload : list
+        ),
+      };
+      state.loading = false;
+    },
+    [renameList.rejected]: (state, { payload }) => {
       state.error = payload;
     },
   },
