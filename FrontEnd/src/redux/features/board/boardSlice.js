@@ -14,6 +14,7 @@ import {
   editCard,
   renameList,
   renameBoard,
+  archiveList,
 } from "../../../services/board/boardAction";
 
 const initialState = {
@@ -218,6 +219,22 @@ const boardSlice = createSlice({
       state.loading = false;
     },
     [renameBoard.rejected]: (state, { payload }) => {
+      state.error = payload;
+    },
+    // archiveList
+    [archiveList.pending]: (state) => {
+      state.loading = true;
+    },
+    [archiveList.fulfilled]: (state, { payload }) => {
+      state.board = {
+        ...state.board,
+        lists: state.board.lists.map((list) =>
+          list._id === payload._id ? payload : list
+        ),
+      };
+      state.loading = false;
+    },
+    [archiveList.rejected]: (state, { payload }) => {
       state.error = payload;
     },
   },

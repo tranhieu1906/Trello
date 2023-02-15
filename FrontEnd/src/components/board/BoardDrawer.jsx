@@ -14,7 +14,6 @@ import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import ArchivedCards from "./ArchivedCards";
-import ArchivedLists from "./ArchivedLists";
 
 const BoardDrawer = () => {
   const [open, setOpen] = useState(false);
@@ -107,7 +106,6 @@ const BoardDrawer = () => {
               </Button>
             </div>
             <Divider />
-            <ArchivedLists />
           </div>
         ) : (
           <div>

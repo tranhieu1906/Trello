@@ -5,7 +5,7 @@ import { Button, Menu, MenuItem } from "@mui/material";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-// import { archiveList } from "../../actions/board";
+import { archiveList } from "../../services/board/boardAction";
 
 const ListMenu = ({ listId }) => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -20,7 +20,7 @@ const ListMenu = ({ listId }) => {
   };
 
   const archive = async () => {
-    // dispatch(archiveList(listId, true));
+    dispatch(archiveList(listId));
   };
 
   return (
