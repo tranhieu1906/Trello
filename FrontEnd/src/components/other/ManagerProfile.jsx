@@ -18,6 +18,7 @@ import axios from "../../api/axios";
 import { useEffect, useState } from "react";
 import { getUser, getUserLogin } from "../../services/user/userService";
 import { useFormik } from "formik";
+import { toast } from "react-toastify";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -39,7 +40,6 @@ export default function ManagerProfile() {
       email: userLogin?.email || "",
       address: userLogin?.address || "",
       phone: userLogin?.phone || "",
-      dateOfBirth: userLogin?.dateOfBirth || "",
       gender: userLogin?.gender || "Nam",
     },
     onSubmit: (values) => {
@@ -48,6 +48,7 @@ export default function ManagerProfile() {
         .then((res) => {
           console.log(res);
           setUserLogin(res.data);
+          toast.success(res.data.message);
         })
         .catch((error) => {
           console.log(error);
@@ -155,24 +156,6 @@ export default function ManagerProfile() {
                     }}
                   />
                 </Grid>
-                <Grid item xs={12} sm={5}>
-                  <TextField
-                    sx={{
-                      width: 500,
-                      maxWidth: "100%",
-                    }}
-                    id="dateOfBirth"
-                    name="dateOfBirth"
-                    label="Năm sinh"
-                    type="date"
-                    variant="outlined"
-                    value={dataForm.values.dateOfBirth}
-                    onChange={dataForm.handleChange}
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                  />
-                </Grid>
                 <Grid item xs={12} sm={2}>
                   <FormControl fullWidth>
                     <InputLabel id="gender-select-label">Giới tính</InputLabel>
@@ -190,6 +173,8 @@ export default function ManagerProfile() {
                     </Select>
                   </FormControl>
                 </Grid>
+                <Grid item xs={12} sm={5}></Grid>
+
                 <Grid item xs={12} sm={1}>
                   <Button variant="contained" type="submit">
                     Lưu

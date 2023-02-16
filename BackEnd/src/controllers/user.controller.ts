@@ -71,7 +71,11 @@ class UserController {
       if (user) {
         let dataUser = await userService.updateProfile(req);
 
-        res.status(200).json(dataUser);
+        res.status(200).json({
+          success: true,
+          message: "Cập nhật thành công",
+          user: dataUser,
+        });
       } else {
         res.status(400).json({
           message: "Không tồn tại",

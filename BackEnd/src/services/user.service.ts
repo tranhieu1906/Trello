@@ -27,7 +27,6 @@ class UserService {
         name: req.body.name,
         address: req.body.address,
         phone: req.body.phone,
-        dateOfBirth: req.body.dateOfBirth,
         gender: req.body.gender,
       },
       { new: true }
