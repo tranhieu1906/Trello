@@ -11,4 +11,5 @@ boardRoutes.delete("/member/:userId", BoardController.removeMember);
 boardRoutes.put("/member/:userId", BoardController.changeRole);
 boardRoutes.post("/member", BoardController.addMember);
 boardRoutes.delete("/delete/:boardId", BoardController.boardDelete);
+
 export default boardRoutes;

@@ -1,7 +1,5 @@
-
 import bcrypt from "bcrypt";
 import AuthService from "../services/auth.service";
-
 
 export class AuthController {
   async register(req, res) {
@@ -30,7 +28,6 @@ export class AuthController {
           return res.status(401).json({ message: "Mật khẩu không chính xác" });
         }
         const accessToken = await AuthService.setToken(user);
-        console.log(accessToken)
         res.status(200).json({
           userToken: accessToken,
           user,

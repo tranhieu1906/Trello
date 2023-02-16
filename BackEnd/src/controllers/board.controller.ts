@@ -1,6 +1,7 @@
 import { Board } from "../models/Board";
 import { User } from "../models/User";
 import BoardService from "../services/board.service";
+import NotificationService from "../services/notification.service";
 class BoardController {
   // Thêm bảng
   async createBoard(req, res, next) {
@@ -63,7 +64,6 @@ class BoardController {
       const board = await BoardService.getBoardById(req.header("boardId"));
 
       if (!board) return res.status(404).json("Không tìm thấy bảng");
-
       const users = await User.find({ _id: { $in: req.body } });
       if (!users) return res.status(404).json("Không tìm thấy người dùng");
 
@@ -73,9 +73,16 @@ class BoardController {
 
       if (duplicate) return res.status(409).json("Người dùng đã có trong bảng");
 
-      await BoardService.addMember(users, board);
+      users.map((user) => {
+        user.boards.unshift(board.id);
+        board.members.push({ user: user, role: "observer" });
+        board.activity.unshift({
+          text: `${user.name} đã tham gia bảng này`,
+        });
+      });
+      await Promise.all(users.map((user) => user.save()));
+      await board.save();
       res.json(board.members);
-
     } catch (err) {
       next(err);
     }
@@ -88,7 +95,6 @@ class BoardController {
       if (!board) return res.status(404).json("Bảng không tồn tại");
 
       await BoardService.removeMember(req, res, board);
-      
     } catch (err) {
       next(err);
     }
@@ -100,7 +106,6 @@ class BoardController {
       if (!board) return res.status(404).json("Board not found");
 
       await BoardService.changeRole(req, res, board);
-      
     } catch (err) {
       next(err);
     }
@@ -130,7 +135,7 @@ class BoardController {
       } else {
         res.status(404).json({
           success: false,
-          message: "bình luận không tồn tại",
+          message: "bảng không tồn tại",
         });
       }
     } catch (error) {
