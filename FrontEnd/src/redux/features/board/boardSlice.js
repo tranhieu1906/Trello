@@ -117,10 +117,26 @@ const boardSlice = createSlice({
       state.error = payload;
     },
     // moveList
+    [moveList.fulfilled]: (state, { payload }) => {
+      state.board = { ...state.board, lists: payload };
+    },
     [moveList.rejected]: (state, { payload }) => {
       state.error = payload;
     },
     // moveCard
+    [moveCard.fulfilled]: (state, { payload }) => {
+      const { fromList, toList } = payload;
+      state.board = {
+        ...state.board,
+        lists: state.board.lists.map((list) => {
+          return list._id === fromList._id
+            ? fromList
+            : list._id === toList._id
+            ? toList
+            : list;
+        }),
+      };
+    },
     [moveCard.rejected]: (state, { payload }) => {
       state.error = payload;
     },
@@ -247,7 +263,10 @@ const boardSlice = createSlice({
       state.board = {
         ...state.board,
         lists: state.board.lists.map((list) => {
-          return { ...list, cards: list.cards.filter(card => card._id !== payload) };
+          return {
+            ...list,
+            cards: list.cards.filter((card) => card._id !== payload),
+          };
         }),
       };
     },

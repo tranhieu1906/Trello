@@ -16,7 +16,7 @@ const List = ({ listId, index, list }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // dispatch(getList(listId));
+    dispatch(getList(listId));
   }, [dispatch, listId]);
 
   const createCardFormRef = useRef(null);
