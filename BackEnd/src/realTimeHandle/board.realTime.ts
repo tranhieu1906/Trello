@@ -12,7 +12,7 @@ module.exports = async (io, socket) => {
 
   const sendComment = (dataComment) => {
     let roomCard = dataComment.card;
-    socket.to(roomCard).emit("comment-new", dataComment);
+    socket.to(roomCard).emit("comment-new");
   };
 
   socket.on("board-drop", boardDrop);

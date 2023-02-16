@@ -75,8 +75,7 @@ export default function Notification() {
     } else {
       getNotification()
         .then((res) => {
-          setNotification(res.data.notification.new);
-          setNewNotification(res.data.notification.new.length);
+          setNotification(res.data.notification.all);
         })
         .catch((err) => {
           console.log(err);

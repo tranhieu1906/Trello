@@ -6,10 +6,17 @@ import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import CreateBoard from "../components/board/CreateBoard";
 import PositionedMenu from "../components/board/Option";
+import GroupIcon from "@mui/icons-material/Group";
+import PersonIcon from "@mui/icons-material/Person";
+import HttpsIcon from "@mui/icons-material/Https";
 import axios from "../api/axios";
 import Divider from "@mui/material/Divider";
 import { getBoards } from "../services/board/boardAction";
 import { getUser } from "../services/user/userService";
+import { Avatar, ListItem, ListItemAvatar } from "@mui/material";
+import ListItemText from "@mui/material/ListItemText";
+import WorkIcon from "@mui/icons-material/Work";
+
 function Home() {
   const { loading, error } = useSelector((state) => state.board);
   const { socket } = useSelector((state) => state.auth);
@@ -26,19 +33,16 @@ function Home() {
       setBoards(res.data);
     });
   }, []);
-
-  useEffect(() => {
-    socket?.on("new-notifications", (data) => {
-      axios.get("/boards").then((res) => {
-        setBoards(res.data);
-      });
+  socket?.on("new-notifications", (data) => {
+    axios.get("/boards").then((res) => {
+      setBoards(res.data);
     });
-    socket?.on("update-board-list", (data) => {
-      axios.get("/boards").then((res) => {
-        setBoards(res.data);
-      });
+  });
+  socket?.on("update-board-list", (data) => {
+    axios.get("/boards").then((res) => {
+      setBoards(res.data);
     });
-  }, []);
+  });
 
   useEffect(() => {
     if (localStorage.getItem("userToken")) dispatch(getBoards());
@@ -66,14 +70,31 @@ function Home() {
 
   return (
     <div>
-      <section className="flex flex-col items-center p-12">
+      <section
+        className="flex flex-col items-center p-12"
+        style={{ paddingTop: 20 }}
+      >
         <div className="w-full">
-          <Divider varant="inset" component="li">
-            <h1> Cắc bảng của Bạn</h1>
-          </Divider>
+          <ListItem
+            style={{ paddingBottom: 25, paddingTop: 0, paddingLeft: 0 }}
+          >
+            <ListItemAvatar style={{ marginRight: 20 }}>
+              <Avatar sx={{ width: 60, height: 60 }} variant="square">
+                <WorkIcon />
+              </Avatar>
+            </ListItemAvatar>
+            <ListItemText primary={<b>Dự dán víp</b>} secondary="Giêng tư" />
+          </ListItem>
+        </div>
+        <div className="w-full">
+          <Divider varant="inset" />
+        </div>
+        <div className="w-full text-left">
+          <PersonIcon style={{ width: 40, height: 40 }} />
+          <b style={{ marginLeft: 15 }}>Cắc bảng của Bạn</b>
         </div>
         {loading && <CircularProgress className="m-10" />}
-        <div className="m-2 flex flex-row flex-wrap items-center justify-center gap-4">
+        <div className="m-2 items-center justify-center grid grid-cols-4 gap-4">
           {boards.map((board) => (
             <div
               key={board._id}
@@ -111,10 +132,10 @@ function Home() {
           }
         </div>
         <br />
-        <div className="w-full">
-          <Divider varant="inset" component="li">
-            <h1> Cắc bảng bạn được thêm vào</h1>
-          </Divider>
+        <div className="w-full text-left">
+          <GroupIcon style={{ width: 40, height: 40 }} />
+          <b style={{ marginLeft: 15 }}>Bảng bạn được thêm vào</b>
+          {/*<Divider varant="inset" component="li"/>*/}
         </div>
         <div className="m-2 flex flex-row flex-wrap items-center justify-center gap-4">
           {boardGroups.map((board) => (

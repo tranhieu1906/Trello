@@ -18,7 +18,7 @@ import CardMembers from "./CardMembers";
 import ListItemText from "@mui/material/ListItemText";
 import Divider from "@mui/material/Divider";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
-import ScrollToBottom from "react-scroll-to-bottom";
+import ScrollToBottom, { useScrollToTop } from "react-scroll-to-bottom";
 import List from "@mui/material/List";
 import Paper from "@mui/material/Paper";
 import IconButton from "@mui/material/IconButton";
@@ -43,8 +43,10 @@ const CardModal = ({ cardId, open, setOpen, card, list }) => {
   useEffect(() => {
     if (open) {
       socket?.emit("join-card", cardId);
-      socket.on("comment-new", (commentNew) => {
-        setComment([...comment, commentNew]);
+      socket?.on("comment-new", () => {
+        getComment(card._id).then((data) => {
+          setComment(data);
+        });
       });
     }
   }, [open]);
