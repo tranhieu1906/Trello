@@ -4,8 +4,10 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import { deleteBoard } from "../../services/board/boardAction";
+import { useSelector } from "react-redux";
 
 export default function PositionedMenu({ boardId, updateBoard }) {
+  const { socket, userInfo } = useSelector((state) => state.auth);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -17,6 +19,11 @@ export default function PositionedMenu({ boardId, updateBoard }) {
 
   const handleDelete = async (boardId) => {
     if (window.confirm("Bạn đồng ý xóa bảng này ?")) {
+      let data = {
+        userId: userInfo._id,
+        boardId: boardId,
+      };
+      socket?.emit("board-drop", data);
       let dataBoard = await deleteBoard(boardId);
       if (dataBoard) {
         updateBoard(dataBoard);
@@ -54,8 +61,6 @@ export default function PositionedMenu({ boardId, updateBoard }) {
         }}
       >
         <MenuItem onClick={() => handleDelete(boardId)}>Xóa bảng</MenuItem>
-        <MenuItem onClick={handleClose}>Tạo bảng</MenuItem>
-        <MenuItem onClick={handleClose}>Mở bảng</MenuItem>
       </Menu>
     </div>
   );

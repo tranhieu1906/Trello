@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "./App.css";
@@ -12,19 +12,29 @@ import SignUp from "./page/SignUp";
 import PasswordChange from "./components/other/PasswordChange";
 import ManagerProfile from "./components/other/ManagerProfile";
 import LayoutManagerProfie from "./components/Layout/LayoutManagerProfie";
+import { useSelector } from "react-redux";
 
 function App() {
   const navigate = useNavigate();
+  const { socket, userInfo } = useSelector((state) => state.auth);
   useEffect(() => {
     if (localStorage.getItem("userToken")) {
       axios.defaults.headers.common["Authorization"] =
         "Bearer " + localStorage.getItem("userToken");
     }
   }, [navigate]);
+
   if (localStorage.getItem("userToken")) {
     axios.defaults.headers.common["Authorization"] =
       "Bearer " + localStorage.getItem("userToken");
   }
+
+  useEffect(() => {
+    if (userInfo !== null) {
+      socket?.emit("setup", userInfo);
+    }
+  }, [userInfo, socket]);
+
   return (
     <>
       <ToastContainer

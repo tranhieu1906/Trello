@@ -1,5 +1,6 @@
 import { Board } from "../models/Board";
 import { User } from "../models/User";
+import UserService from "./user.service";
 class BoardService {
   async createBoard(req, res) {
     const { title, backgroundURL } = req.body;
@@ -19,16 +20,22 @@ class BoardService {
     await board.save();
     return board;
   }
+  // async getUserBoard(req) {
+  //   const user = await User.findById(req.user.id);
+  //   let boards = [];
+  //   for (let i = 0; i < user.boards.length; i++) {
+  //     let board = await Board.findById(user.boards[i]);
+  //     if (board.softErase === false) {
+  //       boards.push(board);
+  //     }
+  //   }
+  //   return boards;
+  // }
+
   async getUserBoard(req) {
-    const user = await User.findById(req.user.id);
-    let boards = [];
-    for (let i = 0; i < user.boards.length; i++) {
-      let board = await Board.findById(user.boards[i]);
-      if (board.softErase === false) {
-        boards.push(board);
-      }
-    }
-    return boards;
+    const user = await UserService.getDataUser(req);
+    let boards = user.boards;
+    if (boards) return boards;
   }
 
   async newBoard(req) {
@@ -55,11 +62,7 @@ class BoardService {
   }
 
   async deleteBoard(req) {
-    await Board.findOneAndUpdate(
-      { _id: req.params.boardId },
-      { softErase: true },
-      { new: true }
-    );
+    await Board.findOneAndDelete({ _id: req.params.boardId });
   }
 
   async getBoardById(id) {
@@ -144,6 +147,21 @@ class BoardService {
 
     await board.save();
     res.json(board.members);
+  }
+
+  async userInBoard(data) {
+    try {
+      let userIdList = [];
+      let { members } = await Board.findById(data.boardId);
+      for (let i = 0; i < members.length; i++) {
+        if (members[i].user.toString() !== data.userId) {
+          userIdList.push(members[i].user.toString());
+        }
+      }
+      return userIdList;
+    } catch (error) {
+      return [];
+    }
   }
 }
 export default new BoardService();

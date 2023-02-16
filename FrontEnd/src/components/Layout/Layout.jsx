@@ -6,6 +6,9 @@ import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import Navbar from "../other/Navbar";
 import Sidebar from "../other/Sidebar";
+import { useEffect } from "react";
+import io from "socket.io-client";
+import { useSelector } from "react-redux";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -16,6 +19,8 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 export default function Layout() {
+  const { userInfo } = useSelector((state) => state.auth);
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid container>

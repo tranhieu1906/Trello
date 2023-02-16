@@ -2,7 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 import { registerUser } from "../../../services/auth/authActions";
 import { userLogin } from "../../../services/auth/authActions";
 import { getUser } from "../../../services/user/userService";
-
+import io from "socket.io-client";
+const socket = io.connect("http://localhost:8000");
 const userToken = localStorage.getItem("userToken")
   ? localStorage.getItem("userToken")
   : null;
@@ -13,8 +14,8 @@ const initialState = {
   userToken,
   error: null,
   success: false,
+  socket,
 };
-
 const authSlice = createSlice({
   name: "auth",
   initialState,
@@ -25,6 +26,7 @@ const authSlice = createSlice({
       state.userInfo = null;
       state.userToken = null;
       state.error = null;
+      state.socket = null;
     },
     setCredentials: (state, { payload }) => {
       state.userInfo = payload;
@@ -73,6 +75,6 @@ const authSlice = createSlice({
     },
   },
 });
-export const { logout, setCredentials } = authSlice.actions;
+export const { logout, socketIo } = authSlice.actions;
 
 export default authSlice.reducer;
