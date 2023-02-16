@@ -7,20 +7,36 @@ class UserService {
     const user = await User.findOne({ _id: id });
     return user;
   }
+
   async updatePassword(req) {
-    console.log(req.body);
     let newPassword = await bcrypt.hash(req.body.newPassword, 10);
-    console.log(newPassword);
     let update = await User.findOneAndUpdate(
       { _id: req.user.id },
       { password: newPassword },
       { new: true }
     );
     if (update) {
-      console.log(update);
       return update;
     }
   }
+
+  async updateProfile(req) {
+    let newUpdate = await User.findOneAndUpdate(
+      { _id: req.user.id },
+      {
+        name: req.body.name,
+        address: req.body.address,
+        phone: req.body.phone,
+        dateOfBirth: req.body.dateOfBirth,
+        gender: req.body.gender,
+      },
+      { new: true }
+    );
+    if (newUpdate) {
+      return newUpdate;
+    }
+  }
+
   async getEmail(req, res) {
     const regex = new RegExp(req.params.input, "i");
     const users = await User.find({

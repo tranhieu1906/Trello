@@ -64,6 +64,24 @@ class UserController {
       next(err);
     }
   }
+
+  async updateProfile(req, res, next) {
+    try {
+      let user = await userService.getDataUser(req, res);
+      if (user) {
+        let dataUser = await userService.updateProfile(req);
+
+        res.status(200).json(dataUser);
+      } else {
+        res.status(400).json({
+          message: "Không tồn tại",
+        });
+      }
+    } catch (e) {
+      console.log(e);
+      next(e);
+    }
+  }
 }
 
 export default new UserController();
