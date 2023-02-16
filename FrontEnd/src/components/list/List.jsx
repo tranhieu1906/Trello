@@ -10,16 +10,13 @@ import CreateCardForm from "./CreateCardForm";
 import ListMenu from "./ListMenu";
 import ListTitle from "./ListTitle";
 
-const List = ({ listId, index }) => {
+const List = ({ listId, index, list }) => {
   const [addingCard, setAddingCard] = useState(false);
-  const list = useSelector((state) =>
-    state.board.board.lists.find((object) => object._id === listId)
-  );
   const { loading } = useSelector((state) => state.board);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getList(listId));
+    // dispatch(getList(listId));
   }, [dispatch, listId]);
 
   const createCardFormRef = useRef(null);

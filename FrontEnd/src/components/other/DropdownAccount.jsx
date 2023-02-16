@@ -65,37 +65,7 @@ export default function DropdownAccount() {
               )}
             </Menu.Item>
           </div>
-          <div className="py-1">
-            <Menu.Item>
-              <h3 className="font-bold ml-4">...</h3>
-            </Menu.Item>
-            <Menu.Item>
-              {({ active }) => (
-                <Link
-                  to="password-change"
-                  className={classNames(
-                    active ? "bg-gray-100" : "",
-                    "block px-4 py-2 text-sm text-gray-700"
-                  )}
-                >
-                  abc
-                </Link>
-              )}
-            </Menu.Item>
-            <Menu.Item>
-              {({ active }) => (
-                <Link
-                  to="#"
-                  className={classNames(
-                    active ? "bg-gray-100" : "",
-                    "block px-4 py-2 text-sm text-gray-700"
-                  )}
-                >
-                  ...
-                </Link>
-              )}
-            </Menu.Item>
-          </div>
+
           <hr />
           <div className="py-1">
             <Menu.Item>

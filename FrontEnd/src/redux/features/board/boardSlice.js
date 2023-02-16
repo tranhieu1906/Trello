@@ -117,34 +117,10 @@ const boardSlice = createSlice({
       state.error = payload;
     },
     // moveList
-    [moveList.pending]: (state) => {
-      state.loading = true;
-    },
-    [moveList.fulfilled]: (state, { payload }) => {
-      state.board = { ...state.board, lists: payload };
-      state.loading = false;
-    },
     [moveList.rejected]: (state, { payload }) => {
       state.error = payload;
     },
     // moveCard
-    [moveCard.pending]: (state) => {
-      state.loading = true;
-    },
-    [moveCard.fulfilled]: (state, { payload }) => {
-      const { fromList, toList } = payload;
-      state.board = {
-        ...state.board,
-        lists: state.board.lists.map((list) => {
-          return list._id === fromList._id
-            ? fromList
-            : list._id === toList._id
-            ? toList
-            : list;
-        }),
-      };
-      state.loading = false;
-    },
     [moveCard.rejected]: (state, { payload }) => {
       state.error = payload;
     },

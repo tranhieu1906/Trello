@@ -12,7 +12,6 @@ import SignUp from "./page/SignUp";
 import PasswordChange from "./components/other/PasswordChange";
 import ManagerProfile from "./components/other/ManagerProfile";
 import LayoutManagerProfie from "./components/Layout/LayoutManagerProfie";
-import Account from "./components/other/Account";
 
 function App() {
   const navigate = useNavigate();
@@ -52,7 +51,7 @@ function App() {
           }
         >
           <Route index element={<Home />} />
-          <Route path="password-change" element={<Account />} />
+
           {/*<Route path="user" element={<ManagerProfile />} />*/}
         </Route>
         <Route
