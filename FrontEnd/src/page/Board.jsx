@@ -1,5 +1,5 @@
 import { Box, CircularProgress } from "@mui/material";
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
@@ -18,6 +18,8 @@ const Board = () => {
   const params = useParams();
   const dispatch = useDispatch();
 
+  const [data, setData] = useState({});
+
   useEffect(() => {
     dispatch(getUser());
     dispatch(getBoard(params.id));
@@ -31,25 +33,102 @@ const Board = () => {
       toast.error(error);
     }
   }, [error]);
+  useEffect(() => {
+    if (board) setData(board);
+  }, [board, board?.lists]);
 
   const onDragEnd = (result) => {
-    const { source, destination, draggableId, type } = result;
-    if (!destination) {
+    if (!result.destination) {
       return;
     }
+
+    const { source, destination, draggableId, type } = result;
+
     if (type === "list") {
+      const lists = Array.from(data.lists);
+      const [removed] = lists.splice(source.index, 1);
+      lists.splice(destination.index, 0, removed);
+
+      setData({
+        ...data,
+        lists,
+      });
       dispatch(moveList({ listId: draggableId, toIndex: destination.index }));
     } else {
-      dispatch(
-        moveCard({
-          cardId: draggableId,
-          formData: {
-            fromId: source.droppableId,
-            toId: destination.droppableId,
-            toIndex: destination.index,
-          },
-        })
+      const sourceList = data.lists.find(
+        (list) => list._id === source.droppableId
       );
+      const destList = data.lists.find(
+        (list) => list._id === destination.droppableId
+      );
+      const card = sourceList.cards.find((card) => card._id === draggableId);
+
+      if (sourceList === destList) {
+        const cards = Array.from(sourceList.cards);
+        cards.splice(source.index, 1);
+        cards.splice(destination.index, 0, card);
+        const lists = data.lists.map((list) => {
+          if (list._id === sourceList._id) {
+            return {
+              ...list,
+              cards,
+            };
+          }
+          return list;
+        });
+
+        setData({
+          ...data,
+          lists: lists,
+        });
+        dispatch(
+          moveCard({
+            cardId: draggableId,
+            formData: {
+              fromId: source.droppableId,
+              toId: destination.droppableId,
+              toIndex: destination.index,
+            },
+          })
+        );
+      } else {
+        const sourceCards = Array.from(sourceList.cards);
+        sourceCards.splice(source.index, 1);
+
+        const destCards = Array.from(destList.cards);
+        destCards.splice(destination.index, 0, card);
+
+        const lists = data.lists.map((list) => {
+          if (list._id === sourceList._id) {
+            return {
+              ...list,
+              cards: sourceCards,
+            };
+          } else if (list._id === destList._id) {
+            return {
+              ...list,
+              cards: destCards,
+            };
+          }
+
+          return list;
+        });
+
+        setData({
+          ...data,
+          lists,
+        });
+        dispatch(
+          moveCard({
+            cardId: draggableId,
+            formData: {
+              fromId: source.droppableId,
+              toId: destination.droppableId,
+              toIndex: destination.index,
+            },
+          })
+        );
+      }
     }
   };
 
@@ -89,8 +168,13 @@ const Board = () => {
                 ref={provided.innerRef}
                 {...provided.droppableProps}
               >
-                {board.lists.map((listId, index) => (
-                  <List key={listId._id} listId={listId._id} index={index} />
+                {data?.lists?.map((listId, index) => (
+                  <List
+                    key={listId._id}
+                    listId={listId._id}
+                    index={index}
+                    list={listId}
+                  />
                 ))}
                 {provided.placeholder}
                 <CreateList />
