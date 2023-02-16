@@ -16,7 +16,7 @@ const List = ({ listId, index, list }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // dispatch(getList(listId));
+    dispatch(getList(listId));
   }, [dispatch, listId]);
 
   const createCardFormRef = useRef(null);
@@ -59,14 +59,14 @@ const List = ({ listId, index, list }) => {
                     ref={provided.innerRef}
                   >
                     <div className="cards">
-                      {list.cards.map((cardId, index) => (
+                      {list.cards.map((cardId, index) =>
                         <Card
                           key={cardId._id}
                           cardId={cardId._id}
                           list={list}
                           index={index}
                         />
-                      ))}
+                      )}
                     </div>
                     {provided.placeholder}
                     {addingCard && (

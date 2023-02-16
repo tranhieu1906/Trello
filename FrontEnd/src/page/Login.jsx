@@ -126,7 +126,7 @@ function Login() {
                     </IconButton>
                   </InputAdornment>
                 }
-                label="Password"
+                label="PasswordChange"
               />
               {formik.errors.password && formik.touched.password ? (
                 <FormHelperText style={{ color: "#d32f2f" }}>

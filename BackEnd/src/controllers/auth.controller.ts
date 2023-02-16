@@ -25,7 +25,7 @@ export class AuthController {
           user.password
         );
         if (!comparePass) {
-          return res.status(401).json({ message: "Mật khẩu không chính xác" });
+          return res.status(401).json({ message: "Mật khẩu không chính xác!" });
         }
         const accessToken = await AuthService.setToken(user);
         res.status(200).json({

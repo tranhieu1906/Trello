@@ -61,6 +61,7 @@ const CardModal = ({ cardId, open, setOpen, card, list }) => {
   const onTitleDescriptionSubmit = async (e) => {
     e.preventDefault();
     dispatch(editCard({ cardId, dataInput: { title, description } }));
+    setOpen(false);
   };
 
   const onArchiveCard = async () => {
@@ -114,6 +115,7 @@ const CardModal = ({ cardId, open, setOpen, card, list }) => {
             multiline
             label="Mô tả thẻ"
             value={description}
+            onChange={(e) => setDescription(e.target.value)}
           />
           <Button
             type="submit"

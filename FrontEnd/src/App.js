@@ -9,6 +9,9 @@ import Board from "./page/Board";
 import Home from "./page/Home";
 import Login from "./page/Login";
 import SignUp from "./page/SignUp";
+import PasswordChange from "./components/other/PasswordChange";
+import ManagerProfile from "./components/other/ManagerProfile";
+import LayoutManagerProfie from "./components/Layout/LayoutManagerProfie";
 import { useSelector } from "react-redux";
 
 function App() {
@@ -58,6 +61,20 @@ function App() {
           }
         >
           <Route index element={<Home />} />
+
+          {/*<Route path="user" element={<ManagerProfile />} />*/}
+        </Route>
+        <Route
+          path="/manager-profile"
+          element={
+            <PrivateRoute>
+              <LayoutManagerProfie />
+            </PrivateRoute>
+          }
+        >
+          <Route index element={<ManagerProfile />} />
+          <Route path="password" element={<PasswordChange />} />
+          <Route path="user" element={<ManagerProfile />} />
         </Route>
         <Route
           path="/board/:id"
