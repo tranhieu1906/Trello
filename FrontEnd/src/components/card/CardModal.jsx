@@ -26,6 +26,7 @@ import { sendComment } from "../../services/comment/commentActions";
 import { getComment } from "../../services/comment/commentActions";
 import { archiveCard } from "../../services/board/boardAction";
 import DeleteCard from "./DeleteCard";
+import moment from "moment/moment";
 
 const CardModal = ({ cardId, open, setOpen, card, list }) => {
   const [title, setTitle] = useState(card.title);
@@ -184,7 +185,14 @@ const CardModal = ({ cardId, open, setOpen, card, list }) => {
                   inputProps={{ "aria-label": "viết bình luận" }}
                   value={value}
                   onChange={(e) => setValue(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.keyCode === 13) {
+                      e.preventDefault();
+                      handleSend();
+                    }
+                  }}
                 />
+
                 <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
                 <IconButton
                   onClick={handleSend}
@@ -210,8 +218,34 @@ const CardModal = ({ cardId, open, setOpen, card, list }) => {
                       />
                     </ListItemAvatar>
                     <ListItemText
-                      primary={comment.user.name}
-                      secondary={comment.content}
+                      primary={
+                        comment.user._id === userInfo._id ? (
+                          <div>
+                            <b style={{ color: "brown" }}>
+                              {comment.user.name}:{" "}
+                              <span
+                                className="font-light"
+                                style={{ color: "black" }}
+                              >
+                                {comment.content}
+                              </span>
+                            </b>
+                          </div>
+                        ) : (
+                          <div>
+                            <b>
+                              {comment.user.name}:{" "}
+                              <span
+                                className="font-light"
+                                style={{ color: "black" }}
+                              >
+                                {comment.content}
+                              </span>
+                            </b>
+                          </div>
+                        )
+                      }
+                      secondary={moment(comment.createdAt).fromNow()}
                     />
                   </ListItem>
                 ))}
