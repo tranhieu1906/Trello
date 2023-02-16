@@ -197,24 +197,28 @@ const CardModal = ({ cardId, open, setOpen, card, list }) => {
               </Paper>
             </div>
           </form>
-          <List style={{ maxHeight: "40%" }}>
-            <ScrollToBottom className="h-96 ">
-              {comment.map((comment, index) => (
-                <ListItem key={index}>
-                  <ListItemAvatar>
-                    <Avatar
-                      src={comment.user.avatar}
-                      sx={{ width: 30, height: 30 }}
-                      className="mr-3"
+          <List style={{ maxHeight: "20%" }}>
+            {comment.length > 0 ? (
+              <ScrollToBottom className={comment.length > 5 ? "h-60" : ""}>
+                {comment.map((comment, index) => (
+                  <ListItem key={index}>
+                    <ListItemAvatar>
+                      <Avatar
+                        src={comment.user.avatar}
+                        sx={{ width: 30, height: 30 }}
+                        className="mr-3"
+                      />
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary={comment.user.name}
+                      secondary={comment.content}
                     />
-                  </ListItemAvatar>
-                  <ListItemText
-                    primary={comment.user.name}
-                    secondary={comment.content}
-                  />
-                </ListItem>
-              ))}
-            </ScrollToBottom>
+                  </ListItem>
+                ))}
+              </ScrollToBottom>
+            ) : (
+              <></>
+            )}
           </List>
         </div>
         <div className="flex justify-end flex-wrap h-auto">
