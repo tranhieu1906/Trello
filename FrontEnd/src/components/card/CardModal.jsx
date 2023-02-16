@@ -114,6 +114,7 @@ const CardModal = ({ cardId, open, setOpen, card, list }) => {
             multiline
             label="Mô tả thẻ"
             value={description}
+            onChange={(e) => setDescription(e.target.value)}
           />
           <Button
             type="submit"
