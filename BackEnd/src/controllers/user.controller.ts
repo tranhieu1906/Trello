@@ -45,11 +45,11 @@ class UserController {
   // }
   async editPassword(req, res, next) {
     try {
-      let user = await userService.getDataUser(req, res);
+      let user = await userService.getDataUser(req);
       const { password } = req.body;
       const isPasswordMatch = await bcrypt.compare(password, user.password);
       if (isPasswordMatch) {
-        let updatePassword = await UserService.updatePassword(req);
+        let updatePassword = await UserService.updatePassword(req, res);
         res.status(200).json({
           success: true,
           message: "Đổi mật khẩu thành công",
@@ -67,7 +67,7 @@ class UserController {
 
   async updateProfile(req, res, next) {
     try {
-      let user = await userService.getDataUser(req, res);
+      let user = await userService.getDataUser(req);
       if (user) {
         let dataUser = await userService.updateProfile(req);
 

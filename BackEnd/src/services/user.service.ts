@@ -8,7 +8,7 @@ class UserService {
     return user;
   }
 
-  async updatePassword(req) {
+  async updatePassword(req, res) {
     let newPassword = await bcrypt.hash(req.body.newPassword, 10);
     let update = await User.findOneAndUpdate(
       { _id: req.user.id },
