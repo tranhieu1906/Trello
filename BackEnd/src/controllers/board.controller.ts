@@ -119,7 +119,7 @@ class BoardController {
 
   async boardDelete(req, res, next) {
     try {
-      let board = await BoardService.getBoardById(req);
+      let board = await BoardService.getBoardById(req.params.boardId);
       if (board) {
         await BoardService.deleteBoard(req);
         let boards = await BoardService.getUserBoard(req);

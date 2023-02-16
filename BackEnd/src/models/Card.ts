@@ -30,6 +30,11 @@ const cardSchema = new Schema({
       },
     },
   ],
+  archived: {
+    type: Boolean,
+    required: true,
+    default: false,
+  },
 });
 
 

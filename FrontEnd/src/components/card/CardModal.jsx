@@ -4,11 +4,10 @@ import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 import { GithubPicker } from "react-color";
 import { useDispatch } from "react-redux";
-// import { archiveCard, editCard } from "../../actions/board";
+import { editCard, archiveCard } from "../../services/board/boardAction";
 // import Checklist from "../checklist/Checklist";
-// import CardMembers from "./CardMembers";
-// import DeleteCard from "./DeleteCard";
-// import MoveCard from "./MoveCard";
+import CardMembers from "./CardMembers";
+import DeleteCard from "./DeleteCard";
 
 const CardModal = ({ cardId, open, setOpen, card, list }) => {
   const [title, setTitle] = useState(card.title);
@@ -22,11 +21,11 @@ const CardModal = ({ cardId, open, setOpen, card, list }) => {
 
   const onTitleDescriptionSubmit = async (e) => {
     e.preventDefault();
-    // dispatch(editCard(cardId, { title, description }));
+    dispatch(editCard({ cardId, dataInput: { title, description } }));
   };
 
   const onArchiveCard = async () => {
-    // dispatch(archiveCard(cardId, true));
+    dispatch(archiveCard({ cardId, archive: true }));
     setOpen(false);
   };
 
@@ -80,30 +79,39 @@ const CardModal = ({ cardId, open, setOpen, card, list }) => {
           </Button>
         </form>
         <div className="flex justify-between flex-wrap h-auto">
-          {/* <CardMembers card={card} /> */}
+          <CardMembers card={card} />
           <div>
             <h3 className="mt-5 ml-2">Nhãn</h3>
             <GithubPicker
               className="min-w-picker"
-              // onChange={async (color) =>
-              //   dispatch(editCard(cardId, { label: color.hex }))
-              // }
+              onChange={async (color) =>
+                dispatch(
+                  editCard({
+                    cardId,
+                    dataInput: { title, description, label: color.hex },
+                  })
+                )
+              }
             />
             <Button
-              className="w-28 !mt-2"
+              className="w-32 !mt-2"
               variant="outlined"
-              // onClick={async () =>
-              //   dispatch(editCard(cardId, { label: "none" }))
-              // }
+              onClick={async () =>
+                dispatch(
+                  editCard({
+                    cardId,
+                    dataInput: { title, description, label: "none" },
+                  })
+                )
+              }
             >
               Không nhãn
             </Button>
           </div>
         </div>
         {/* <Checklist card={card} /> */}
-        <div className="flex justify-between flex-wrap h-auto">
-          {/* <MoveCard cardId={cardId} setOpen={setOpen} thisList={list} /> */}
-          <div className="flex flex-col justify-end mt-5">
+        <div className="flex justify-end flex-wrap h-auto">
+          <div className="flex justify-end mt-5 gap-2">
             <Button
               variant="contained"
               className="mb-1"
@@ -111,7 +119,7 @@ const CardModal = ({ cardId, open, setOpen, card, list }) => {
             >
               lưu trữ
             </Button>
-            {/* <DeleteCard cardId={cardId} setOpen={setOpen} list={list} /> */}
+            <DeleteCard cardId={cardId} setOpen={setOpen} list={list} />
           </div>
         </div>
       </div>

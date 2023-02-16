@@ -16,7 +16,7 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import axios from "../../api/axios";
 import { useEffect, useState } from "react";
-import { getUser } from "../../services/user/userService";
+import { getUser, getUserLogin } from "../../services/user/userService";
 import { useFormik } from "formik";
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -31,20 +31,23 @@ export default function ManagerProfile() {
   const dispatch = useDispatch();
 
   const { userInfo } = useSelector((state) => state.auth);
+  const [userLogin, setUserLogin] = useState(userInfo);
+
   const dataForm = useFormik({
     initialValues: {
-      name: userInfo.name,
-      email: userInfo.email,
-      address: userInfo.address || "",
-      phone: userInfo.phone || "",
-      dateOfBirth: userInfo.dateOfBirth || "",
-      gender: userInfo.gender || "",
+      name: userLogin?.name || "",
+      email: userLogin?.email || "",
+      address: userLogin?.address || "",
+      phone: userLogin?.phone || "",
+      dateOfBirth: userLogin?.dateOfBirth || "",
+      gender: userLogin?.gender || "Nam",
     },
     onSubmit: (values) => {
       axios
         .put("/users/update-profile", values)
         .then((res) => {
-          dispatch(getUser());
+          console.log(res);
+          setUserLogin(res.data);
         })
         .catch((error) => {
           console.log(error);
@@ -53,15 +56,18 @@ export default function ManagerProfile() {
   });
 
   useEffect(() => {
-    dispatch(getUser());
-  }, [dispatch]);
+    axios.get("/users").then((res) => {
+      setUserLogin(res.data);
+      dataForm.setValues(res.data);
+    });
+  }, []);
 
   return (
     <>
       <Typography variant="h2" gutterBottom>
         Cập nhật thông tin tài khoản
       </Typography>
-      {userInfo && (
+      {userLogin && (
         <Box
           display="grid"
           gridTemplateColumns="repeat(12, 1fr)"

@@ -63,21 +63,32 @@ class BoardService {
   }
 
   async getBoardById(id) {
-    const board = await Board.findById(id)
-      .populate("members.user")
-      .populate("lists");
+    const board = await Board.findById(id).populate([
+      { path: "members.user" },
+      {
+        path: "lists",
+        populate: {
+          path: "cards",
+          populate: {
+            path: "members.user",
+          },
+        },
+      },
+    ]);
+
     if (board) {
       return board;
     }
   }
 
   async renameBoard(req, res, board) {
-    if (req.body.title !== board.title) {
+    let title = Object.keys(req.body)[0]
+    if (title !== board.title) {
       const user = await User.findById(req.user.id);
       board.activity.unshift({
         text: `${user.name} thay đổi tên bảng này (từ '${board.title}')`,
       });
-      board.title = req.body.title;
+      board.title = title;
     }
     await board.save();
   }

@@ -1,10 +1,5 @@
 import axios from "../../api/axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-const config = {
-  headers: {
-    "Content-Type": "application/json",
-  },
-};
 export const getBoards = createAsyncThunk(
   "board/getBoards",
   async (data, { rejectWithValue }) => {
@@ -174,10 +169,139 @@ export const moveList = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     const { listId, toIndex } = data;
     try {
-      const { data } = await axios.patch(
-        `/lists/move/${listId}`,
-        toIndex,
+      const { data } = await axios.patch(`/lists/move/${listId}`, toIndex);
+      return data;
+    } catch (error) {
+      if (error.response && error.response.data) {
+        return rejectWithValue(error.response.data);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);
+export const moveCard = createAsyncThunk(
+  "board/moveCard",
+  async (data, { rejectWithValue }) => {
+    const { cardId, formData } = data;
+    try {
+      const { data } = await axios.patch(`/card/move/${cardId}`, formData);
+      return data;
+    } catch (error) {
+      if (error.response && error.response.data) {
+        return rejectWithValue(error.response.data);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);
+export const addCardMember = createAsyncThunk(
+  "board/addCardMember",
+  async (data, { rejectWithValue }) => {
+    const { add, cardId, userId } = data;
+    try {
+      const { data } = await axios.put(
+        `/card/addMember/${add}/${cardId}/${userId}`
       );
+      return data;
+    } catch (error) {
+      if (error.response && error.response.data) {
+        return rejectWithValue(error.response.data);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);
+export const editCard = createAsyncThunk(
+  "board/editCard",
+  async (dataForm, { rejectWithValue }) => {
+    const { cardId, dataInput } = dataForm;
+    try {
+      const { data } = await axios.patch(`card/edit/${cardId}`, dataInput);
+      return data;
+    } catch (error) {
+      if (error.response && error.response.data) {
+        return rejectWithValue(error.response.data);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);
+export const renameList = createAsyncThunk(
+  "board/renameList",
+  async (data, { rejectWithValue }) => {
+    const { listId, title } = data;
+    try {
+      const { data } = await axios.patch(`/lists/rename/${listId}`, title);
+      return data;
+    } catch (error) {
+      if (error.response && error.response.data) {
+        return rejectWithValue(error.response.data);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);
+export const renameBoard = createAsyncThunk(
+  "board/renameBoard",
+  async (data, { rejectWithValue }) => {
+    const { boardId, title } = data;
+    try {
+      const { data } = await axios.patch(`/boards/rename/${boardId}`, title);
+      return data;
+    } catch (error) {
+      if (error.response && error.response.data) {
+        return rejectWithValue(error.response.data);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);
+export const archiveList = createAsyncThunk(
+  "board/archiveList",
+  async (data, { rejectWithValue }) => {
+    const { archive, listId } = data;
+    try {
+      const { data } = await axios.patch(
+        `/lists/archive/${archive}/${listId}`
+      );
+      return data;
+    } catch (error) {
+      if (error.response && error.response.data) {
+        return rejectWithValue(error.response.data);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);
+export const archiveCard = createAsyncThunk(
+  "board/archiveCard",
+  async (data, { rejectWithValue }) => {
+    const { archive, cardId } = data;
+    try {
+      const { data } = await axios.patch(`/card/archive/${archive}/${cardId}`);
+      return data;
+    } catch (error) {
+      if (error.response && error.response.data) {
+        return rejectWithValue(error.response.data);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);
+export const deleteCard = createAsyncThunk(
+  "board/deleteCard",
+  async (data, { rejectWithValue }) => {
+    const { listId, cardId } = data;
+    try {
+      const { data } = await axios.delete(`card/${listId}/${cardId}`);
       return data;
     } catch (error) {
       if (error.response && error.response.data) {

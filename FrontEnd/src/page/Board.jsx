@@ -10,7 +10,7 @@ import CreateList from "../components/board/CreateList";
 import Members from "../components/board/Members";
 import List from "../components/list/List";
 import Navbar from "../components/other/Navbar";
-import { getBoard, moveList } from "../services/board/boardAction";
+import { getBoard, moveList, moveCard } from "../services/board/boardAction";
 import { getUser } from "../services/user/userService";
 
 const Board = () => {
@@ -39,6 +39,17 @@ const Board = () => {
     }
     if (type === "list") {
       dispatch(moveList({ listId: draggableId, toIndex: destination.index }));
+    } else {
+      dispatch(
+        moveCard({
+          cardId: draggableId,
+          formData: {
+            fromId: source.droppableId,
+            toId: destination.droppableId,
+            toIndex: destination.index,
+          },
+        })
+      );
     }
   };
 

@@ -50,6 +50,8 @@ function SignUp() {
     }),
     onSubmit: (values) => {
       dispatch(registerUser(values));
+      navigate("/login");
+      toast.success("Đăng ký tài khoản thành công");
     },
   });
   useEffect(() => {
@@ -63,7 +65,7 @@ function SignUp() {
     if (userInfo) {
       navigate("/");
     }
-  }, [dispatch, error, success, navigate, userInfo]);
+  }, [dispatch, error, navigate, userInfo]);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -149,7 +151,7 @@ function SignUp() {
                     </IconButton>
                   </InputAdornment>
                 }
-                label="PasswordChange"
+                label="Password"
               />
               <PasswordStrengthBar
                 password={formik.values.password}
