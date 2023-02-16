@@ -4,6 +4,10 @@ import cors from "cors";
 var bodyParser = require("body-parser");
 import { ConnectDatabase } from "./src/configs/connectDatabase";
 import route from "./src/routers/index.router";
+import { Server } from "socket.io";
+const setupSocket = require("./src/realTimeHandle/operatingStatus.realTime");
+const handleNotificationRealTime = require("./src/realTimeHandle/notification.realTime");
+const handleBoardRealTime = require("./src/realTimeHandle/board.realTime");
 dotenv.config();
 ConnectDatabase.connect();
 
@@ -28,6 +32,19 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log("App running with port: " + PORT);
 });
+
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:3000",
+  },
+});
+
+const onConnection = (socket) => {
+  setupSocket(io, socket);
+  handleNotificationRealTime(io, socket);
+  handleBoardRealTime(io, socket);
+};
+io.on("connection", onConnection);

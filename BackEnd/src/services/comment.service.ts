@@ -1,40 +1,50 @@
 import { Comment } from "../models/Comment";
 
 class CommentService {
-  async getDataComments(req, res) {
+  async getDataComments(req) {
     let id = req.params.idCard;
-    let comments = await Comment.find({ card: id }).populate("user", "name");
-    return comments;
+    let comments = await Comment.find({ card: id }).populate("user");
+    if (comments) {
+      return comments;
+    }
   }
 
-  async getDataComment(req, res) {
+  async getDataComment(req) {
     let id = req.params.idComment;
     let comment = await Comment.findOne({ _id: id });
-    return comment;
+    if (comment) {
+      return comment;
+    }
   }
 
-  async addDataComment(req, res) {
+  async addDataComment(req) {
     let comment = new Comment({
-      title: req.body.title,
+      content: req.body.comment,
       user: req.user.id,
       card: req.params.idCard,
     });
-    await comment.save();
+    let commentNew = await comment.save();
+    let data = await Comment.findOne({ _id: commentNew._id }).populate("user");
+    if (data) {
+      return data;
+    }
   }
 
-  async deleteDataComment(req, res) {
+  async deleteDataComment(req) {
     let id = req.params.idComment;
     await Comment.findOneAndDelete({ _id: id });
   }
 
-  async editComment(req, res) {
+  async editComment(req) {
     let id = req.params.idComment;
     let newComment = await Comment.findOneAndUpdate(
       { _id: id },
       { title: req.body.title },
       { new: true }
     );
-    return newComment;
+    if (newComment) {
+      return newComment;
+    }
   }
 }
 
