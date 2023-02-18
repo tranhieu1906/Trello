@@ -82,7 +82,7 @@ export default function MenuItemProject() {
             variant="contained"
             disableElevation
             onClick={handleClick}
-            endIcon={<KeyboardArrowDownIcon />}
+            // endIcon={<KeyboardArrowDownIcon />}
           >
             {project.name} <MoreVertRoundedIcon />
           </MenuItem>
@@ -97,17 +97,17 @@ export default function MenuItemProject() {
             onClose={handleClose}
           >
             <MenuItem onClick={handleClose} disableRipple>
-              <FormatListBulletedIcon />
+              {/*<FormatListBulletedIcon />*/}
               Bảng
             </MenuItem>
             <MenuItem onClick={handleClose} disableRipple>
-              <PeopleIcon />
+              {/*<PeopleIcon />*/}
               Thành viên
             </MenuItem>
 
             <MenuItem disableRipple>
-              <PersonAddIcon />
-              Thêm thành viên
+              {/*<PersonAddIcon />*/}
+              {/*Thêm thành viên*/}
               <FormDialogAddUsergit />
             </MenuItem>
             {/*<MenuItem disableRipple>More</MenuItem>*/}
