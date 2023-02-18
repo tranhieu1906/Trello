@@ -7,6 +7,11 @@ import { useState } from "react";
 import MenuItem from "@mui/material/MenuItem";
 import FormDialogAddUsergit from "../projects/addUser";
 
+import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
+import PeopleIcon from "@mui/icons-material/People";
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+
 const StyledMenu = styled((props) => (
   <Menu
     elevation={0}
@@ -50,26 +55,6 @@ const StyledMenu = styled((props) => (
   },
 }));
 
-function KeyboardArrowDownIcon() {
-  return null;
-}
-
-function FormatListNumberedIcon() {
-  return null;
-}
-
-function PersonAddIcon() {
-  return null;
-}
-
-function PeopleAltIcon() {
-  return null;
-}
-
-function MoreHorizIcon() {
-  return null;
-}
-
 export default function MenuItemProject() {
   const [projects, setProjects] = useState([
     {
@@ -112,11 +97,11 @@ export default function MenuItemProject() {
             onClose={handleClose}
           >
             <MenuItem onClick={handleClose} disableRipple>
-              <FormatListNumberedIcon />
+              <FormatListBulletedIcon />
               Bảng
             </MenuItem>
             <MenuItem onClick={handleClose} disableRipple>
-              <PeopleAltIcon />
+              <PeopleIcon />
               Thành viên
             </MenuItem>
 
@@ -125,10 +110,7 @@ export default function MenuItemProject() {
               Thêm thành viên
               <FormDialogAddUsergit />
             </MenuItem>
-            <MenuItem disableRipple>
-              <MoreHorizIcon />
-              More
-            </MenuItem>
+            {/*<MenuItem disableRipple>More</MenuItem>*/}
           </StyledMenu>
         </div>
       ))}
