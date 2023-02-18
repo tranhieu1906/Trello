@@ -5,6 +5,7 @@ import Menu from "@mui/material/Menu";
 
 import { useState } from "react";
 import MenuItem from "@mui/material/MenuItem";
+import FormDialogAddUsergit from "../projects/addUser";
 
 const StyledMenu = styled((props) => (
   <Menu
@@ -48,6 +49,26 @@ const StyledMenu = styled((props) => (
     },
   },
 }));
+
+function KeyboardArrowDownIcon() {
+  return null;
+}
+
+function FormatListNumberedIcon() {
+  return null;
+}
+
+function PersonAddIcon() {
+  return null;
+}
+
+function PeopleAltIcon() {
+  return null;
+}
+
+function MoreHorizIcon() {
+  return null;
+}
 
 export default function MenuItemProject() {
   const [projects, setProjects] = useState([
@@ -102,6 +123,7 @@ export default function MenuItemProject() {
             <MenuItem disableRipple>
               <PersonAddIcon />
               Thêm thành viên
+              <FormDialogAddUsergit />
             </MenuItem>
             <MenuItem disableRipple>
               <MoreHorizIcon />
