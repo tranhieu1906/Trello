@@ -8,7 +8,6 @@ import CreateBoard from "../components/board/CreateBoard";
 import PositionedMenu from "../components/board/Option";
 import GroupIcon from "@mui/icons-material/Group";
 import PersonIcon from "@mui/icons-material/Person";
-import HttpsIcon from "@mui/icons-material/Https";
 import axios from "../api/axios";
 import Divider from "@mui/material/Divider";
 import { getBoards } from "../services/board/boardAction";
@@ -83,7 +82,7 @@ function Home() {
                 <WorkIcon />
               </Avatar>
             </ListItemAvatar>
-            <ListItemText primary={<b>Dự án víp</b>} secondary="Riêng tư" />
+            <ListItemText primary={<b>Dự án vip</b>} secondary="Riêng tư" />
           </ListItem>
         </div>
         <div className="w-full">
@@ -91,7 +90,7 @@ function Home() {
         </div>
         <div className="w-full text-left">
           <PersonIcon style={{ width: 40, height: 40 }} />
-          <b style={{ marginLeft: 15 }}>Cắc bảng của Bạn</b>
+          <b style={{ marginLeft: 15 }}>Các bảng của Bạn</b>
         </div>
         {loading && <CircularProgress className="m-10" />}
         <div className="m-2  items-center justify-center grid grid-cols-3 gap-4">

@@ -42,12 +42,20 @@ const boardSchema = new Schema(
         },
       },
     ],
+
+    owner: {
+      required: true,
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    },
+
     classify: {
       type: String,
       enum: ["individual", "group", "public"],
       default: "individual",
     },
   },
+
   {
     timestamps: true,
   }

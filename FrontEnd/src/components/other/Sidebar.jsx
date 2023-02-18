@@ -1,6 +1,6 @@
 import Button from "@mui/material/Button";
 import React from "react";
-
+import CreateProject from "./CreateProject";
 export default function Sidebar() {
   return (
     <div className=" ">
@@ -81,7 +81,8 @@ export default function Sidebar() {
                 <span className="font-normal ml-2">
                   Các không gian làm việc
                 </span>
-                <Button variant="outlined">Tạo bảng</Button>
+                {/*<Button variant="outlined">+</Button>*/}
+                <CreateProject />
               </div>
               <ul className="pt-2 pb-4 space-y-1 text-base font-bold">
                 <li className="rounded-sm">

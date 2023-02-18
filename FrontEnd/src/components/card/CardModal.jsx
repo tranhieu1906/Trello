@@ -223,7 +223,7 @@ const CardModal = ({ cardId, open, setOpen, card, list }) => {
                       primary={
                         comment.user._id === userInfo._id ? (
                           <div>
-                            <b style={{ color: "brown" }}>
+                            <b style={{ color: "#33CCFF" }}>
                               {comment.user.name}:{" "}
                               <span
                                 className="font-light"

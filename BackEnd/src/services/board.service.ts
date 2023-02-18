@@ -52,6 +52,7 @@ class BoardService {
       title: title,
       backgroundURL: backgroundURL,
       classify: classify,
+      owner: req.user.id,
     });
     newBoard.activity.unshift(activity);
     newBoard.members.push(dataUser);
@@ -85,7 +86,7 @@ class BoardService {
   }
 
   async renameBoard(req, res, board) {
-    let title = Object.keys(req.body)[0]
+    let title = Object.keys(req.body)[0];
     if (title !== board.title) {
       const user = await User.findById(req.user.id);
       board.activity.unshift({

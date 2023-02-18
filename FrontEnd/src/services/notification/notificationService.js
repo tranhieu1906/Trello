@@ -12,7 +12,8 @@ export const notificationAddMember = (users, board, user) => {
       return res;
     })
     .catch((err) => {
-      return err.message;
+      // return err.message;
+      console.log(err.message);
     });
 };
 
