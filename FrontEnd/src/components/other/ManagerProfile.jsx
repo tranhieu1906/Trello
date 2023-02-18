@@ -186,7 +186,7 @@ export default function ManagerProfile() {
           <Box gridColumn="span 4">
             <Card sx={{ maxHeight: 500 }}>
               <Avatar
-                style={{ marginTop: 10, marginLeft: 180, marginBottom: 10 }}
+                style={{ margin: "auto" }}
                 alt="Remy Sharp"
                 // src={userInfo.avatar}
                 sx={{ width: 150, height: 150 }}

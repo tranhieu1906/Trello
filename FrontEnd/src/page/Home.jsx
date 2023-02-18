@@ -83,7 +83,7 @@ function Home() {
                 <WorkIcon />
               </Avatar>
             </ListItemAvatar>
-            <ListItemText primary={<b>Dự dán víp</b>} secondary="Giêng tư" />
+            <ListItemText primary={<b>Dự án vip</b>} secondary="Riêng tư" />
           </ListItem>
         </div>
         <div className="w-full">
@@ -91,7 +91,7 @@ function Home() {
         </div>
         <div className="w-full text-left">
           <PersonIcon style={{ width: 40, height: 40 }} />
-          <b style={{ marginLeft: 15 }}>Cắc bảng của Bạn</b>
+          <b style={{ marginLeft: 15 }}>Các bảng của Bạn</b>
         </div>
         {loading && <CircularProgress className="m-10" />}
         <div className="m-2 items-center justify-center grid grid-cols-4 gap-4">

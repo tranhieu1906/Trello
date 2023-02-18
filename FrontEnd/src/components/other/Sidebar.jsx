@@ -1,5 +1,7 @@
 import Button from "@mui/material/Button";
 import React from "react";
+import ManagerProfile from "./ManagerProfile";
+import MenuItemProject from "./MenuItemProject";
 
 export default function Sidebar() {
   return (
@@ -81,7 +83,9 @@ export default function Sidebar() {
                 <span className="font-normal ml-2">
                   Các không gian làm việc
                 </span>
-                <Button variant="outlined">Tạo bảng</Button>
+                <Button variant="outlined" style={{ marginTop: 5 }}>
+                  Tạo bảng
+                </Button>
               </div>
               <ul className="pt-2 pb-4 space-y-1 text-base font-bold">
                 <li className="rounded-sm">
@@ -103,7 +107,9 @@ export default function Sidebar() {
                         d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"
                       />
                     </svg>
-                    <span>Dự án C0822H1</span>
+                    <span>
+                      <MenuItemProject />
+                    </span>
                   </a>
                 </li>
                 <li className="rounded-sm">
