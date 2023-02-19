@@ -46,7 +46,6 @@ export default function ManagerProfile() {
       axios
         .put("/users/update-profile", values)
         .then((res) => {
-          console.log(res);
           setUserLogin(res.data);
           toast.success(res.data.message);
         })

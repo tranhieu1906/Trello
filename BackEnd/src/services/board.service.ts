@@ -1,5 +1,6 @@
 import { Board } from "../models/Board";
 import { User } from "../models/User";
+import { Project } from "../models/Project";
 import UserService from "./user.service";
 class BoardService {
   async createBoard(req, res) {
@@ -39,7 +40,7 @@ class BoardService {
   }
 
   async newBoard(req) {
-    let { title, backgroundURL, classify } = req.body;
+    let { title, backgroundURL, classify, project } = req.body;
     let user = await User.findById(req.user.id);
     let dataUser = {
       user: req.user.id,
@@ -52,14 +53,17 @@ class BoardService {
       title: title,
       backgroundURL: backgroundURL,
       classify: classify,
+      project: project,
       owner: req.user.id,
     });
     newBoard.activity.unshift(activity);
     newBoard.members.push(dataUser);
     let dataBoardNew = await newBoard.save();
     user.boards.unshift(dataBoardNew._id);
+    const updateProject = await Project.findById(project);
+    updateProject.boards.push(newBoard);
+    await updateProject.save();
     await user.save();
-    return dataBoardNew;
   }
 
   async deleteBoard(req) {

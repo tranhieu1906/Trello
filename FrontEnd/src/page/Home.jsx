@@ -68,94 +68,95 @@ function Home() {
   }, [error]);
 
   return (
-    <div>
-      <section
-        className="flex flex-col items-center p-12"
-        style={{ paddingTop: 20 }}
-      >
-        <div className="w-full">
-          <ListItem
-            style={{ paddingBottom: 25, paddingTop: 0, paddingLeft: 0 }}
-          >
-            <ListItemAvatar style={{ marginRight: 20 }}>
-              <Avatar sx={{ width: 60, height: 60 }} variant="square">
-                <WorkIcon />
-              </Avatar>
-            </ListItemAvatar>
-            <ListItemText primary={<b>Dự án vip</b>} secondary="Riêng tư" />
-          </ListItem>
-        </div>
-        <div className="w-full">
-          <Divider varant="inset" />
-        </div>
-        <div className="w-full text-left">
-          <PersonIcon style={{ width: 40, height: 40 }} />
-          <b style={{ marginLeft: 15 }}>Các bảng của Bạn</b>
-        </div>
-        {loading && <CircularProgress className="m-10" />}
-        <div className="m-2  items-center justify-center grid grid-cols-3 gap-4">
-          {boards.map((board) => (
-            <div
-              key={board._id}
-              className="w-60 h-24 m-5 no-underline font-medium text-white rounded-xl bg-cover z-0"
-              style={{ backgroundImage: `url("${board.backgroundURL}")` }}
-            >
-              <Link to={`/board/${board._id}`}>
-                <h2 className="indent-2.5" style={{ height: 70 }}>
-                  {board.title}
-                </h2>
-              </Link>
-              <div className="backdrop-brightness-50 rounded-full">
-                <PositionedMenu boardId={board._id} updateBoard={updateBoard} />
-              </div>
-            </div>
-          ))}
-          <Button
-            onClick={handleClickOpen}
-            style={{
-              backgroundColor: "darkgrey",
-              marginLeft: 20,
-              borderRadius: 13,
-              color: "white",
-            }}
-            className="w-60 h-24 m-5 no-underline font-medium text-white bg-cover"
-          >
-            Tạo bảng mới
-          </Button>
-          {
-            <CreateBoard
-              open={open}
-              handleClose={handleClose}
-              updateBoard={updateBoard}
-            />
-          }
-        </div>
-        <br />
-        <div className="w-full text-left">
-          <GroupIcon style={{ width: 40, height: 40 }} />
-          <b style={{ marginLeft: 15 }}>Bảng bạn được thêm vào</b>
-          {/*<Divider varant="inset" component="li"/>*/}
-        </div>
-        <div className="m-2 flex flex-row flex-wrap items-center justify-center gap-4">
-          {boardGroups.map((board) => (
-            <div
-              key={board._id}
-              className="w-60 h-24 m-5 no-underline font-medium text-white rounded-xl bg-cover z-0"
-              style={{ backgroundImage: `url("${board.backgroundURL}")` }}
-            >
-              <Link to={`/board/${board._id}`}>
-                <h2 className="indent-2.5" style={{ height: 70 }}>
-                  {board.title}
-                </h2>
-              </Link>
-              <div className="backdrop-brightness-50 rounded-full">
-                <PositionedMenu boardId={board._id} updateBoard={updateBoard} />
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-    </div>
+    <h1> đây là home</h1>
+    // <div>
+    //   <section
+    //     className="flex flex-col items-center p-12"
+    //     style={{ paddingTop: 20 }}
+    //   >
+    //     <div className="w-full">
+    //       <ListItem
+    //         style={{ paddingBottom: 25, paddingTop: 0, paddingLeft: 0 }}
+    //       >
+    //         <ListItemAvatar style={{ marginRight: 20 }}>
+    //           <Avatar sx={{ width: 60, height: 60 }} variant="square">
+    //             <WorkIcon />
+    //           </Avatar>
+    //         </ListItemAvatar>
+    //         <ListItemText primary={<b>Dự án vip</b>} secondary="Riêng tư" />
+    //       </ListItem>
+    //     </div>
+    //     <div className="w-full">
+    //       <Divider varant="inset" />
+    //     </div>
+    //     <div className="w-full text-left">
+    //       <PersonIcon style={{ width: 40, height: 40 }} />
+    //       <b style={{ marginLeft: 15 }}>Các bảng của Bạn</b>
+    //     </div>
+    //     {loading && <CircularProgress className="m-10" />}
+    //     <div className="m-2  items-center justify-center grid grid-cols-3 gap-4">
+    //       {boards.map((board, index) => (
+    //         <div
+    //           key={index}
+    //           className="w-60 h-24 m-5 no-underline font-medium text-white rounded-xl bg-cover z-0"
+    //           style={{ backgroundImage: `url("${board.backgroundURL}")` }}
+    //         >
+    //           <Link to={`/board/${board._id}`}>
+    //             <h2 className="indent-2.5" style={{ height: 70 }}>
+    //               {board.title}
+    //             </h2>
+    //           </Link>
+    //           <div className="backdrop-brightness-50 rounded-full">
+    //             <PositionedMenu boardId={board._id} updateBoard={updateBoard} />
+    //           </div>
+    //         </div>
+    //       ))}
+    //       <Button
+    //         onClick={handleClickOpen}
+    //         style={{
+    //           backgroundColor: "darkgrey",
+    //           marginLeft: 20,
+    //           borderRadius: 13,
+    //           color: "white",
+    //         }}
+    //         className="w-60 h-24 m-5 no-underline font-medium text-white bg-cover"
+    //       >
+    //         Tạo bảng mới
+    //       </Button>
+    //       {
+    //         <CreateBoard
+    //           open={open}
+    //           handleClose={handleClose}
+    //           updateBoard={updateBoard}
+    //         />
+    //       }
+    //     </div>
+    //     <br />
+    //     <div className="w-full text-left">
+    //       <GroupIcon style={{ width: 40, height: 40 }} />
+    //       <b style={{ marginLeft: 15 }}>Bảng bạn được thêm vào</b>
+    //       {/*<Divider varant="inset" component="li"/>*/}
+    //     </div>
+    //     <div className="m-2 flex flex-row flex-wrap items-center justify-center gap-4">
+    //       {boardGroups.map((board) => (
+    //         <div
+    //           key={board._id}
+    //           className="w-60 h-24 m-5 no-underline font-medium text-white rounded-xl bg-cover z-0"
+    //           style={{ backgroundImage: `url("${board.backgroundURL}")` }}
+    //         >
+    //           <Link to={`/board/${board._id}`}>
+    //             <h2 className="indent-2.5" style={{ height: 70 }}>
+    //               {board.title}
+    //             </h2>
+    //           </Link>
+    //           <div className="backdrop-brightness-50 rounded-full">
+    //             <PositionedMenu boardId={board._id} updateBoard={updateBoard} />
+    //           </div>
+    //         </div>
+    //       ))}
+    //     </div>
+    //   </section>
+    // </div>
   );
 }
 

@@ -267,9 +267,7 @@ export const archiveList = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     const { archive, listId } = data;
     try {
-      const { data } = await axios.patch(
-        `/lists/archive/${archive}/${listId}`
-      );
+      const { data } = await axios.patch(`/lists/archive/${archive}/${listId}`);
       return data;
     } catch (error) {
       if (error.response && error.response.data) {

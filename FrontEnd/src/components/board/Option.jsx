@@ -5,8 +5,8 @@ import MenuItem from "@mui/material/MenuItem";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import { deleteBoard } from "../../services/board/boardAction";
 import { useSelector } from "react-redux";
-
-export default function PositionedMenu({ boardId, updateBoard }) {
+import { getDataProject } from "../../services/project/projectService";
+export default function PositionedMenu({ boardId, updateBoard, project }) {
   const { socket, userInfo } = useSelector((state) => state.auth);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -24,11 +24,11 @@ export default function PositionedMenu({ boardId, updateBoard }) {
         boardId: boardId,
       };
       socket?.emit("board-drop", data);
-      let dataBoard = await deleteBoard(boardId);
-      if (dataBoard) {
-        updateBoard(dataBoard);
-        setAnchorEl(null);
-      }
+      await deleteBoard(boardId);
+      getDataProject(project).then((res) => {
+        updateBoard(res.data);
+      });
+      setAnchorEl(null);
     }
   };
 

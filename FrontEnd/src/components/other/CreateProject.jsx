@@ -25,7 +25,7 @@ const categories = [
   "khác..",
 ];
 
-export default function CreateProject() {
+export default function CreateProject({ updateProjects }) {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -46,8 +46,15 @@ export default function CreateProject() {
     validationSchema: Yup.object({
       name: Yup.string().required("Dự án không thể không có tên "),
     }),
-    onSubmit: async (values) => {
-      await createProject(values);
+    onSubmit: (values) => {
+      createProject(values)
+        .then((res) => {
+          updateProjects(res.data);
+        })
+        .catch((err) => {
+          console.log(err.message);
+        });
+
       formik.resetForm();
       handleClose();
     },
