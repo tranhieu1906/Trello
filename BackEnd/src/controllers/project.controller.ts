@@ -30,6 +30,8 @@ class ProjectController {
         board.members.some((member) => member.user.toString() === req.user.id)
       ) {
         boards.push(board);
+      } else if (board.classify === "public") {
+        boards.push(board);
       }
     });
     res.status(200).json({

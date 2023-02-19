@@ -37,16 +37,16 @@ function Project() {
     });
   }, [params.id]);
 
-  // socket?.on("new-notifications", (data) => {
-  //   axios.get("/boards").then((res) => {
-  //     setBoards(res.data);
-  //   });
-  // });
-  // socket?.on("update-board-list", (data) => {
-  //   axios.get("/boards").then((res) => {
-  //     setBoards(res.data);
-  //   });
-  // });
+  socket?.on("new-notifications", (data) => {
+    axios.get("/boards").then((res) => {
+      setBoards(res.data);
+    });
+  });
+  socket?.on("update-board-list", (data) => {
+    axios.get("/boards").then((res) => {
+      setBoards(res.data);
+    });
+  });
 
   useEffect(() => {
     if (localStorage.getItem("userToken")) dispatch(getBoards());
@@ -118,6 +118,7 @@ function Project() {
               </Link>
               <div className="backdrop-brightness-50 rounded-full">
                 <PositionedMenu
+                  dataBoard={board}
                   boardId={board._id}
                   project={params}
                   updateBoard={updateBoard}

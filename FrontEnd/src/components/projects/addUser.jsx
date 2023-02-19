@@ -6,10 +6,13 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import { useState } from "react";
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import FormControl from "@mui/material/FormControl";
 
-export default function FormDialogAddUsergit() {
-  const [open, setOpen] = React.useState(false);
-
+export default function FormDialog() {
+  const [open, setOpen] = useState(false);
+  const [ketWord, setKetWord] = useState("");
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -20,25 +23,24 @@ export default function FormDialogAddUsergit() {
 
   return (
     <div>
-      <Button variant="outlined" onClick={handleClickOpen}>
-        Open form dialog
-      </Button>
+      <div onClick={handleClickOpen}>
+        <PersonAddIcon />
+        Thêm thành viên
+      </div>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Subscribe</DialogTitle>
+        <DialogTitle>Mời vào không gian làm việc</DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            To subscribe to this website, please enter your email address here.
-            We will send updates occasionally.
-          </DialogContentText>
-          <TextField
-            autoFocus
-            margin="dense"
-            id="name"
-            label="Email Address"
-            type="email"
-            fullWidth
-            variant="standard"
-          />
+          <FormControl fullWidth sx={{ m: 1, minWidth: 400 }} size="small">
+            <TextField
+              fullWidth
+              placeholder="Địa trỉ email hoạc tên"
+              name="name"
+              type="text"
+              value={ketWord}
+              onChange={(e) => setKetWord(e.target.value)}
+            />
+          </FormControl>
+          <DialogContentText></DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>

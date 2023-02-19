@@ -10,6 +10,8 @@ import PeopleIcon from "@mui/icons-material/People";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { Link } from "react-router-dom";
+import * as React from "react";
+import FormDialog from "../projects/addUser";
 
 const StyledMenu = styled((props) => (
   <Menu
@@ -56,6 +58,12 @@ const StyledMenu = styled((props) => (
 
 export default function MenuItemProject({ project }) {
   const [anchorEl, setAnchorEl] = useState(null);
+  const [openDialog, setOpenDialog] = React.useState(false);
+
+  const offDialog = () => {
+    setOpenDialog(false);
+  };
+
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -101,9 +109,7 @@ export default function MenuItemProject({ project }) {
         </MenuItem>
 
         <MenuItem disableRipple>
-          <PersonAddIcon />
-          Thêm thành viên
-          <FormDialogAddUsergit />
+          <FormDialog open={openDialog} handleClose={offDialog} />
         </MenuItem>
         {/*<MenuItem disableRipple>More</MenuItem>*/}
       </StyledMenu>

@@ -126,6 +126,8 @@ class BoardController {
           board.members.some((member) => member.user.toString() === req.user.id)
         ) {
           boards.push(board);
+        } else if (board.classify === "public") {
+          boards.push(board);
         }
       });
       res.status(200).json({
@@ -142,8 +144,7 @@ class BoardController {
       let board = await BoardService.getBoardById(req.params.boardId);
       if (board) {
         await BoardService.deleteBoard(req);
-        let project = await ProjectService.getDataProject(req);
-        console.log(project);
+        // let project = await ProjectService.getDataProject(req);
         res.status(200).json({
           success: true,
         });
