@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 export class ConnectDatabase {
     
     static async connect() {
-        const DB_URL = `mongodb://127.0.0.1:27017/${process.env.DATABASE_NAME}`;
+        const DB_URL = `mongodb+srv://Hieu:ObkktJvRBfGQohLM@trello.52c2lub.mongodb.net/?retryWrites=true&w=majority`;
 
         mongoose.set("strictQuery", true);
 

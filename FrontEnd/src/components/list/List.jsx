@@ -1,4 +1,4 @@
-import { Backdrop, CircularProgress } from "@mui/material";
+import LinearProgress from "@mui/material/LinearProgress";
 import Button from "@mui/material/Button";
 import PropTypes from "prop-types";
 import React, { useEffect, useRef, useState } from "react";
@@ -26,14 +26,7 @@ const List = ({ listId, index, list }) => {
 
   return (
     <>
-      {loading && (
-        <Backdrop
-          sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-          open={loading}
-        >
-          <CircularProgress color="inherit" />
-        </Backdrop>
-      )}
+      {loading && <LinearProgress color="primary" variant="soft" />}
       {!list || (list && list.archived) ? (
         ""
       ) : (
@@ -59,14 +52,14 @@ const List = ({ listId, index, list }) => {
                     ref={provided.innerRef}
                   >
                     <div className="cards">
-                      {list.cards.map((cardId, index) =>
+                      {list.cards.map((cardId, index) => (
                         <Card
                           key={cardId._id}
                           cardId={cardId._id}
                           list={list}
                           index={index}
                         />
-                      )}
+                      ))}
                     </div>
                     {provided.placeholder}
                     {addingCard && (

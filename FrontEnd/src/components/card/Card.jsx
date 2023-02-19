@@ -105,7 +105,7 @@ const Card = ({ cardId, list, index }) => {
                     style={{ backgroundColor: card.label }}
                   />
                 )}
-                <p>{card.title}</p>
+                <p style={{ maxWidth: "150px" }}>{card.title}</p>
                 <div className="card-bottom">
                   <div className="card-bottom-left">
                     {card.description && (
