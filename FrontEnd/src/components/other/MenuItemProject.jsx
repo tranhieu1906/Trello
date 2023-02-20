@@ -73,7 +73,7 @@ export default function MenuItemProject() {
   return (
     <div>
       {projects.map((project, index) => (
-        <div>
+        <div key={index}>
           <MenuItem
             id="demo-customized-button"
             aria-controls={open ? "demo-customized-menu" : undefined}

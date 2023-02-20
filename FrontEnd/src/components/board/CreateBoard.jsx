@@ -18,10 +18,8 @@ import MenuItem from "@mui/material/MenuItem";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import axios from "../../api/axios";
-import { useDispatch, useSelector } from "react-redux";
 import { getBoardData } from "../../services/board/boardAction";
 import * as Yup from "yup";
-import { userLogin } from "../../services/auth/authActions";
 
 let backgrounds = [
   "http://static1.squarespace.com/static/5fe4caeadae61a2f19719512/5fe5c3a9d85eb525301180ed/5ff082ae17af6f5d1930e6bf/1610530333403/Wallpaper+engine+4k.png?format=1500w",
@@ -36,6 +34,8 @@ export default function CreateBoard(props) {
   const [selectedPhoto, setSelectedPhoto] = useState(
     "https://c4.wallpaperflare.com/wallpaper/228/1003/832/artistic-mountain-minimalist-moon-nature-hd-wallpaper-preview.jpg"
   );
+
+  useEffect(() => {});
 
   const formik = useFormik({
     initialValues: {

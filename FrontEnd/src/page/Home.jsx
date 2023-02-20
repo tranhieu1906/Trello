@@ -8,7 +8,6 @@ import CreateBoard from "../components/board/CreateBoard";
 import PositionedMenu from "../components/board/Option";
 import GroupIcon from "@mui/icons-material/Group";
 import PersonIcon from "@mui/icons-material/Person";
-import HttpsIcon from "@mui/icons-material/Https";
 import axios from "../api/axios";
 import Divider from "@mui/material/Divider";
 import { getBoards } from "../services/board/boardAction";
@@ -94,7 +93,7 @@ function Home() {
           <b style={{ marginLeft: 15 }}>Các bảng của Bạn</b>
         </div>
         {loading && <CircularProgress className="m-10" />}
-        <div className="m-2 items-center justify-center grid grid-cols-4 gap-4">
+        <div className="m-2  items-center justify-center grid grid-cols-3 gap-4">
           {boards.map((board) => (
             <div
               key={board._id}

@@ -1,31 +1,33 @@
 const { Schema, model } = require("mongoose");
 
-const boardSchema = new Schema(
+const GroupSchema = new Schema(
   {
-    title: {
+    name: {
       type: String,
       required: true,
     },
-    lists: [
+
+    category: {
+      type: String,
+      required: true,
+    },
+
+    permission: {
+      type: String,
+      default: "private",
+      enum: ["public", "private"],
+    },
+
+    boards: [
       {
         type: Schema.Types.ObjectId,
-        ref: "List",
-      },
-    ],
-    activity: [
-      {
-        text: {
-          type: String,
-        },
-        date: {
-          type: Date,
-          default: Date.now,
-        },
+        ref: "Board",
       },
     ],
 
-    backgroundURL: {
+    describe: {
       type: String,
+      required: false,
     },
 
     members: [
@@ -37,8 +39,8 @@ const boardSchema = new Schema(
         },
         role: {
           type: String,
-          default: "admin",
-          enum: ["admin", "observer"],
+          default: "see",
+          enum: ["see", "edit", "manage"],
         },
       },
     ],
@@ -48,17 +50,10 @@ const boardSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "User",
     },
-
-    classify: {
-      type: String,
-      enum: ["individual", "group", "public"],
-      default: "individual",
-    },
   },
-
   {
     timestamps: true,
   }
 );
 
-export const Board = model("Board", boardSchema);
+export const Project = model("Project", GroupSchema);

@@ -67,7 +67,6 @@ const authSlice = createSlice({
     [getUser.fulfilled]: (state, { payload }) => {
       state.loading = false;
       state.userInfo = payload;
-      console.log(state.userInfo);
     },
     [getUser.rejected]: (state, { payload }) => {
       state.loading = false;
