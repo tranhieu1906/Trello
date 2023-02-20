@@ -19,7 +19,7 @@ import { getDataProject } from "../services/project/projectService";
 
 function Project() {
   const { loading, error } = useSelector((state) => state.board);
-  const { socket } = useSelector((state) => state.auth);
+  const { socket, userInfo } = useSelector((state) => state.auth);
   const [project, setProject] = useState({});
   const [open, setOpen] = useState(false);
   const [boards, setBoards] = useState([]);
@@ -32,8 +32,19 @@ function Project() {
 
   useEffect(() => {
     getDataProject(params).then((res) => {
+      let myBoard = [];
+      let otherBoard = [];
+      let boards = res.data.boards;
+      boards.map((board) => {
+        if (board.owner === userInfo._id) {
+          myBoard.push(board);
+        } else {
+          otherBoard.push(board);
+        }
+      });
       setProject(res.data.project);
-      setBoards(res.data.boards);
+      setBoards(myBoard);
+      setBoardGroups(otherBoard);
     });
   }, [params.id]);
 
@@ -104,7 +115,7 @@ function Project() {
           <b style={{ marginLeft: 15 }}>Các bảng của Bạn</b>
         </div>
         {loading && <CircularProgress className="m-10" />}
-        <div className="m-2  items-center justify-center grid grid-cols-3 gap-4">
+        <div className="m-2 items-center justify-center grid grid-cols-3 gap-4">
           {boards.map((board, index) => (
             <div
               key={index}
@@ -149,10 +160,10 @@ function Project() {
         <br />
         <div className="w-full text-left">
           <GroupIcon style={{ width: 40, height: 40 }} />
-          <b style={{ marginLeft: 15 }}>Bảng bạn được thêm vào</b>
+          <b style={{ marginLeft: 15 }}>Bảng khác</b>
           {/*<Divider varant="inset" component="li"/>*/}
         </div>
-        <div className="m-2 flex flex-row flex-wrap items-center justify-center gap-4">
+        <div className="m-2 items-center justify-center grid grid-cols-3 gap-4">
           {boardGroups.map((board) => (
             <div
               key={board._id}
@@ -166,8 +177,9 @@ function Project() {
               </Link>
               <div className="backdrop-brightness-50 rounded-full">
                 <PositionedMenu
+                  dataBoard={board}
                   boardId={board._id}
-                  params={params.id}
+                  project={params}
                   updateBoard={updateBoard}
                 />
               </div>

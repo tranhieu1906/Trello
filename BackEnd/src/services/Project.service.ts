@@ -23,9 +23,7 @@ class ProjectService {
   }
 
   async getProject(req) {
-    const user = await User.findById(req.user.id)
-      .populate("projects")
-      .populate("");
+    const user = await User.findById(req.user.id).populate("projects");
     let listProjects = user.projects;
     if (listProjects) {
       return listProjects;

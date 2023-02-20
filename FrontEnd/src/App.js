@@ -62,14 +62,7 @@ function App() {
           }
         >
           <Route index element={<Home />} />
-          <Route
-            path="/w/:id/home"
-            element={
-              <PrivateRoute>
-                <Project />
-              </PrivateRoute>
-            }
-          />
+          <Route path="/w/:id/home" element={<Project />} />
           {/*<Route path="user" element={<ManagerProfile />} />*/}
         </Route>
         <Route
@@ -93,10 +86,10 @@ function App() {
           }
         />
         {/*<Route*/}
-        {/*  path="/project/:id"*/}
+        {/*  path="/w/:id/home"*/}
         {/*  element={*/}
         {/*    <PrivateRoute>*/}
-        {/*      <Project />*/}
+        {/*      <Layout />*/}
         {/*    </PrivateRoute>*/}
         {/*  }*/}
         {/*/>*/}
