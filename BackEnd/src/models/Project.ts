@@ -39,7 +39,7 @@ const GroupSchema = new Schema(
         },
         role: {
           type: String,
-          default: "see",
+          default: "edit",
           enum: ["see", "edit", "manage"],
         },
       },

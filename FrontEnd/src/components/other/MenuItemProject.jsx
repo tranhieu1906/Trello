@@ -3,7 +3,7 @@ import { styled, alpha } from "@mui/material/styles";
 import MoreVertRoundedIcon from "@mui/icons-material/MoreVertRounded";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import FormDialogAddUsergit from "../projects/addUser";
+import FormDialogAddUsergit from "../projects/AddUser";
 
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import PeopleIcon from "@mui/icons-material/People";
@@ -11,7 +11,7 @@ import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { Link } from "react-router-dom";
 import * as React from "react";
-import FormDialog from "../projects/addUser";
+import FormDialog from "../projects/AddUser";
 
 const StyledMenu = styled((props) => (
   <Menu
@@ -58,11 +58,6 @@ const StyledMenu = styled((props) => (
 
 export default function MenuItemProject({ project }) {
   const [anchorEl, setAnchorEl] = useState(null);
-  const [openDialog, setOpenDialog] = React.useState(false);
-
-  const offDialog = () => {
-    setOpenDialog(false);
-  };
 
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -84,7 +79,7 @@ export default function MenuItemProject({ project }) {
         onClick={handleClick}
         // endIcon={<KeyboardArrowDownIcon />}
       >
-        {project.name} <MoreVertRoundedIcon />
+        <MoreVertRoundedIcon /> {project.name}
       </MenuItem>
 
       <StyledMenu
@@ -109,7 +104,7 @@ export default function MenuItemProject({ project }) {
         </MenuItem>
 
         <MenuItem disableRipple>
-          <FormDialog open={openDialog} handleClose={offDialog} />
+          <FormDialog project={project} />
         </MenuItem>
         {/*<MenuItem disableRipple>More</MenuItem>*/}
       </StyledMenu>

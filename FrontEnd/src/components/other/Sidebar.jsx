@@ -5,7 +5,6 @@ import { getListProject } from "../../services/project/projectService";
 
 export default function Sidebar() {
   const [projects, setProjects] = useState([]);
-
   const updateProjects = (data) => {
     setProjects([...projects, data]);
   };
@@ -102,15 +101,6 @@ export default function Sidebar() {
                   <div key={index}>
                     <MenuItemProject project={project} />
                   </div>
-                  // <a
-                  //   href="/#"
-                  //   className="flex items-center p-2 space-x-3 rounded-md"
-                  // >
-                  //   <FormatListBulletedIcon />
-                  //   <span>
-                  //     {project.name}
-                  //   </span>
-                  // </a>
                 ))}
               </div>
             </div>
