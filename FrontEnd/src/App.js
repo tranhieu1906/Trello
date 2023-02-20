@@ -14,10 +14,19 @@ import ManagerProfile from "./components/other/ManagerProfile";
 import LayoutManagerProfie from "./components/Layout/LayoutManagerProfie";
 import { useSelector } from "react-redux";
 import Project from "./page/Project";
+import { getListProject } from "./services/project/projectService";
 
 function App() {
   const navigate = useNavigate();
   const { socket, userInfo } = useSelector((state) => state.auth);
+  const [idProjectBegin, setIdProjectBegin] = useState("");
+
+  useEffect(() => {
+    getListProject().then((res) => {
+      setIdProjectBegin(res.data[0]._id)
+    });
+  }, []);
+
   useEffect(() => {
     if (localStorage.getItem("userToken")) {
       axios.defaults.headers.common["Authorization"] =
@@ -62,7 +71,9 @@ function App() {
           }
         >
           <Route index element={<Home />} />
+          {/* <Route path="/w/idProjectBegin/home" element={<Project />} /> */}
           <Route path="/w/:id/home" element={<Project />} />
+
           {/*<Route path="user" element={<ManagerProfile />} />*/}
         </Route>
         <Route
