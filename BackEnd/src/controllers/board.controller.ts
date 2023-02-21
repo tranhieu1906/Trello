@@ -5,15 +5,6 @@ import NotificationService from "../services/notification.service";
 import ProjectService from "../services/Project.service";
 import { Project } from "../models/Project";
 class BoardController {
-  // Thêm bảng
-  async createBoard(req, res, next) {
-    try {
-      const board = await BoardService.createBoard(req, res);
-      res.status(200).json({ board: board });
-    } catch (err) {
-      next(err);
-    }
-  }
   // lấy bảng theo id user
   async getUserBoard(req, res, next) {
     try {

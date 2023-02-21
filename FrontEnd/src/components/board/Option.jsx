@@ -21,16 +21,16 @@ export default function PositionedMenu({ boardId, dataBoard, updateData }) {
   };
 
   useEffect(() => {
-    if (dataBoard.owner === userInfo._id) {
+    if (dataBoard.owner === userInfo?._id) {
       setRole("admin");
     } else if (
-      dataBoard.members.some((member) => member.user === userInfo._id)
+      dataBoard.members.some((member) => member.user === userInfo?._id)
     ) {
       setRole("edit");
     } else {
       setRole("outsider");
     }
-  });
+  }, [userInfo]);
 
   const handleDelete = async (boardId) => {
     if (window.confirm("Bạn đồng ý xóa bảng này ?")) {

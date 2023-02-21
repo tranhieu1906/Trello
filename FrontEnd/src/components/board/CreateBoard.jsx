@@ -39,10 +39,12 @@ export default function CreateBoard(props) {
   const [projects, setProjects] = useState([]);
 
   useEffect(() => {
-    getListProject().then((res) => {
-      setProjects(res.data);
-    });
-  }, []);
+    if (open) {
+      getListProject().then((res) => {
+        setProjects(res.data);
+      });
+    }
+  }, [open]);
 
   const formik = useFormik({
     initialValues: {
@@ -70,6 +72,11 @@ export default function CreateBoard(props) {
     },
   });
 
+  const close = () => {
+    formik.resetForm();
+    handleClose();
+  };
+
   const [img, setImg] = useState(backgrounds);
 
   return (
@@ -82,7 +89,7 @@ export default function CreateBoard(props) {
       >
         <DialogTitle id="alert-dialog-title" className=" text-center">
           {"Tạo bảng"}
-          <Button onClick={handleClose} className=" float-right">
+          <Button onClick={close} className=" float-right">
             <ClearIcon />
           </Button>
         </DialogTitle>

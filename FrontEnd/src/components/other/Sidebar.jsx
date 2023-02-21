@@ -2,12 +2,20 @@ import React, { useState, useEffect } from "react";
 import CreateProject from "./CreateProject";
 import MenuItemProject from "./MenuItemProject";
 import { getListProject } from "../../services/project/projectService";
+import { useSelector } from "react-redux";
 
 export default function Sidebar() {
   const [projects, setProjects] = useState([]);
+  const { socket } = useSelector((state) => state.auth);
   const updateProjects = (data) => {
     setProjects([...projects, data]);
   };
+
+  socket?.on("new-notifications", (data) => {
+    getListProject().then((res) => {
+      setProjects(res.data);
+    });
+  });
 
   useEffect(() => {
     getListProject().then((res) => {

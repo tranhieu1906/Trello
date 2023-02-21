@@ -36,7 +36,7 @@ function Project() {
       let otherBoard = [];
       let boards = res.data.boards;
       boards.map((board) => {
-        if (board.owner === userInfo._id) {
+        if (board.owner === userInfo?._id) {
           myBoard.push(board);
         } else {
           otherBoard.push(board);

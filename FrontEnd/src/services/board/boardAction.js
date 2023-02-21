@@ -126,6 +126,7 @@ export const addCard = createAsyncThunk(
     }
   }
 );
+
 export const getCard = createAsyncThunk(
   "board/getCard",
   async (id, { rejectWithValue }) => {

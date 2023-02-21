@@ -31,7 +31,7 @@ export default function Layout() {
           <Sidebar />
         </Grid>
         <Grid item xs={9}>
-          <Item>
+          <Item className="h-full">
             <Outlet />
           </Item>
         </Grid>

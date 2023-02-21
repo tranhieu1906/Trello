@@ -34,10 +34,8 @@ function Home() {
   useEffect(() => {
     if (localStorage.getItem("userToken")) dispatch(getBoards());
     getListProject().then((res) => {
-      console.log(res.data[0]._id);
       navigate(`/w/${res.data[0]._id}/home`);
     });
-    
   }, []);
 
   // useEffect(() => {
@@ -58,8 +56,7 @@ function Home() {
   // });
 
   // useEffect(() => {
-    
-    
+
   // }, [dispatch]);
 
   useEffect(() => {
@@ -83,7 +80,6 @@ function Home() {
   }, [error]);
 
   return (
-
     <h1> loading... </h1>
     // <div>
     //   <section

@@ -19,7 +19,6 @@ module.exports = async (io, socket) => {
 
   const joinBoard = (board) => {};
 
-  // socket.on("drag-and-drop");
   socket.on("board-drop", boardDrop);
   socket.on("join-card", joinCard);
   socket.on("send-comment", sendComment);
