@@ -28,6 +28,7 @@ let backgrounds = [
   "https://i.pinimg.com/originals/c5/40/01/c540018ca1c7b93cb1fbc218ea0c73a7.png",
   "https://c4.wallpaperflare.com/wallpaper/778/639/660/animals-firewatch-forest-minimalism-wallpaper-preview.jpg",
   "https://c4.wallpaperflare.com/wallpaper/228/1003/832/artistic-mountain-minimalist-moon-nature-hd-wallpaper-preview.jpg",
+  "https://images.pexels.com/photos/1525041/pexels-photo-1525041.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
 ];
 
 export default function CreateBoard(props) {
@@ -38,10 +39,12 @@ export default function CreateBoard(props) {
   const [projects, setProjects] = useState([]);
 
   useEffect(() => {
-    getListProject().then((res) => {
-      setProjects(res.data);
-    });
-  }, []);
+    if (open) {
+      getListProject().then((res) => {
+        setProjects(res.data);
+      });
+    }
+  }, [open]);
 
   const formik = useFormik({
     initialValues: {
@@ -69,6 +72,11 @@ export default function CreateBoard(props) {
     },
   });
 
+  const close = () => {
+    formik.resetForm();
+    handleClose();
+  };
+
   const [img, setImg] = useState(backgrounds);
 
   return (
@@ -81,7 +89,7 @@ export default function CreateBoard(props) {
       >
         <DialogTitle id="alert-dialog-title" className=" text-center">
           {"Tạo bảng"}
-          <Button onClick={handleClose} className=" float-right">
+          <Button onClick={close} className=" float-right">
             <ClearIcon />
           </Button>
         </DialogTitle>

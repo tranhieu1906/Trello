@@ -64,6 +64,7 @@ export default function ManagerProfile() {
       axios
         .put("/users/update-profile", values)
         .then((res) => {
+          console.log(res);
           setUserLogin(res.data);
           toast.success(res.data.message);
         })
@@ -124,7 +125,7 @@ export default function ManagerProfile() {
   };
 
   return (
-    <>
+    <div className="h-full">
       <Typography variant="h2" gutterBottom>
         Cập nhật thông tin tài khoản
       </Typography>
@@ -289,6 +290,6 @@ export default function ManagerProfile() {
           </Box>
         </Box>
       )}
-    </>
+    </div>
   );
 }

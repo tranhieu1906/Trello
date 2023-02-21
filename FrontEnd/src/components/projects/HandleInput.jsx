@@ -9,7 +9,8 @@ import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import axios from "../../api/axios";
-import { addUser } from "../../services/project/projectService";
+import { addUser, getDataProject } from "../../services/project/projectService";
+import { notificationJoinProject } from "../../services/notification/notificationService";
 
 const Root = styled("div")(
   ({ theme }) => `
@@ -157,12 +158,11 @@ const Listbox = styled("ul")(
 `
 );
 
-export default function HandleInput({ project, members }) {
+export default function HandleInput({ handleClose, project, members }) {
   const [users, setUsers] = useState([]);
   const [inputValue, setInputValue] = useState("");
-
-  const { error, board } = useSelector((state) => state.board);
   const { socket, userInfo } = useSelector((state) => state.auth);
+
   const searchOptions = users.filter((user) =>
     members.find((member) => member.user === user._id) ? false : true
   );
@@ -213,9 +213,11 @@ export default function HandleInput({ project, members }) {
       userExists.forEach((user) => (message += `${user.email}, `));
       toast.error(`Người dùng : ${message} đã có sẵn trong Nhóm!`);
     } else {
-      // await notificationAddMember(id, board, userInfo);
+      await notificationJoinProject(id, project, userInfo);
+      socket?.emit("send-notifications", id);
       await addUser(id, project)
         .then((res) => {
+          handleClose();
           toast.success("mời nguời dùng vào nhóm thành công");
         })
         .catch((error) => {

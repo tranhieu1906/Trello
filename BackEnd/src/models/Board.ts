@@ -38,7 +38,7 @@ const boardSchema = new Schema(
         role: {
           type: String,
           default: "admin",
-          enum: ["admin", "observer"],
+          enum: ["admin", "observer", "owner"],
         },
       },
     ],

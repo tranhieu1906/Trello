@@ -36,7 +36,7 @@ function Project() {
       let otherBoard = [];
       let boards = res.data.boards;
       boards.map((board) => {
-        if (board.owner === userInfo._id) {
+        if (board.owner === userInfo?._id) {
           myBoard.push(board);
         } else {
           otherBoard.push(board);
@@ -89,10 +89,7 @@ function Project() {
 
   return (
     <div>
-      <section
-        className="flex flex-col items-center p-12"
-        style={{ paddingTop: 20 }}
-      >
+      <section className="flex flex-col p-12" style={{ paddingTop: 20 }}>
         <div className="w-full">
           <ListItem
             style={{ paddingBottom: 25, paddingTop: 0, paddingLeft: 0 }}

@@ -23,7 +23,7 @@ function App() {
 
   useEffect(() => {
     getListProject().then((res) => {
-      setIdProjectBegin(res.data[0]._id)
+      setIdProjectBegin(res.data[0]._id);
     });
   }, []);
 
@@ -71,9 +71,7 @@ function App() {
           }
         >
           <Route index element={<Home />} />
-          {/* <Route path="/w/idProjectBegin/home" element={<Project />} /> */}
           <Route path="/w/:id/home" element={<Project />} />
-
           {/*<Route path="user" element={<ManagerProfile />} />*/}
         </Route>
         <Route

@@ -44,7 +44,7 @@ class BoardService {
     let user = await User.findById(req.user.id);
     let dataUser = {
       user: req.user.id,
-      role: "admin",
+      role: "owner",
     };
     let activity = {
       text: `${user.name} đã tạo bảng này `,
