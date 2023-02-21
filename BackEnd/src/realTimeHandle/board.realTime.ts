@@ -17,9 +17,7 @@ module.exports = async (io, socket) => {
 
   const dragAndDrop = () => {};
 
-  const joinBoard = (board) => {
-    console.log(board);
-  };
+  const joinBoard = (board) => {};
 
   // socket.on("drag-and-drop");
   socket.on("board-drop", boardDrop);

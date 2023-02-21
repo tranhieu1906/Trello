@@ -1,9 +1,7 @@
-import * as React from "react";
+import { useState } from "react";
 import { styled, alpha } from "@mui/material/styles";
 import MoreVertRoundedIcon from "@mui/icons-material/MoreVertRounded";
 import Menu from "@mui/material/Menu";
-
-import { useState } from "react";
 import MenuItem from "@mui/material/MenuItem";
 import FormDialogAddUsergit from "../projects/addUser";
 
@@ -11,6 +9,9 @@ import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import PeopleIcon from "@mui/icons-material/People";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import { Link } from "react-router-dom";
+import * as React from "react";
+import FormDialog from "../projects/addUser";
 
 const StyledMenu = styled((props) => (
   <Menu
@@ -55,13 +56,14 @@ const StyledMenu = styled((props) => (
   },
 }));
 
-export default function MenuItemProject() {
-  const [projects, setProjects] = useState([
-    {
-      name: " DỰ ÁN C0822H11",
-    },
-  ]);
-  const [anchorEl, setAnchorEl] = React.useState(null);
+export default function MenuItemProject({ project }) {
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [openDialog, setOpenDialog] = React.useState(false);
+
+  const offDialog = () => {
+    setOpenDialog(false);
+  };
+
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -72,48 +74,45 @@ export default function MenuItemProject() {
 
   return (
     <div>
-      {projects.map((project, index) => (
-        <div key={index}>
-          <MenuItem
-            id="demo-customized-button"
-            aria-controls={open ? "demo-customized-menu" : undefined}
-            aria-haspopup="true"
-            aria-expanded={open ? "true" : undefined}
-            variant="contained"
-            disableElevation
-            onClick={handleClick}
-            // endIcon={<KeyboardArrowDownIcon />}
-          >
-            {project.name} <MoreVertRoundedIcon />
+      <MenuItem
+        id="demo-customized-button"
+        aria-controls={open ? "demo-customized-menu" : undefined}
+        aria-haspopup="true"
+        aria-expanded={open ? "true" : undefined}
+        variant="contained"
+        // disableElevation
+        onClick={handleClick}
+        // endIcon={<KeyboardArrowDownIcon />}
+      >
+        {project.name} <MoreVertRoundedIcon />
+      </MenuItem>
+
+      <StyledMenu
+        id="demo-customized-menu"
+        MenuListProps={{
+          "aria-labelledby": "demo-customized-button",
+        }}
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+      >
+        {/*/w/:id/home*/}
+        <Link to={`/w/${project._id}/home`}>
+          <MenuItem onClick={handleClose} disableRipple>
+            <FormatListBulletedIcon />
+            Bảng
           </MenuItem>
+        </Link>
+        <MenuItem onClick={handleClose} disableRipple>
+          <PeopleIcon />
+          Thành viên
+        </MenuItem>
 
-          <StyledMenu
-            id="demo-customized-menu"
-            MenuListProps={{
-              "aria-labelledby": "demo-customized-button",
-            }}
-            anchorEl={anchorEl}
-            open={open}
-            onClose={handleClose}
-          >
-            <MenuItem onClick={handleClose} disableRipple>
-              {/*<FormatListBulletedIcon />*/}
-              Bảng
-            </MenuItem>
-            <MenuItem onClick={handleClose} disableRipple>
-              {/*<PeopleIcon />*/}
-              Thành viên
-            </MenuItem>
-
-            <MenuItem disableRipple>
-              {/*<PersonAddIcon />*/}
-              {/*Thêm thành viên*/}
-              <FormDialogAddUsergit />
-            </MenuItem>
-            {/*<MenuItem disableRipple>More</MenuItem>*/}
-          </StyledMenu>
-        </div>
-      ))}
+        <MenuItem disableRipple>
+          <FormDialog open={openDialog} handleClose={offDialog} />
+        </MenuItem>
+        {/*<MenuItem disableRipple>More</MenuItem>*/}
+      </StyledMenu>
     </div>
   );
 }

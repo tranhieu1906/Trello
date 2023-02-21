@@ -1,13 +1,19 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import { deleteBoard } from "../../services/board/boardAction";
 import { useSelector } from "react-redux";
-
-export default function PositionedMenu({ boardId, updateBoard }) {
+import { getDataProject } from "../../services/project/projectService";
+export default function PositionedMenu({
+  boardId,
+  updateBoard,
+  project,
+  dataBoard,
+}) {
   const { socket, userInfo } = useSelector((state) => state.auth);
+  const [role, setRole] = useState("");
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -17,6 +23,18 @@ export default function PositionedMenu({ boardId, updateBoard }) {
     setAnchorEl(null);
   };
 
+  useEffect(() => {
+    if (dataBoard.owner === userInfo._id) {
+      setRole("admin");
+    } else if (
+      dataBoard.members.some((member) => member.user === userInfo._id)
+    ) {
+      setRole("guest");
+    } else {
+      setRole("outsider");
+    }
+  });
+
   const handleDelete = async (boardId) => {
     if (window.confirm("Bạn đồng ý xóa bảng này ?")) {
       let data = {
@@ -24,11 +42,11 @@ export default function PositionedMenu({ boardId, updateBoard }) {
         boardId: boardId,
       };
       socket?.emit("board-drop", data);
-      let dataBoard = await deleteBoard(boardId);
-      if (dataBoard) {
-        updateBoard(dataBoard);
-        setAnchorEl(null);
-      }
+      await deleteBoard(boardId);
+      getDataProject(project).then((res) => {
+        updateBoard(res.data);
+      });
+      setAnchorEl(null);
     }
   };
 
@@ -60,7 +78,13 @@ export default function PositionedMenu({ boardId, updateBoard }) {
           horizontal: "left",
         }}
       >
-        <MenuItem onClick={() => handleDelete(boardId)}>Xóa bảng</MenuItem>
+        {role === "admin" ? (
+          <MenuItem onClick={() => handleDelete(boardId)}>Xóa bảng</MenuItem>
+        ) : role === "guest" ? (
+          <MenuItem>Rời bảng</MenuItem>
+        ) : (
+          <MenuItem>xem bảng</MenuItem>
+        )}
       </Menu>
     </div>
   );

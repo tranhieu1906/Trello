@@ -56,13 +56,15 @@ const Members = () => {
   const [inviting, setInviting] = useState(false);
   const { userInfo } = useSelector((state) => state.auth);
   const { members } = useSelector((state) => state.board.board);
-  const [roleMeberLoginInBoard, setRoleMeberLoginInBoard] = useState();
+  const [roleMeberLoginInBoard, setRoleMeberLoginInBoard] = useState("see");
 
   useEffect(() => {
     let userLoginInMember = members.filter(
       (member) => member.user._id === userInfo._id
     );
-    setRoleMeberLoginInBoard(userLoginInMember[0].role);
+    if (userLoginInMember.length > 0) {
+      setRoleMeberLoginInBoard(userLoginInMember[0].role);
+    }
   }, []);
 
   const handleClose = () => {
@@ -74,11 +76,12 @@ const Members = () => {
     return ((initials.shift() || "") + (initials.pop() || "")).toUpperCase();
   };
   const handleOut = (id) => {
+    console.log(roleMeberLoginInBoard);
     if (roleMeberLoginInBoard === "admin") {
       if (window.confirm("Bạn có muốn xóa người dùng này ra khỏi bảng !")) {
         dispatch(removeMember(id));
       }
-    } else {
+    } else if (roleMeberLoginInBoard === "observer") {
       if (window.confirm("Bạn có muốn rơì khỏi bảng này !")) {
         dispatch(removeMember(id));
       }

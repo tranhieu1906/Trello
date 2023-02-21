@@ -5,8 +5,8 @@ class ProjectController {
   // tạo một dự án mới
   async createProject(req, res, next) {
     try {
-      let test = await ProjectService.createProject(req);
-      res.status(200).json(test);
+      let newProject = await ProjectService.createProject(req);
+      res.status(200).json(newProject);
     } catch (err) {
       next(err);
     }
@@ -20,6 +20,24 @@ class ProjectController {
     } catch (err) {
       next(err);
     }
+  }
+
+  async getDataProject(req, res, next) {
+    let dataProject = await ProjectService.getDataProject(req);
+    let boards = [];
+    dataProject.boards.map((board) => {
+      if (
+        board.members.some((member) => member.user.toString() === req.user.id)
+      ) {
+        boards.push(board);
+      } else if (board.classify === "public") {
+        boards.push(board);
+      }
+    });
+    res.status(200).json({
+      project: dataProject,
+      boards: boards,
+    });
   }
 }
 

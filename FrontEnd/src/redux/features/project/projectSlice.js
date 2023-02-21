@@ -1,40 +1,42 @@
-import axios from "../../api/axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-export const getBoards = createAsyncThunk(
-  "board/getBoards",
+import project from "../../../page/Project";
+import axios from "axios";
+export const getProjects = createAsyncThunk(
+  " project/getProjects",
   async (data, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get("/boards");
+      const { data } = await axios.get("/project");
       return data;
-    } catch (error) {
-      if (error.response && error.response.data.message) {
-        return rejectWithValue(error.response.data.message);
+    } catch (e) {
+      if (e.response && e.response.data.message) {
+        return rejectWithValue(e.response.data.message);
       } else {
-        return rejectWithValue(error.message);
+        return rejectWithValue(e.message);
       }
     }
   }
 );
-export const getBoard = createAsyncThunk(
-  "board/getBoard",
+export const getProject = createAsyncThunk(
+  "project/getProject",
   async (id, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get(`/boards/${id}`);
+      const { data } = await axios.get(`/project/${id}`);
       if (data) {
-        axios.defaults.headers.common["boardId"] = id;
+        axios.defaults.headers.common["project"] = id;
       } else {
-        delete axios.defaults.headers.common["boardId"];
+        delete axios.defaults.headers.common["project"];
       }
       return data;
-    } catch (error) {
-      if (error.response && error.response.data.message) {
-        return rejectWithValue(error.response.data.message);
+    } catch (e) {
+      if (e.response && e.response.response.data.message) {
+        return rejectWithValue(e.response.data.message);
       } else {
-        return rejectWithValue(error.message);
+        return rejectWithValue(e.message);
       }
     }
   }
 );
+
 export const addMember = createAsyncThunk(
   "board/addMember",
   async (userId, { rejectWithValue }) => {

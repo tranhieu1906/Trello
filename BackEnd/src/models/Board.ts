@@ -54,8 +54,13 @@ const boardSchema = new Schema(
       enum: ["individual", "group", "public"],
       default: "individual",
     },
-  },
 
+    project: {
+      required: true,
+      type: Schema.Types.ObjectId,
+      ref: "Project",
+    },
+  },
   {
     timestamps: true,
   }

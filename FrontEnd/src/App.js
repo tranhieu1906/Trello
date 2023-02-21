@@ -13,6 +13,7 @@ import PasswordChange from "./components/other/PasswordChange";
 import ManagerProfile from "./components/other/ManagerProfile";
 import LayoutManagerProfie from "./components/Layout/LayoutManagerProfie";
 import { useSelector } from "react-redux";
+import Project from "./page/Project";
 
 function App() {
   const navigate = useNavigate();
@@ -61,7 +62,7 @@ function App() {
           }
         >
           <Route index element={<Home />} />
-
+          <Route path="/w/:id/home" element={<Project />} />
           {/*<Route path="user" element={<ManagerProfile />} />*/}
         </Route>
         <Route
@@ -84,6 +85,14 @@ function App() {
             </PrivateRoute>
           }
         />
+        {/*<Route*/}
+        {/*  path="/w/:id/home"*/}
+        {/*  element={*/}
+        {/*    <PrivateRoute>*/}
+        {/*      <Layout />*/}
+        {/*    </PrivateRoute>*/}
+        {/*  }*/}
+        {/*/>*/}
       </Routes>
     </>
   );
