@@ -134,9 +134,20 @@ const Card = ({ cardId, list, index }) => {
                     {card.members.map((member) => {
                       return (
                         <Tooltip title={member.user.name} key={member.user._id}>
-                          <Avatar className="avatar">
-                            {getInitials(member.user.name)}
-                          </Avatar>
+                          {member.user?.avatar ? (
+                            <Avatar
+                              className="avatar"
+                              alt="Avatar"
+                              src={member.user?.avatar}
+                            />
+                          ) : (
+                            <Avatar
+                              alt="Avatar"
+                              className="avatar"
+                            >
+                              {getInitials(member.user.name)}
+                            </Avatar>
+                          )}
                         </Tooltip>
                       );
                     })}

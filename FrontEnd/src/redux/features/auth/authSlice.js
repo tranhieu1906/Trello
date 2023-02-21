@@ -31,6 +31,9 @@ const authSlice = createSlice({
     setCredentials: (state, { payload }) => {
       state.userInfo = payload;
     },
+    setAvatar: (state, { payload }) => {
+      state.userInfo.avatar = payload; 
+    }
   },
   extraReducers: {
     [registerUser.pending]: (state) => {
@@ -67,7 +70,6 @@ const authSlice = createSlice({
     [getUser.fulfilled]: (state, { payload }) => {
       state.loading = false;
       state.userInfo = payload;
-      console.log(state.userInfo);
     },
     [getUser.rejected]: (state, { payload }) => {
       state.loading = false;
@@ -75,6 +77,6 @@ const authSlice = createSlice({
     },
   },
 });
-export const { logout, socketIo } = authSlice.actions;
+export const { logout, socketIo, setAvatar } = authSlice.actions;
 
 export default authSlice.reducer;

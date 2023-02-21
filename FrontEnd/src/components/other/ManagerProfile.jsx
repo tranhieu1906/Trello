@@ -1,38 +1,56 @@
-import * as React from "react";
-import { styled } from "@mui/material/styles";
-import Box from "@mui/material/Box";
-import Paper from "@mui/material/Paper";
-import Grid from "@mui/material/Grid";
-import { useDispatch, useSelector } from "react-redux";
-import TextField from "@mui/material/TextField";
-import Typography from "@mui/material/Typography";
-import { Card, CardContent, Select } from "@mui/material";
-import Button from "@mui/material/Button";
+import { Card, Select } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
-import IconButton from "@mui/material/IconButton";
-import { PhotoCamera } from "@mui/icons-material";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
 import FormControl from "@mui/material/FormControl";
+import Grid from "@mui/material/Grid";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
+import * as React from "react";
+import AvatarEdit from "react-avatar-edit";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "../../api/axios";
-import { useEffect, useState } from "react";
-import { getUser, getUserLogin } from "../../services/user/userService";
-import { useFormik } from "formik";
-import { toast } from "react-toastify";
+import storage from "../../fireBase/config";
+import { setAvatar } from "../../redux/features/auth/authSlice";
 
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: "center",
-  color: theme.palette.text.secondary,
-}));
+import {
+  deleteObject,
+  getDownloadURL,
+  ref,
+  uploadString,
+} from "firebase/storage";
+
+import { useFormik } from "formik";
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 export default function ManagerProfile() {
   const dispatch = useDispatch();
 
   const { userInfo } = useSelector((state) => state.auth);
   const [userLogin, setUserLogin] = useState(userInfo);
+  const [open, setOpen] = useState(false);
+  const [imageCrop, setImageCrop] = useState(userInfo?.avatar);
+
+  const onCrop = (view) => {
+    setImageCrop(view);
+  };
+
+  const onCLose = () => {
+    setImageCrop(null);
+  };
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   const dataForm = useFormik({
     initialValues: {
@@ -62,6 +80,49 @@ export default function ManagerProfile() {
       dataForm.setValues(res.data);
     });
   }, []);
+  const getInitials = (name) => {
+    let initials = name?.match(/\b\w/g) || [];
+    return ((initials.shift() || "") + (initials.pop() || "")).toUpperCase();
+  };
+
+  const saveImage = () => {
+    if (!userInfo.avatar) {
+      const storageRef = ref(
+        storage,
+        `/user-upload/${userInfo._id.toString()}`
+      );
+      uploadString(storageRef, imageCrop, "data_url")
+        .then(async (snapshot) => {
+          let image = await getDownloadURL(storageRef);
+          await axios.post("/users/update", image.toString());
+          dispatch(setAvatar(image));
+          handleClose();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      const desertRef = ref(storage, userInfo.avatar);
+      deleteObject(desertRef)
+        .then(() => {
+          const storageRef = ref(
+            storage,
+            `/user-upload/${userInfo._id.toString()}`
+          );
+          uploadString(storageRef, imageCrop, "data_url").then(
+            async (snapshot) => {
+              let image = await getDownloadURL(storageRef);
+              await axios.post("/users/update", image.toString());
+              dispatch(setAvatar(image));
+              handleClose();
+            }
+          );
+        })
+        .catch((error) => {
+          console.log("Error!!!");
+        });
+    }
+  };
 
   return (
     <>
@@ -77,11 +138,57 @@ export default function ManagerProfile() {
           noValidate
           onSubmit={dataForm.handleSubmit}
         >
-          <Box gridColumn="span 6">
+          <Box gridColumn="span 12">
             <Card sx={{ padding: 10 + "px" }}>
               <Typography variant="h6" gutterBottom>
                 Thông tin tài khoản
               </Typography>
+              <div className="flex items-center justify-center mb-4">
+                {userInfo?.avatar ? (
+                  <Avatar
+                    style={{
+                      height: "100px",
+                      width: "100px",
+                      borderRadius: "50%",
+                      border: "1px solid black",
+                    }}
+                    alt="Avatar"
+                    src={userInfo?.avatar}
+                    onClick={handleClickOpen}
+                  />
+                ) : (
+                  <Avatar
+                    style={{
+                      height: "100px",
+                      width: "100px",
+                      borderRadius: "50%",
+                      border: "1px solid black",
+                    }}
+                    alt="Avatar"
+                    onClick={handleClickOpen}
+                  >
+                    {getInitials(userInfo.name)}
+                  </Avatar>
+                )}
+
+                <Dialog
+                  onClose={handleClose}
+                  open={open}
+                  maxWidth="sm"
+                  fullWidth
+                >
+                  <DialogTitle>Cập Nhật ảnh đại diện</DialogTitle>
+                  <AvatarEdit
+                    width="100%"
+                    height={300}
+                    onClose={onCLose}
+                    onCrop={onCrop}
+                  />
+                  <Button type="button" onClick={saveImage}>
+                    Lưu
+                  </Button>
+                </Dialog>
+              </div>
               <Grid container spacing={3}>
                 <Grid item xs={12} sm={6}>
                   <TextField
@@ -135,7 +242,7 @@ export default function ManagerProfile() {
                     }}
                   />
                 </Grid>
-                <Grid item xs={12} sm={5}>
+                <Grid item xs={12} sm={6}>
                   <TextField
                     sx={{
                       width: 500,
@@ -156,7 +263,7 @@ export default function ManagerProfile() {
                     }}
                   />
                 </Grid>
-                <Grid item xs={12} sm={2}>
+                <Grid item xs={12} sm={6}>
                   <FormControl fullWidth>
                     <InputLabel id="gender-select-label">Giới tính</InputLabel>
                     <Select
@@ -173,40 +280,12 @@ export default function ManagerProfile() {
                     </Select>
                   </FormControl>
                 </Grid>
-                <Grid item xs={12} sm={5}></Grid>
-
                 <Grid item xs={12} sm={1}>
                   <Button variant="contained" type="submit">
                     Lưu
                   </Button>
                 </Grid>
               </Grid>
-            </Card>
-          </Box>
-          <Box gridColumn="span 4">
-            <Card sx={{ maxHeight: 500 }}>
-              <Avatar
-                style={{ marginTop: 10, marginLeft: 180, marginBottom: 10 }}
-                alt="Remy Sharp"
-                // src={userInfo.avatar}
-                sx={{ width: 150, height: 150 }}
-              />
-              <IconButton
-                color="primary"
-                aria-label="upload picture"
-                component="label"
-              >
-                <input hidden accept="image/*" type="file" />
-                <PhotoCamera />
-              </IconButton>
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                  {userInfo?.name}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Ảnh hồ sơ và ảnh tiêu đề
-                </Typography>
-              </CardContent>
             </Card>
           </Box>
         </Box>
