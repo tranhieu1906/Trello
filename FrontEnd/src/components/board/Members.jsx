@@ -97,9 +97,20 @@ const Members = () => {
           {members.map((member) => {
             return (
               <Tooltip title={member.name} key={member.user._id}>
-                <Avatar className="mr-0.5 cursor-default bg-white">
-                  {getInitials(member.user.name)}
-                </Avatar>
+                {member.user.avatar ? (
+                  <Avatar
+                    className="mr-0.5 cursor-default bg-white"
+                    alt="Avatar"
+                    src={userInfo?.avatar}
+                  />
+                ) : (
+                  <Avatar
+                    alt="Avatar"
+                    className="mr-0.5 cursor-default bg-white"
+                  >
+                    {getInitials(member.user.name)}
+                  </Avatar>
+                )}
               </Tooltip>
             );
           })}
@@ -136,9 +147,20 @@ const Members = () => {
               <div>
                 {members.map((member) => (
                   <div className="flex items-center mt-3" key={member.user._id}>
-                    <Avatar className="mr-2 cursor-default bg-white my-3">
-                      {getInitials(member.user.name)}
-                    </Avatar>
+                    {member.user.avatar ? (
+                      <Avatar
+                        className="mr-2 cursor-default bg-white my-3"
+                        alt="Avatar"
+                        src={userInfo?.avatar}
+                      />
+                    ) : (
+                      <Avatar
+                        alt="Avatar"
+                        className="mr-2 cursor-default bg-white my-3"
+                      >
+                        {getInitials(member.user.name)}
+                      </Avatar>
+                    )}
                     <div
                       className="flex flex-col"
                       style={{ minWidth: "300px" }}

@@ -1,10 +1,11 @@
 import { Disclosure } from "@headlessui/react";
-import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import { Link } from "react-router-dom";
 import React from "react";
 import Dropdown from "./Dropdown";
 import DropdownAccount from "./DropdownAccount";
-import Search from "./Search";
 import Notification from "./Notification";
+import Search from "./Search";
 
 const Navbar = () => {
   return (
@@ -26,7 +27,7 @@ const Navbar = () => {
               </div>
               <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                 <div className="flex flex-shrink-0 items-center">
-                  <a href="/">
+                  <Link to="/">
                     <img
                       style={{
                         width: "110px",
@@ -37,7 +38,7 @@ const Navbar = () => {
                       src="https://download.logo.wine/logo/Trello/Trello-White-Logo.wine.png"
                       alt="Your Company"
                     />
-                  </a>
+                  </Link>
                 </div>
                 <div
                   style={{ marginTop: "15px " }}

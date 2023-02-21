@@ -3,6 +3,8 @@ import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import Avatar from "@mui/material/Avatar";
+
 import { logout } from "../../redux/features/auth/authSlice";
 
 function classNames(...classes) {
@@ -12,12 +14,26 @@ function classNames(...classes) {
 export default function DropdownAccount() {
   const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.auth);
+  const getInitials = (name) => {
+    let initials = name?.match(/\b\w/g) || [];
+    return ((initials.shift() || "") + (initials.pop() || "")).toUpperCase();
+  };
   return (
     <Menu as="div" className="relative ml-3">
       <div>
         <Menu.Button className="flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
           <span className="sr-only">Open user menu</span>
-          <img className="h-8 w-8 rounded-full" src={userInfo?.avatar} alt="" />
+          {userInfo?.avatar ? (
+            <Avatar
+              className="h-8 w-8 rounded-full"
+              alt="Avatar"
+              src={userInfo?.avatar}
+            />
+          ) : (
+            <Avatar alt="Avatar" className="h-8 w-8 rounded-full">
+              {getInitials(userInfo?.name)}
+            </Avatar>
+          )}
         </Menu.Button>
       </div>
       <Transition

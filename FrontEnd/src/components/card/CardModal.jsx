@@ -77,7 +77,10 @@ const CardModal = ({ cardId, open, setOpen, card, list }) => {
       setValue("");
     }
   };
-
+  const getInitials = (name) => {
+    let initials = name.match(/\b\w/g) || [];
+    return ((initials.shift() || "") + (initials.pop() || "")).toUpperCase();
+  };
   return (
     <Modal open={open} onClose={() => setOpen(false)}>
       <div
@@ -168,11 +171,22 @@ const CardModal = ({ cardId, open, setOpen, card, list }) => {
             <FormatListBulletedIcon />
             <b style={{ marginLeft: 10 }}>Bình luận.</b>
             <div className="flex items-center mt-3">
-              <Avatar
-                src={userInfo.avatar}
-                sx={{ width: 30, height: 30 }}
-                className="mr-3"
-              />
+              {userInfo?.avatar ? (
+                <Avatar
+                  sx={{ width: 30, height: 30 }}
+                  className="mr-3"
+                  alt="Avatar"
+                  src={userInfo?.avatar}
+                />
+              ) : (
+                <Avatar
+                  sx={{ width: 30, height: 30 }}
+                  className="mr-3"
+                  alt="Avatar"
+                >
+                  {getInitials(userInfo.name)}
+                </Avatar>
+              )}
               <Paper
                 sx={{
                   p: "2px 4px",
