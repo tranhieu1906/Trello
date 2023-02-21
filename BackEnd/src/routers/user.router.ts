@@ -6,5 +6,6 @@ userRoutes.get("/", UserController.getUser);
 userRoutes.get("/:input", UserController.getUserEmail);
 userRoutes.put("/password", UserController.editPassword);
 userRoutes.put("/update-profile", UserController.updateProfile);
+userRoutes.post("/update", UserController.updateAvatar);
 
 export default userRoutes;
