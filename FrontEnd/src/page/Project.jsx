@@ -104,7 +104,10 @@ function Project() {
               <Avatar
                 sx={{ width: 60, height: 60 }}
                 variant="square"
-                style={{ backgroundColor: "#00FFFF", color: "black" }}
+                style={{
+                  background: "linear-gradient( #403294,#0747a6)",
+                  borderRadius: "4px",
+                }}
               >
                 <b>{getInitials(project?.name)}</b>
               </Avatar>

@@ -99,7 +99,7 @@ export default function Sidebar() {
               </ul>
               <hr />
               <div className="flex justify-between">
-                <span className="font-normal ml-2">
+                <span className="font-normal ml-2 mt-4">
                   Các không gian làm việc
                 </span>
                 <CreateProject updateProjects={updateProjects} />

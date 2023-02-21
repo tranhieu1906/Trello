@@ -75,6 +75,7 @@ export default function MenuItemProject({ project }) {
         aria-haspopup="true"
         aria-expanded={open ? "true" : undefined}
         variant="contained"
+        className="!justify-between flex-row-reverse"
         // disableElevation
         onClick={handleClick}
         // endIcon={<KeyboardArrowDownIcon />}
