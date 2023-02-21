@@ -105,7 +105,7 @@ const Card = ({ cardId, list, index }) => {
                     style={{ backgroundColor: card.label }}
                   />
                 )}
-                <p>{card.title}</p>
+                <p style={{ maxWidth: "150px" }}>{card.title}</p>
                 <div className="card-bottom">
                   <div className="card-bottom-left">
                     {card.description && (
@@ -134,9 +134,20 @@ const Card = ({ cardId, list, index }) => {
                     {card.members.map((member) => {
                       return (
                         <Tooltip title={member.user.name} key={member.user._id}>
-                          <Avatar className="avatar">
-                            {getInitials(member.user.name)}
-                          </Avatar>
+                          {member.user?.avatar ? (
+                            <Avatar
+                              className="avatar"
+                              alt="Avatar"
+                              src={member.user?.avatar}
+                            />
+                          ) : (
+                            <Avatar
+                              alt="Avatar"
+                              className="avatar"
+                            >
+                              {getInitials(member.user.name)}
+                            </Avatar>
+                          )}
                         </Tooltip>
                       );
                     })}

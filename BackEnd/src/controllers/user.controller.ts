@@ -84,6 +84,36 @@ class UserController {
       next(e);
     }
   }
+  async updateAvatar(req, res, next) {
+    try {
+      let user = await userService.getDataUser(req);
+      if (user) {
+        let arr = Object.keys(req.body)
+        let image =
+          arr[0].replace("upload/", "upload%2F") +
+          "=" +
+          req.body[arr[0]] +
+          "&" +
+          arr[1] +
+          "=" +
+          req.body[arr[1]];
+        user.avatar = image;
+        await user.save()
+        res.status(200).json({
+          success: true,
+          message: "Cập nhật thành công",
+          user: user,
+        });
+      } else {
+        res.status(400).json({
+          message: "Không tồn tại",
+        });
+      }
+    } catch (e) {
+      console.log(e);
+      next(e);
+    }
+  }
 }
 
 export default new UserController();
