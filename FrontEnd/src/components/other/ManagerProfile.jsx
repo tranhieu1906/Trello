@@ -1,3 +1,4 @@
+import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
 import { Card, Select } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
@@ -7,6 +8,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import FormControl from "@mui/material/FormControl";
 import Grid from "@mui/material/Grid";
 import InputLabel from "@mui/material/InputLabel";
+import LinearProgress from "@mui/material/LinearProgress";
 import MenuItem from "@mui/material/MenuItem";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
@@ -34,6 +36,7 @@ export default function ManagerProfile() {
   const { userInfo } = useSelector((state) => state.auth);
   const [userLogin, setUserLogin] = useState(userInfo);
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [imageCrop, setImageCrop] = useState(userInfo?.avatar);
 
   const onCrop = (view) => {
@@ -96,10 +99,14 @@ export default function ManagerProfile() {
           let image = await getDownloadURL(storageRef);
           await axios.post("/users/update", image.toString());
           dispatch(setAvatar(image));
+          setLoading(false);
           handleClose();
         })
         .catch((err) => {
           console.log(err);
+        })
+        .finally(() => {
+          setLoading(true);
         });
     } else {
       const desertRef = ref(storage, userInfo.avatar);
@@ -114,12 +121,16 @@ export default function ManagerProfile() {
               let image = await getDownloadURL(storageRef);
               await axios.post("/users/update", image.toString());
               dispatch(setAvatar(image));
+              setLoading(false);
               handleClose();
             }
           );
         })
         .catch((error) => {
           console.log("Error!!!");
+        })
+        .finally(() => {
+          setLoading(true);
         });
     }
   };
@@ -138,57 +149,12 @@ export default function ManagerProfile() {
           noValidate
           onSubmit={dataForm.handleSubmit}
         >
-          <Box gridColumn="span 12">
+          <Box gridColumn="span 8">
             <Card sx={{ padding: 10 + "px" }}>
               <Typography variant="h6" gutterBottom>
                 Thông tin tài khoản
               </Typography>
-              <div className="flex items-center justify-center mb-4">
-                {userInfo?.avatar ? (
-                  <Avatar
-                    style={{
-                      height: "100px",
-                      width: "100px",
-                      borderRadius: "50%",
-                      border: "1px solid black",
-                    }}
-                    alt="Avatar"
-                    src={userInfo?.avatar}
-                    onClick={handleClickOpen}
-                  />
-                ) : (
-                  <Avatar
-                    style={{
-                      height: "100px",
-                      width: "100px",
-                      borderRadius: "50%",
-                      border: "1px solid black",
-                    }}
-                    alt="Avatar"
-                    onClick={handleClickOpen}
-                  >
-                    {getInitials(userInfo.name)}
-                  </Avatar>
-                )}
 
-                <Dialog
-                  onClose={handleClose}
-                  open={open}
-                  maxWidth="sm"
-                  fullWidth
-                >
-                  <DialogTitle>Cập Nhật ảnh đại diện</DialogTitle>
-                  <AvatarEdit
-                    width="100%"
-                    height={300}
-                    onClose={onCLose}
-                    onCrop={onCrop}
-                  />
-                  <Button type="button" onClick={saveImage}>
-                    Lưu
-                  </Button>
-                </Dialog>
-              </div>
               <Grid container spacing={3}>
                 <Grid item xs={12} sm={6}>
                   <TextField
@@ -286,6 +252,69 @@ export default function ManagerProfile() {
                   </Button>
                 </Grid>
               </Grid>
+            </Card>
+          </Box>
+          <Box gridColumn="span 4">
+            <Card sx={{ padding: 10 + "px" }} className="h-full">
+              <div className="flex items-center justify-center mb-4 flex-col">
+                {userInfo?.avatar ? (
+                  <>
+                    <Avatar
+                      style={{
+                        height: "100px",
+                        width: "100px",
+                        borderRadius: "50%",
+                        border: "1px solid black",
+                      }}
+                      alt="Avatar"
+                      src={userInfo?.avatar}
+                      onClick={handleClickOpen}
+                    />
+                    <PhotoCameraIcon
+                      className="mt-5"
+                      onClick={handleClickOpen}
+                    />
+                  </>
+                ) : (
+                  <>
+                    <Avatar
+                      style={{
+                        height: "100px",
+                        width: "100px",
+                        borderRadius: "50%",
+                        border: "1px solid black",
+                      }}
+                      alt="Avatar"
+                      onClick={handleClickOpen}
+                    >
+                      {getInitials(userInfo.name)}
+                    </Avatar>
+                    <PhotoCameraIcon
+                      className="mt-5"
+                      onClick={handleClickOpen}
+                    />
+                  </>
+                )}
+
+                <Dialog
+                  onClose={handleClose}
+                  open={open}
+                  maxWidth="sm"
+                  fullWidth
+                >
+                  <DialogTitle>Chọn ảnh đại diện</DialogTitle>
+                  <AvatarEdit
+                    width="100%"
+                    height={300}
+                    onClose={onCLose}
+                    onCrop={onCrop}
+                  />
+                  {loading ? <LinearProgress /> : ""}
+                  <Button type="button" onClick={saveImage}>
+                    Lưu
+                  </Button>
+                </Dialog>
+              </div>
             </Card>
           </Box>
         </Box>

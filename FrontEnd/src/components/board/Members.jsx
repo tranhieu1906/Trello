@@ -63,7 +63,7 @@ const Members = () => {
       (member) => member.user._id === userInfo._id
     );
     setRoleMeberLoginInBoard(userLoginInMember[0].role);
-  }, []);
+  }, [members, userInfo._id]);
 
   const handleClose = () => {
     setInviting(false);
@@ -201,7 +201,8 @@ const Members = () => {
                               Thành viên
                             </MenuItem>
 
-                            {roleMeberLoginInBoard === "observer" ? (
+                            {roleMeberLoginInBoard === "observer" ||
+                            roleMeberLoginInBoard === "admin" ? (
                               <MenuItem
                                 onClick={() => handleOut(member.user._id)}
                                 disabled={member.user._id !== userInfo._id}
