@@ -67,7 +67,6 @@ export default function PasswordChange() {
         .then((res) => {
           if (res.status === 200) {
             resetForm({});
-            console.log(values);
             toast.success(res.data.message);
           } else {
             toast.error(res.data.message);

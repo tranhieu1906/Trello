@@ -33,7 +33,7 @@ export default function LayoutManagerProfie() {
           <SidebarManagerProfile />
         </Grid>
         <Grid item xs={9}>
-          <Item>
+          <Item className="h-screen">
             <Outlet />
           </Item>
         </Grid>

@@ -136,7 +136,7 @@ export default function ManagerProfile() {
   };
 
   return (
-    <>
+    <div className="h-full">
       <Typography variant="h2" gutterBottom>
         Cập nhật thông tin tài khoản
       </Typography>
@@ -319,6 +319,6 @@ export default function ManagerProfile() {
           </Box>
         </Box>
       )}
-    </>
+    </div>
   );
 }

@@ -171,7 +171,7 @@ export default function Notification() {
               >
                 {notification.map((item) => (
                   <div
-                    className="border border-gray-900"
+                    className="border border-gray-900 rounded"
                     style={{ marginBottom: 15 }}
                     key={item._id}
                   >
@@ -182,13 +182,6 @@ export default function Notification() {
                       style={{ height: 30, paddingTop: 2 }}
                     >
                       <ListItem style={{ padding: 0 }}>
-                        <img
-                          style={{ height: 30, width: 50 }}
-                          src={`${item.attachBoard.backgroundURL}`}
-                          srcSet={`${item.attachBoard.backgroundURL}`}
-                          alt={item.attachBoard.title}
-                          loading="lazy"
-                        />
                         <ListItemText
                           style={{ paddingLeft: 10 }}
                           primary={item.attachBoard.title}
@@ -198,7 +191,7 @@ export default function Notification() {
                     <ListItem
                       style={
                         item.new
-                          ? { backgroundColor: "#CCFFFF" }
+                          ? { backgroundColor: "rgb(209 213 219)" }
                           : { backgroundColor: "#dadbe5" }
                       }
                     >
@@ -220,7 +213,7 @@ export default function Notification() {
                       style={
                         item.new
                           ? {
-                              backgroundColor: "#CCFFFF",
+                              backgroundColor: "rgb(209 213 219)",
                               marginBottom: 0,
                               padding: 15,
                               paddingLeft: 40,
