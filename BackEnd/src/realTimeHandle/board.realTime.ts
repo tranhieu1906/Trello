@@ -15,7 +15,12 @@ module.exports = async (io, socket) => {
     socket.to(roomCard).emit("comment-new");
   };
 
+  const dragAndDrop = () => {};
+
+  const joinBoard = (board) => {};
+
   socket.on("board-drop", boardDrop);
   socket.on("join-card", joinCard);
   socket.on("send-comment", sendComment);
+  socket.on("join-board", joinBoard);
 };

@@ -2,16 +2,9 @@ import { Board } from "../models/Board";
 import { User } from "../models/User";
 import BoardService from "../services/board.service";
 import NotificationService from "../services/notification.service";
+import ProjectService from "../services/Project.service";
+import { Project } from "../models/Project";
 class BoardController {
-  // Thêm bảng
-  async createBoard(req, res, next) {
-    try {
-      const board = await BoardService.createBoard(req, res);
-      res.status(200).json({ board: board });
-    } catch (err) {
-      next(err);
-    }
-  }
   // lấy bảng theo id user
   async getUserBoard(req, res, next) {
     try {
@@ -21,6 +14,7 @@ class BoardController {
       next(err);
     }
   }
+
   // lấy bảng theo id bảng
   async getBoardId(req, res, next) {
     try {
@@ -113,9 +107,23 @@ class BoardController {
 
   async newBoard(req, res, next) {
     try {
-      let data = await BoardService.newBoard(req);
+      await BoardService.newBoard(req);
+      const dataProject = await Project.findById(req.body.project)
+        .populate("boards")
+        .populate("boards.members");
+      let boards = [];
+      dataProject.boards.map((board) => {
+        if (
+          board.members.some((member) => member.user.toString() === req.user.id)
+        ) {
+          boards.push(board);
+        } else if (board.classify === "public") {
+          boards.push(board);
+        }
+      });
       res.status(200).json({
-        board: data,
+        project: dataProject,
+        boards: boards,
       });
     } catch (err) {
       next(err);
@@ -127,10 +135,9 @@ class BoardController {
       let board = await BoardService.getBoardById(req.params.boardId);
       if (board) {
         await BoardService.deleteBoard(req);
-        let boards = await BoardService.getUserBoard(req);
+        // let project = await ProjectService.getDataProject(req);
         res.status(200).json({
           success: true,
-          boards: boards,
         });
       } else {
         res.status(404).json({

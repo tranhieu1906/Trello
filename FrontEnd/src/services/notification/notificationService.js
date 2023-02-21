@@ -4,7 +4,7 @@ export const notificationAddMember = (users, board, user) => {
   let data = {
     usersId: users,
     content: `${user.name} đã thêm bạn vào bảng: `,
-    board: board,
+    attachBoard: board,
   };
   axios
     .post("/notification/add", data)
@@ -12,7 +12,24 @@ export const notificationAddMember = (users, board, user) => {
       return res;
     })
     .catch((err) => {
-      return err.message;
+      console.log(err.message);
+    });
+};
+
+export const notificationJoinProject = (users, project, user) => {
+  let data = {
+    usersId: users,
+    content: `${user.name} đã thêm bạn vào không gian làm việc: `,
+    attachBoard: project,
+  };
+  axios
+    .post("/notification/add", data)
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => {
+      // return err.message;
+      console.log(err.message);
     });
 };
 

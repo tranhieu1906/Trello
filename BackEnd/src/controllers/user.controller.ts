@@ -28,7 +28,6 @@ class UserController {
 
   // async editPassword(req, res) {
   //   try {
-  //     console.log(req.body);
   //     const newPassword = await UserService.newPassword(req, res);
   //     if (newPassword) {
   //       res
@@ -82,7 +81,6 @@ class UserController {
         });
       }
     } catch (e) {
-      console.log(e);
       next(e);
     }
   }

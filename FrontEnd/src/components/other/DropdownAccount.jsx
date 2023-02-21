@@ -4,11 +4,18 @@ import { Menu, Transition } from "@headlessui/react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Avatar from "@mui/material/Avatar";
+import AccountBoxIcon from "@mui/icons-material/AccountBox";
 
 import { logout } from "../../redux/features/auth/authSlice";
+import { ListItem, ListItemAvatar } from "@mui/material";
+import ListItemText from "@mui/material/ListItemText";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
+}
+
+function ImageIcon() {
+  return null;
 }
 
 export default function DropdownAccount() {
@@ -48,11 +55,25 @@ export default function DropdownAccount() {
         <Menu.Items className="absolute right-0 z-10 mt-2 w-80 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
           <div className="py-1">
             <Menu.Item>
-              <h3 className="font-bold ml-4">Tài khoản</h3>
+              <h3 className="font-bold ml-4">Tài khoản:</h3>
             </Menu.Item>
-            <Menu.Item>
-              <p className="font-normal text-sm ml-4">{userInfo?.name}</p>
-            </Menu.Item>
+            <ListItem>
+              <ListItemAvatar>
+                <Avatar src={userInfo?.avatar}></Avatar>
+              </ListItemAvatar>
+              <ListItemText
+                primary={<b>{userInfo?.name}</b>}
+                secondary={userInfo?.email}
+              />
+            </ListItem>
+            {/*<Menu.Item>*/}
+            {/*  <p className="font-normal text-sm ml-4">{userInfo?.name}</p>*/}
+            {/*</Menu.Item>*/}
+
+            {/*<Menu.Item>*/}
+            {/*  <p className="font-normal text-sm ml-4">{userInfo?.email}</p>*/}
+            {/*</Menu.Item>*/}
+
             <hr />
             <Menu.Item>
               {({ active }) => (
@@ -87,6 +108,7 @@ export default function DropdownAccount() {
             <Menu.Item>
               {({ active }) => (
                 <button
+                  style={{ color: "red" }}
                   onClick={() => {
                     dispatch(logout());
                   }}

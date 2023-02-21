@@ -55,14 +55,17 @@ const Members = () => {
   const dispatch = useDispatch();
   const [inviting, setInviting] = useState(false);
   const { userInfo } = useSelector((state) => state.auth);
-  const { members } = useSelector((state) => state.board.board);
-  const [roleMeberLoginInBoard, setRoleMeberLoginInBoard] = useState();
+  const { members, owner } = useSelector((state) => state.board.board);
+
+  const [roleMeberLoginInBoard, setRoleMeberLoginInBoard] = useState("see");
 
   useEffect(() => {
     let userLoginInMember = members.filter(
       (member) => member.user._id === userInfo._id
     );
-    setRoleMeberLoginInBoard(userLoginInMember[0].role);
+    if (userLoginInMember.length > 0) {
+      setRoleMeberLoginInBoard(userLoginInMember[0].role);
+    }
   }, []);
 
   const handleClose = () => {
@@ -78,7 +81,7 @@ const Members = () => {
       if (window.confirm("Bạn có muốn xóa người dùng này ra khỏi bảng !")) {
         dispatch(removeMember(id));
       }
-    } else {
+    } else if (roleMeberLoginInBoard === "observer") {
       if (window.confirm("Bạn có muốn rơì khỏi bảng này !")) {
         dispatch(removeMember(id));
       }
@@ -194,13 +197,13 @@ const Members = () => {
                               disabled={
                                 roleMeberLoginInBoard === "observer" ||
                                 (roleMeberLoginInBoard === "admin" &&
-                                  member.user._id === userInfo._id)
+                                  member.user._id === userInfo._id) ||
+                                owner === member.user._id
                               }
                               value={"observer"}
                             >
                               Thành viên
                             </MenuItem>
-
                             {roleMeberLoginInBoard === "observer" ? (
                               <MenuItem
                                 onClick={() => handleOut(member.user._id)}
@@ -212,8 +215,9 @@ const Members = () => {
                               <MenuItem
                                 onClick={() => handleOut(member.user._id)}
                                 disabled={
-                                  roleMeberLoginInBoard === "admin" &&
-                                  member.user._id === userInfo._id
+                                  (roleMeberLoginInBoard === "admin" &&
+                                    member.user._id === userInfo._id) ||
+                                  owner === member.user._id
                                 }
                               >
                                 Xóa khỏi bảng

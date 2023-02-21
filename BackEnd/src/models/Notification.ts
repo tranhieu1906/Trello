@@ -19,12 +19,6 @@ const notificationSchema = new Schema(
       type: String,
     },
 
-    // attachBoard: {
-    //   type: Schema.Types.ObjectId,
-    //   required: true,
-    //   ref: "Board",
-    // },
-
     attachBoard: {
       title: {
         type: String,

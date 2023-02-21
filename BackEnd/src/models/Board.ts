@@ -38,14 +38,27 @@ const boardSchema = new Schema(
         role: {
           type: String,
           default: "admin",
-          enum: ["admin", "observer"],
+          enum: ["admin", "observer", "owner"],
         },
       },
     ],
+
+    owner: {
+      required: true,
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    },
+
     classify: {
       type: String,
       enum: ["individual", "group", "public"],
       default: "individual",
+    },
+
+    project: {
+      required: true,
+      type: Schema.Types.ObjectId,
+      ref: "Project",
     },
   },
   {

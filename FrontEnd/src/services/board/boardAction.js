@@ -50,6 +50,7 @@ export const addMember = createAsyncThunk(
     }
   }
 );
+
 export const removeMember = createAsyncThunk(
   "board/removeMember",
   async (userId, { rejectWithValue }) => {
@@ -125,6 +126,7 @@ export const addCard = createAsyncThunk(
     }
   }
 );
+
 export const getCard = createAsyncThunk(
   "board/getCard",
   async (id, { rejectWithValue }) => {
@@ -267,9 +269,7 @@ export const archiveList = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     const { archive, listId } = data;
     try {
-      const { data } = await axios.patch(
-        `/lists/archive/${archive}/${listId}`
-      );
+      const { data } = await axios.patch(`/lists/archive/${archive}/${listId}`);
       return data;
     } catch (error) {
       if (error.response && error.response.data) {

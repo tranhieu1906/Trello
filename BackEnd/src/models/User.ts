@@ -39,6 +39,13 @@ const userSchema = new Schema({
       ref: "Board",
     },
   ],
+
+  projects: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Project",
+    },
+  ],
 });
 
 export const User = model("User", userSchema);

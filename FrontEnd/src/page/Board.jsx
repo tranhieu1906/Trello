@@ -15,9 +15,9 @@ import { getUser } from "../services/user/userService";
 
 const Board = () => {
   const { board, error } = useSelector((state) => state.board);
+  const { socket } = useSelector((state) => state.auth);
   const params = useParams();
   const dispatch = useDispatch();
-
   const [data, setData] = useState({});
 
   useEffect(() => {
@@ -41,7 +41,6 @@ const Board = () => {
     if (!result.destination) {
       return;
     }
-
     const { source, destination, draggableId, type } = result;
 
     if (type === "list") {
