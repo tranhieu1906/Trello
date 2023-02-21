@@ -1,7 +1,9 @@
 import Button from "@mui/material/Button";
 import CircularProgress from "@mui/material/CircularProgress";
 import React, { useEffect, useState } from "react";
+import { Outlet } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import CreateBoard from "../components/board/CreateBoard";
@@ -15,6 +17,7 @@ import { getUser } from "../services/user/userService";
 import { Avatar, ListItem, ListItemAvatar } from "@mui/material";
 import ListItemText from "@mui/material/ListItemText";
 import WorkIcon from "@mui/icons-material/Work";
+import { getListProject } from "../services/project/projectService";
 
 function Home() {
   const { loading, error } = useSelector((state) => state.board);
@@ -22,30 +25,42 @@ function Home() {
   const [open, setOpen] = useState(false);
   const [boards, setBoards] = useState([]);
   const [boardGroups, setBoardGroups] = useState([]);
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const handleClose = () => {
     setOpen(false);
   };
 
   useEffect(() => {
-    axios.get("/boards").then((res) => {
-      setBoards(res.data);
-    });
-  }, []);
-  socket?.on("new-notifications", (data) => {
-    axios.get("/boards").then((res) => {
-      setBoards(res.data);
-    });
-  });
-  socket?.on("update-board-list", (data) => {
-    axios.get("/boards").then((res) => {
-      setBoards(res.data);
-    });
-  });
-
-  useEffect(() => {
     if (localStorage.getItem("userToken")) dispatch(getBoards());
-  }, [dispatch]);
+    getListProject().then((res) => {
+      console.log(res.data[0]._id);
+      navigate(`/w/${res.data[0]._id}/home`);
+    });
+    
+  }, []);
+
+  // useEffect(() => {
+  //   axios.get("/boards").then((res) => {
+  //     setBoards(res.data);
+  //   });
+  // }, []);
+
+  // socket?.on("new-notifications", (data) => {
+  //   axios.get("/boards").then((res) => {
+  //     setBoards(res.data);
+  //   });
+  // });
+  // socket?.on("update-board-list", (data) => {
+  //   axios.get("/boards").then((res) => {
+  //     setBoards(res.data);
+  //   });
+  // });
+
+  // useEffect(() => {
+    
+    
+  // }, [dispatch]);
 
   useEffect(() => {
     document.title = "Your Boards | TrelloClone";
@@ -68,7 +83,8 @@ function Home() {
   }, [error]);
 
   return (
-    <h1> đây là home</h1>
+
+    <h1> loading... </h1>
     // <div>
     //   <section
     //     className="flex flex-col items-center p-12"
