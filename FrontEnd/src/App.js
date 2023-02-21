@@ -19,13 +19,6 @@ import { getListProject } from "./services/project/projectService";
 function App() {
   const navigate = useNavigate();
   const { socket, userInfo } = useSelector((state) => state.auth);
-  const [idProjectBegin, setIdProjectBegin] = useState("");
-
-  useEffect(() => {
-    getListProject().then((res) => {
-      setIdProjectBegin(res.data[0]._id);
-    });
-  }, []);
 
   useEffect(() => {
     if (localStorage.getItem("userToken")) {

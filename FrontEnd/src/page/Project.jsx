@@ -163,6 +163,7 @@ function Project() {
               open={open}
               handleClose={handleClose}
               updateBoard={updateData}
+              projectObject={project}
             />
           }
         </div>

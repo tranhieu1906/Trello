@@ -29,10 +29,10 @@ export default function LayoutManagerProfie() {
         <Grid item xs={12}>
           <Navbar />
         </Grid>
-        <Grid item xs={2}>
+        <Grid item xs={3}>
           <SidebarManagerProfile />
         </Grid>
-        <Grid item xs={10}>
+        <Grid item xs={9}>
           <Item>
             <Outlet />
           </Item>

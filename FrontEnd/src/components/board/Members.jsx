@@ -63,10 +63,9 @@ const Members = () => {
     let userLoginInMember = members.filter(
       (member) => member.user._id === userInfo._id
     );
-    if (userLoginInMember.length > 0) {
-      setRoleMeberLoginInBoard(userLoginInMember[0].role);
-    }
-  }, []);
+
+    setRoleMeberLoginInBoard(userLoginInMember[0].role);
+  }, [members, userInfo._id]);
 
   const handleClose = () => {
     setInviting(false);
@@ -204,7 +203,8 @@ const Members = () => {
                             >
                               Thành viên
                             </MenuItem>
-                            {roleMeberLoginInBoard === "observer" ? (
+                            {roleMeberLoginInBoard === "observer" ||
+                            roleMeberLoginInBoard === "admin" ? (
                               <MenuItem
                                 onClick={() => handleOut(member.user._id)}
                                 disabled={member.user._id !== userInfo._id}

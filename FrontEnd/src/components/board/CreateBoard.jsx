@@ -32,12 +32,11 @@ let backgrounds = [
 ];
 
 export default function CreateBoard(props) {
-  const { open, handleClose, updateBoard } = props;
+  const { open, handleClose, updateBoard, projectObject } = props;
   const [selectedPhoto, setSelectedPhoto] = useState(
     "https://c4.wallpaperflare.com/wallpaper/228/1003/832/artistic-mountain-minimalist-moon-nature-hd-wallpaper-preview.jpg"
   );
   const [projects, setProjects] = useState([]);
-
   useEffect(() => {
     if (open) {
       getListProject().then((res) => {
@@ -45,7 +44,7 @@ export default function CreateBoard(props) {
       });
     }
   }, [open]);
-
+  console.log(projectObject._id);
   const formik = useFormik({
     initialValues: {
       backgroundURL: "",
@@ -148,7 +147,7 @@ export default function CreateBoard(props) {
               <br />
               <br />
               <FormControl sx={{ m: 1, minWidth: 400 }} size="small">
-                <b>Phan loại</b>
+                <b>Phân loại</b>
                 <Select
                   name="classify"
                   labelid="demo-simple-select-label"
@@ -158,22 +157,21 @@ export default function CreateBoard(props) {
                 >
                   <MenuItem value="individual">Cá nhân</MenuItem>
                   <MenuItem value="group">Nhóm</MenuItem>
-                  {/*<MenuItem value="public">Công khai</MenuItem>*/}
                 </Select>
               </FormControl>
               <br />
               <FormControl sx={{ m: 1, minWidth: 400 }} size="small">
-                <b>Không gian làn việc</b>
+                <b>Không gian làm việc</b>
                 <Select
                   name="project"
-                  labelId="demo-simple-select-label"
                   id="project"
+                  labelid="demo-simple-select-label"
                   value={formik.values.project}
                   onChange={formik.handleChange}
                   error={formik.errors.project && formik.touched.project}
                 >
                   {projects.map((project, index) => (
-                    <MenuItem key={index} value={project._id}>
+                    <MenuItem value={project._id} key={index}>
                       {project.name}
                     </MenuItem>
                   ))}

@@ -1,3 +1,6 @@
+import CloseIcon from "@mui/icons-material/Close";
+import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
+import SendIcon from "@mui/icons-material/Send";
 import {
   Avatar,
   Button,
@@ -7,26 +10,23 @@ import {
   Modal,
   TextField,
 } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
+import Divider from "@mui/material/Divider";
+import IconButton from "@mui/material/IconButton";
+import List from "@mui/material/List";
+import ListItemText from "@mui/material/ListItemText";
+import Paper from "@mui/material/Paper";
+import moment from "moment";
+import "moment/locale/vi";
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 import { GithubPicker } from "react-color";
 import { useDispatch, useSelector } from "react-redux";
-import { editCard } from "../../services/board/boardAction";
-import SendIcon from "@mui/icons-material/Send";
+import ScrollToBottom from "react-scroll-to-bottom";
+import { archiveCard, editCard } from "../../services/board/boardAction";
+import { getComment, sendComment } from "../../services/comment/commentActions";
 import CardMembers from "./CardMembers";
-import ListItemText from "@mui/material/ListItemText";
-import Divider from "@mui/material/Divider";
-import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
-import ScrollToBottom, { useScrollToTop } from "react-scroll-to-bottom";
-import List from "@mui/material/List";
-import Paper from "@mui/material/Paper";
-import IconButton from "@mui/material/IconButton";
-import { sendComment } from "../../services/comment/commentActions";
-import { getComment } from "../../services/comment/commentActions";
-import { archiveCard } from "../../services/board/boardAction";
 import DeleteCard from "./DeleteCard";
-import moment from "moment/moment";
+moment.locale("vi");
 
 const CardModal = ({ cardId, open, setOpen, card, list }) => {
   const [title, setTitle] = useState(card.title);
