@@ -226,9 +226,8 @@ export default function CustomizedHook(props) {
       if (error) {
         toast.error(error);
       }
-
       toast.success("Thêm người dùng vào bảng thành công");
-      // handleClose();
+      handleClose();
     }
   };
   return (
