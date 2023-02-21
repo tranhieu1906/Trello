@@ -125,7 +125,6 @@ function Project() {
           <PersonIcon style={{ width: 40, height: 40 }} />
           <b style={{ marginLeft: 15 }}>Các bảng của Bạn</b>
         </div>
-        {loading && <CircularProgress className="m-10" />}
         <div className="m-2 items-center justify-center grid grid-cols-3 gap-4">
           {boards.map((board, index) => (
             <div
