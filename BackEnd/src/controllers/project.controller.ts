@@ -65,6 +65,10 @@ class ProjectController {
 
   async getMembers(req, res, next) {
     try {
+      const project = await Project.findById(req.params.projectId);
+      if (!project) return res.status(404).json("Không tồn tại nhóm");
+      let listMembers = project.members;
+      res.status(200).json(listMembers);
     } catch (err) {
       next(err);
     }

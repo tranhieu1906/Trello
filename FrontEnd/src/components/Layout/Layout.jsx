@@ -14,9 +14,9 @@ const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
   ...theme.typography.body2,
   padding: theme.spacing(1),
-  
+
   color: theme.palette.text.secondary,
-  height: theme.spacing(98)
+  height: theme.spacing(98),
 }));
 
 export default function Layout() {
@@ -32,7 +32,7 @@ export default function Layout() {
           <Sidebar />
         </Grid>
         <Grid item xs={9}>
-          <Item className="h-full">
+          <Item className="!h-screen">
             <Outlet />
           </Item>
         </Grid>

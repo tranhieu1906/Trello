@@ -56,7 +56,9 @@ export default function PositionedMenu({ boardId, dataBoard, updateData }) {
         aria-expanded={open ? "true" : undefined}
         onClick={handleClick}
       >
-        <MoreHorizIcon style={{ color: "white", width: 240 }} />
+        <MoreHorizIcon
+          style={{ color: "white", width: 240, marginLeft: 170 }}
+        />
       </Button>
       <Menu
         id="demo-positioned-menu"

@@ -7,6 +7,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useEffect, useState } from "react";
+import BeachAccessIcon from "@mui/icons-material/BeachAccess";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import FormControl from "@mui/material/FormControl";
 import HandleInput from "./HandleInput";
@@ -17,6 +18,14 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import { changeRole, removeMember } from "../../services/board/boardAction";
 import { useSelector } from "react-redux";
+import { ListItem, ListItemAvatar } from "@mui/material";
+import ListItemText from "@mui/material/ListItemText";
+import WorkIcon from "@mui/icons-material/Work";
+import List from "@mui/material/List";
+
+function ImageIcon() {
+  return null;
+}
 
 export default function FormDialog({ project }) {
   const [open, setOpen] = useState(false);
@@ -27,7 +36,6 @@ export default function FormDialog({ project }) {
   useEffect(() => {
     setMembers([...members, project.members]);
   }, [project]);
-
   useEffect(() => {
     let userLoginInMember = members.filter(
       (member) => member.user._id === userInfo._id

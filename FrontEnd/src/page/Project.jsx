@@ -26,6 +26,12 @@ function Project() {
   const params = useParams();
   const [boardGroups, setBoardGroups] = useState([]);
   const dispatch = useDispatch();
+
+  const getInitials = (name) => {
+    let initials = name?.match(/\b\w/g) || [];
+    return ((initials.shift() || "") + (initials.pop() || "")).toUpperCase();
+  };
+
   const handleClose = () => {
     setOpen(false);
   };
@@ -95,8 +101,12 @@ function Project() {
             style={{ paddingBottom: 25, paddingTop: 0, paddingLeft: 0 }}
           >
             <ListItemAvatar style={{ marginRight: 20 }}>
-              <Avatar sx={{ width: 60, height: 60 }} variant="square">
-                <WorkIcon />
+              <Avatar
+                sx={{ width: 60, height: 60 }}
+                variant="square"
+                style={{ backgroundColor: "#00FFFF", color: "black" }}
+              >
+                <b>{getInitials(project?.name)}</b>
               </Avatar>
             </ListItemAvatar>
             <ListItemText

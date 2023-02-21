@@ -12,7 +12,9 @@ import { Select } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import { createProject } from "../../services/project/projectService";
+import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
+import { toast } from "react-toastify";
 
 const categories = [
   "Nhân sự",
@@ -26,6 +28,7 @@ const categories = [
 ];
 
 export default function CreateProject({ updateProjects }) {
+  const navigate = useNavigate();
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -33,6 +36,7 @@ export default function CreateProject({ updateProjects }) {
   };
 
   const handleClose = () => {
+    formik.resetForm();
     setOpen(false);
   };
 
@@ -50,12 +54,12 @@ export default function CreateProject({ updateProjects }) {
       createProject(values)
         .then((res) => {
           updateProjects(res.data);
+          navigate(`/w/${res.data._id}/home`);
         })
         .catch((err) => {
+          // toast()
           console.log(err.message);
         });
-
-      formik.resetForm();
       handleClose();
     },
   });
