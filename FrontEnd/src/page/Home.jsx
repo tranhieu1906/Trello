@@ -3,8 +3,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import React, { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import CreateBoard from "../components/board/CreateBoard";
 import PositionedMenu from "../components/board/Option";
@@ -14,7 +13,7 @@ import axios from "../api/axios";
 import Divider from "@mui/material/Divider";
 import { getBoards } from "../services/board/boardAction";
 import { getUser } from "../services/user/userService";
-import { Avatar, ListItem, ListItemAvatar } from "@mui/material";
+import { Avatar, ListItem, ListItemAvatar, Typography } from "@mui/material";
 import ListItemText from "@mui/material/ListItemText";
 import WorkIcon from "@mui/icons-material/Work";
 import { getListProject } from "../services/project/projectService";
@@ -34,10 +33,11 @@ function Home() {
   useEffect(() => {
     if (localStorage.getItem("userToken")) dispatch(getBoards());
     getListProject().then((res) => {
-      console.log(res.data[0]._id);
-      navigate(`/w/${res.data[0]._id}/home`);
+      if (res.data[0]._id) {
+        navigate(`/w/${res.data[0]._id}/home`);
+      }
     });
-    
+
   }, []);
 
   // useEffect(() => {
@@ -58,8 +58,8 @@ function Home() {
   // });
 
   // useEffect(() => {
-    
-    
+
+
   // }, [dispatch]);
 
   useEffect(() => {
@@ -83,8 +83,16 @@ function Home() {
   }, [error]);
 
   return (
+    <>
+      <Typography variant="h6" ml={1} mt={5} component="div" sx={{ fontWeight: 'bold' }}>KHÔNG GIAN LÀM VIỆC CỦA BẠN</Typography>
+      <Typography variant="body1" ml={1} mt={3} component="div" >
+        Bạn chưa phải là thành viên của bất kỳ không gian làm việc nào. 
+        <Link to="/"  className="underline hover:text-red-600" >
+          Tạo không gian làm việc
+        </Link>
+      </Typography>
+    </>
 
-    <h1> loading... </h1>
     // <div>
     //   <section
     //     className="flex flex-col items-center p-12"
