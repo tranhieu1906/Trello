@@ -11,3 +11,11 @@ export const getListProject = () => {
 export const getDataProject = (params) => {
   return axios.get(`/project/${params.id}`);
 };
+
+export const addUser = (userIds, project) => {
+  let data = {
+    userIds: userIds,
+    projectId: project._id,
+  };
+  return axios.post("/project/members/add", data);
+};

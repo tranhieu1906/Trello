@@ -76,7 +76,6 @@ const Members = () => {
     return ((initials.shift() || "") + (initials.pop() || "")).toUpperCase();
   };
   const handleOut = (id) => {
-    console.log(roleMeberLoginInBoard);
     if (roleMeberLoginInBoard === "admin") {
       if (window.confirm("Bạn có muốn xóa người dùng này ra khỏi bảng !")) {
         dispatch(removeMember(id));

@@ -52,6 +52,7 @@ export default function CreateBoard(props) {
     },
     validationSchema: Yup.object({
       title: Yup.string().required("Không được để trống"),
+      project: Yup.string().required("Không được để trống "),
     }),
     onSubmit: (values) => {
       formik.values.backgroundURL = selectedPhoto;
@@ -149,7 +150,7 @@ export default function CreateBoard(props) {
                 >
                   <MenuItem value="individual">Cá nhân</MenuItem>
                   <MenuItem value="group">Nhóm</MenuItem>
-                  <MenuItem value="public">Công khai</MenuItem>
+                  {/*<MenuItem value="public">Công khai</MenuItem>*/}
                 </Select>
               </FormControl>
               <br />
@@ -161,6 +162,7 @@ export default function CreateBoard(props) {
                   id="project"
                   value={formik.values.project}
                   onChange={formik.handleChange}
+                  error={formik.errors.project && formik.touched.project}
                 >
                   {projects.map((project, index) => (
                     <MenuItem key={index} value={project._id}>
@@ -168,6 +170,11 @@ export default function CreateBoard(props) {
                     </MenuItem>
                   ))}
                 </Select>
+                <a style={{ color: "red" }}>
+                  {formik.errors.project && formik.touched.project
+                    ? formik.errors.project
+                    : null}
+                </a>
                 <br />
               </FormControl>
               <Button

@@ -7,9 +7,7 @@ export const sendComment = async (cardId, comment) => {
     let dataRes = await axios.post(`/comments/${cardId}`, data);
     return dataRes.data.commentNew;
   } catch (error) {
-    alert(
-      "hiện tại chức năng bình luận có 1 sự cố nhỏ chúng tôi sẽ khắc phục sớm nhất "
-    );
+    console.log(error);
   }
 };
 

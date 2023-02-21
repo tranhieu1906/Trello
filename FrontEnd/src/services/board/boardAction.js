@@ -50,6 +50,7 @@ export const addMember = createAsyncThunk(
     }
   }
 );
+
 export const removeMember = createAsyncThunk(
   "board/removeMember",
   async (userId, { rejectWithValue }) => {

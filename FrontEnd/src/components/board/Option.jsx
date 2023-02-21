@@ -3,19 +3,16 @@ import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-import { deleteBoard } from "../../services/board/boardAction";
-import { useSelector } from "react-redux";
+import { deleteBoard, removeMember } from "../../services/board/boardAction";
+import { useDispatch, useSelector } from "react-redux";
 import { getDataProject } from "../../services/project/projectService";
-export default function PositionedMenu({
-  boardId,
-  updateBoard,
-  project,
-  dataBoard,
-}) {
+import { Link } from "react-router-dom";
+export default function PositionedMenu({ boardId, dataBoard, updateData }) {
   const { socket, userInfo } = useSelector((state) => state.auth);
   const [role, setRole] = useState("");
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+  const dispatch = useDispatch();
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -29,7 +26,7 @@ export default function PositionedMenu({
     } else if (
       dataBoard.members.some((member) => member.user === userInfo._id)
     ) {
-      setRole("guest");
+      setRole("edit");
     } else {
       setRole("outsider");
     }
@@ -43,9 +40,7 @@ export default function PositionedMenu({
       };
       socket?.emit("board-drop", data);
       await deleteBoard(boardId);
-      getDataProject(project).then((res) => {
-        updateBoard(res.data);
-      });
+      updateData();
       setAnchorEl(null);
     }
   };
@@ -80,10 +75,10 @@ export default function PositionedMenu({
       >
         {role === "admin" ? (
           <MenuItem onClick={() => handleDelete(boardId)}>Xóa bảng</MenuItem>
-        ) : role === "guest" ? (
-          <MenuItem>Rời bảng</MenuItem>
         ) : (
-          <MenuItem>xem bảng</MenuItem>
+          <Link to={`/board/${boardId}`}>
+            <MenuItem>mở bảng</MenuItem>
+          </Link>
         )}
       </Menu>
     </div>

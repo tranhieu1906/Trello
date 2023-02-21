@@ -34,7 +34,7 @@ class ProjectService {
     let idProject = req.params.id;
     let dataProject = await Project.findById(idProject)
       .populate("boards")
-      .populate("boards.members");
+      .populate("members");
     if (dataProject) {
       return dataProject;
     }
