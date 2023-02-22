@@ -65,7 +65,7 @@ export default function CreateProject({ updateProjects }) {
   });
   return (
     <div>
-      <Button variant="outlined" onClick={handleClickOpen}>
+      <Button variant="outlined" className="!mt-4" onClick={handleClickOpen}>
         +
       </Button>
       <Dialog open={open} onClose={handleClose}>

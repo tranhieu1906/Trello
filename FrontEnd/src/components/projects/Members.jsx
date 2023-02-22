@@ -107,11 +107,11 @@ export default function Members({ project }) {
             ))}
           </List>
         </DialogContent>
-        <DialogActions>
-          <Button autoFocus onClick={handleClose}>
-            Save changes
-          </Button>
-        </DialogActions>
+        {/*<DialogActions>*/}
+        {/*<Button autoFocus onClick={handleClose}>*/}
+        {/*  Save changes*/}
+        {/*</Button>*/}
+        {/*</DialogActions>*/}
       </BootstrapDialog>
     </div>
   );

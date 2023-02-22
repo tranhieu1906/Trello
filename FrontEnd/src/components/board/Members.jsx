@@ -57,17 +57,15 @@ const Members = () => {
   const { userInfo } = useSelector((state) => state.auth);
   const { members, owner } = useSelector((state) => state.board.board);
   const { idProject } = useSelector((state) => state.project);
-  console.log(idProject);
   const navigate = useNavigate();
   const [roleMeberLoginInBoard, setRoleMeberLoginInBoard] = useState("see");
 
   useEffect(() => {
     let userLoginInMember = members.filter(
-      (member) => member.user._id === userInfo._id
+      (member) => member.user._id === userInfo?._id
     );
-
-    setRoleMeberLoginInBoard(userLoginInMember[0]?.role);
-  }, [members, userInfo._id]);
+    setRoleMeberLoginInBoard(userLoginInMember[0].role);
+  }, [members, userInfo?._id]);
 
   const handleClose = () => {
     setInviting(false);
@@ -104,7 +102,7 @@ const Members = () => {
                   <Avatar
                     className="mr-0.5 cursor-default bg-white"
                     alt="Avatar"
-                    src={userInfo?.avatar}
+                    src={member.user.avatar}
                   />
                 ) : (
                   <Avatar
@@ -154,7 +152,7 @@ const Members = () => {
                       <Avatar
                         className="mr-2 cursor-default bg-white my-3"
                         alt="Avatar"
-                        src={userInfo?.avatar}
+                        src={member.user.avatar}
                       />
                     ) : (
                       <Avatar
@@ -206,11 +204,14 @@ const Members = () => {
                             >
                               Thành viên
                             </MenuItem>
-                            {roleMeberLoginInBoard === "observer" ||
-                            roleMeberLoginInBoard === "admin" ? (
+
+                            {member.user._id === userInfo._id ? (
                               <MenuItem
                                 onClick={() => handleOut(member.user._id)}
-                                disabled={member.user._id !== userInfo._id}
+                                disabled={
+                                  member.user._id !== userInfo._id ||
+                                  owner === member.user._id
+                                }
                               >
                                 Rời khỏi bảng
                               </MenuItem>
@@ -218,6 +219,7 @@ const Members = () => {
                               <MenuItem
                                 onClick={() => handleOut(member.user._id)}
                                 disabled={
+                                  roleMeberLoginInBoard === "observer" ||
                                   (roleMeberLoginInBoard === "admin" &&
                                     member.user._id === userInfo._id) ||
                                   owner === member.user._id

@@ -1,12 +1,14 @@
-import * as React from "react";
-import { useState, useEffect } from "react";
+import ClearIcon from "@mui/icons-material/Clear";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import ClearIcon from "@mui/icons-material/Clear";
 import { useFormik } from "formik";
+import * as React from "react";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+
 import {
   Box,
   ImageList,
@@ -14,12 +16,10 @@ import {
   Select,
   TextField,
 } from "@mui/material";
-import MenuItem from "@mui/material/MenuItem";
-import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
-import axios from "../../api/axios";
-import { getBoardData } from "../../services/board/boardAction";
+import MenuItem from "@mui/material/MenuItem";
 import * as Yup from "yup";
+import axios from "../../api/axios";
 import { getListProject } from "../../services/project/projectService";
 
 let backgrounds = [
@@ -32,11 +32,12 @@ let backgrounds = [
 ];
 
 export default function CreateBoard(props) {
-  const { open, handleClose, updateBoard, projectObject } = props;
+  const { open, handleClose, updateBoard } = props;
   const [selectedPhoto, setSelectedPhoto] = useState(
     "https://c4.wallpaperflare.com/wallpaper/228/1003/832/artistic-mountain-minimalist-moon-nature-hd-wallpaper-preview.jpg"
   );
   const [projects, setProjects] = useState([]);
+  const params = useParams();
   useEffect(() => {
     if (open) {
       getListProject().then((res) => {
@@ -44,13 +45,14 @@ export default function CreateBoard(props) {
       });
     }
   }, [open]);
+  let initialValues = {
+    backgroundURL: "",
+    title: "",
+    classify: "individual",
+    project: params.id,
+  };
   const formik = useFormik({
-    initialValues: {
-      backgroundURL: "",
-      title: "",
-      classify: "individual",
-      project: "",
-    },
+    initialValues: initialValues,
     validationSchema: Yup.object({
       title: Yup.string().required("Không được để trống"),
       project: Yup.string().required("Không được để trống "),
@@ -76,7 +78,6 @@ export default function CreateBoard(props) {
   };
 
   const [img, setImg] = useState(backgrounds);
-
   return (
     <div>
       <Dialog
@@ -105,6 +106,7 @@ export default function CreateBoard(props) {
                 src={`${selectedPhoto}`}
                 loading="lazy"
                 className="object-cover h-52 w-full"
+                alt="background"
               />
               <br />
               <p>Ảnh nền</p>
@@ -175,11 +177,11 @@ export default function CreateBoard(props) {
                     </MenuItem>
                   ))}
                 </Select>
-                <a style={{ color: "red" }}>
+                <p style={{ color: "red" }}>
                   {formik.errors.project && formik.touched.project
                     ? formik.errors.project
                     : null}
-                </a>
+                </p>
                 <br />
               </FormControl>
               <Button

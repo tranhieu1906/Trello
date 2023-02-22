@@ -105,7 +105,10 @@ function Project() {
               <Avatar
                 sx={{ width: 60, height: 60 }}
                 variant="square"
-                style={{ backgroundColor: "#00FFFF", color: "black" }}
+                style={{
+                  background: "linear-gradient( #403294,#0747a6)",
+                  borderRadius: "4px",
+                }}
               >
                 <b>{getInitials(project?.name)}</b>
               </Avatar>
@@ -123,7 +126,6 @@ function Project() {
           <PersonIcon style={{ width: 40, height: 40 }} />
           <b style={{ marginLeft: 15 }}>Các bảng của Bạn</b>
         </div>
-        {loading && <CircularProgress className="m-10" />}
         <div className="m-2 items-center justify-center grid grid-cols-3 gap-4">
           {boards.map((board, index) => (
             <div
