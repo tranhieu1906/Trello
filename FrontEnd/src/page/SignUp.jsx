@@ -18,6 +18,8 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import * as Yup from "yup";
 import { registerUser } from "../services/auth/authActions";
+import { clearError } from "../redux/features/auth/authSlice";
+
 import Auth from "../components/Auth/auth";
 import logo from "../assests/trello-logo-blue.svg";
 
@@ -25,7 +27,7 @@ function SignUp() {
   let navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { loading, userInfo, error } = useSelector(
+  const { loading, userInfo, error, success } = useSelector(
     (state) => state.auth
   );
   const [showPassword, setShowPassword] = useState(false);
@@ -50,18 +52,21 @@ function SignUp() {
     }),
     onSubmit: (values) => {
       dispatch(registerUser(values));
-      navigate("/login");
-      toast.success("Đăng ký tài khoản thành công");
     },
   });
   useEffect(() => {
     if (error) {
       toast.error(error);
+      dispatch(clearError());
+    }
+    if (success) {
+      navigate("/login");
+      toast.success("Đăng ký tài khoản thành công");
     }
     if (userInfo) {
       navigate("/");
     }
-  }, [dispatch, error, navigate, userInfo]);
+  }, [dispatch, error, navigate, success, userInfo]);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 

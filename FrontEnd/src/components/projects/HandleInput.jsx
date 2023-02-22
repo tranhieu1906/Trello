@@ -6,11 +6,11 @@ import CloseIcon from "@mui/icons-material/Close";
 import { autocompleteClasses } from "@mui/material/Autocomplete";
 import { styled } from "@mui/material/styles";
 import PropTypes from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import axios from "../../api/axios";
-import { addUser, getDataProject } from "../../services/project/projectService";
 import { notificationJoinProject } from "../../services/notification/notificationService";
+import { addUser } from "../../services/project/projectService";
 
 const Root = styled("div")(
   ({ theme }) => `

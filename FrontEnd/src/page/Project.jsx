@@ -1,21 +1,19 @@
+import GroupIcon from "@mui/icons-material/Group";
+import PersonIcon from "@mui/icons-material/Person";
+import { Avatar, ListItem, ListItemAvatar } from "@mui/material";
 import Button from "@mui/material/Button";
-import CircularProgress from "@mui/material/CircularProgress";
+import Divider from "@mui/material/Divider";
+import ListItemText from "@mui/material/ListItemText";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import CreateBoard from "../components/board/CreateBoard";
 import PositionedMenu from "../components/board/Option";
-import GroupIcon from "@mui/icons-material/Group";
-import PersonIcon from "@mui/icons-material/Person";
-import axios from "../api/axios";
-import Divider from "@mui/material/Divider";
-import { getBoards, removeMember } from "../services/board/boardAction";
-import { getUser } from "../services/user/userService";
-import { Avatar, ListItem, ListItemAvatar } from "@mui/material";
-import ListItemText from "@mui/material/ListItemText";
-import WorkIcon from "@mui/icons-material/Work";
+import { getProject } from "../redux/features/project/projectSlice";
+import { getBoards } from "../services/board/boardAction";
 import { getDataProject } from "../services/project/projectService";
+import { getUser } from "../services/user/userService";
 
 function Project() {
   const { socket, userInfo } = useSelector((state) => state.auth);
@@ -26,7 +24,6 @@ function Project() {
   const params = useParams();
   const [boardGroups, setBoardGroups] = useState([]);
   const dispatch = useDispatch();
-
   const getInitials = (name) => {
     let initials = name?.match(/\b\w/g) || [];
     return ((initials.shift() || "") + (initials.pop() || "")).toUpperCase();
@@ -47,6 +44,7 @@ function Project() {
         } else {
           otherBoard.push(board);
         }
+        
       });
       setProject(res.data.project);
       setBoards(myBoard);
@@ -56,6 +54,7 @@ function Project() {
 
   useEffect(() => {
     updateData();
+    dispatch(getProject(params.id));
   }, [params]);
 
   socket?.on("new-notifications", (data) => {
@@ -125,7 +124,6 @@ function Project() {
           <PersonIcon style={{ width: 40, height: 40 }} />
           <b style={{ marginLeft: 15 }}>Các bảng của Bạn</b>
         </div>
-        {loading && <CircularProgress className="m-10" />}
         <div className="m-2 items-center justify-center grid grid-cols-3 gap-4">
           {boards.map((board, index) => (
             <div

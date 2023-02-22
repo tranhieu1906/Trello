@@ -25,6 +25,16 @@ class UserController {
       res.status(500).json({ message: e.message });
     }
   }
+  async getUserEmailInBoard(req, res) {
+    try {
+      const users = await UserService.getEmailInProject(req, res);
+      res.json(
+        users.filter((user) => user.user._id.toString() !== req.user.id)
+      );
+    } catch (e) {
+      res.status(500).json({ message: e.message });
+    }
+  }
 
   // async editPassword(req, res) {
   //   try {
@@ -88,7 +98,7 @@ class UserController {
     try {
       let user = await userService.getDataUser(req);
       if (user) {
-        let arr = Object.keys(req.body)
+        let arr = Object.keys(req.body);
         let image =
           arr[0].replace("upload/", "upload%2F") +
           "=" +
@@ -98,7 +108,7 @@ class UserController {
           "=" +
           req.body[arr[1]];
         user.avatar = image;
-        await user.save()
+        await user.save();
         res.status(200).json({
           success: true,
           message: "Cập nhật thành công",
