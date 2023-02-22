@@ -1,5 +1,6 @@
 import { User } from "../models/User";
 import { Project } from "../models/Project";
+import { Board } from "../models/Board";
 import bcrypt from "bcrypt";
 
 class UserService {
@@ -43,6 +44,14 @@ class UserService {
       email: regex,
     }).select("-password");
     return users;
+  }
+  async getEmailInProject(req, res) {
+    const regex = new RegExp(req.params.input, "i");
+
+    const project = await Project.findOne({
+      boards: { $in: req.header("boardId") },
+    }).populate([{ path: "members.user" }]);
+    return project.members.filter((user) => user.user.email.match(regex));
   }
 }
 

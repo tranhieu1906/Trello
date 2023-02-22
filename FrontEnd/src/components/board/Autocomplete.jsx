@@ -166,6 +166,7 @@ export default function CustomizedHook(props) {
   const [inputValue, setInputValue] = useState("");
 
   const boardMembers = useSelector((state) => state.board.board.members);
+  console.log("🚀 ~ file: Autocomplete.jsx:169 ~ CustomizedHook ~ boardMembers:", boardMembers)
   const { error, board } = useSelector((state) => state.board);
   const { socket, userInfo } = useSelector((state) => state.auth);
   const searchOptions = users.filter((user) =>
@@ -177,7 +178,7 @@ export default function CustomizedHook(props) {
     setInputValue(newInputValue);
     if (newInputValue && newInputValue !== "") {
       const search = (
-        await axios.get(`/users/${newInputValue}`)
+        await axios.get(`/users/board/${newInputValue}`)
       ).data.slice(0, 5);
       setUsers(search && search.length > 0 ? search : []);
     }
@@ -235,7 +236,10 @@ export default function CustomizedHook(props) {
         <div {...getRootProps()}>
           <InputWrapper ref={setAnchorEl} className={focused ? "focused" : ""}>
             {value.map((option, index) => (
-              <StyledTag label={option.email} {...getTagProps({ index })} />
+              <StyledTag
+                label={option.user.email}
+                {...getTagProps({ index })}
+              />
             ))}
 
             <input
@@ -250,7 +254,7 @@ export default function CustomizedHook(props) {
           <Listbox {...getListboxProps()}>
             {groupedOptions.map((option, index) => (
               <li {...getOptionProps({ option, index })}>
-                <span>{option.email}</span>
+                <span>{option.user.email}</span>
                 <CheckIcon fontSize="small" />
               </li>
             ))}
