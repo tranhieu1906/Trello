@@ -106,7 +106,7 @@ export default function CreateProject({ updateProjects }) {
               <p>Đây là tên của công ty, nhóm hoặc tổ chức của bạn.</p>
             </FormControl>
             <FormControl fullWidth sx={{ m: 1, minWidth: 400 }} size="small">
-              <b>loại không gian làm việc</b>
+              <b>Loại không gian làm việc</b>
               <Select
                 name="category"
                 labelid="demo-simple-select-label"
