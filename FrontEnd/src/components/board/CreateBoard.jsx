@@ -44,7 +44,6 @@ export default function CreateBoard(props) {
       });
     }
   }, [open]);
-  console.log(projectObject._id);
   const formik = useFormik({
     initialValues: {
       backgroundURL: "",
