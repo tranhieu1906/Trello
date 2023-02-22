@@ -12,6 +12,7 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { Link } from "react-router-dom";
 import * as React from "react";
 import FormDialog from "../projects/AddUser";
+import Members from "../projects/Members";
 
 const StyledMenu = styled((props) => (
   <Menu
@@ -92,18 +93,15 @@ export default function MenuItemProject({ project }) {
         open={open}
         onClose={handleClose}
       >
-        {/*/w/:id/home*/}
         <Link to={`/w/${project._id}/home`}>
           <MenuItem onClick={handleClose} disableRipple>
             <FormatListBulletedIcon />
             Bảng
           </MenuItem>
         </Link>
-        <MenuItem onClick={handleClose} disableRipple>
-          <PeopleIcon />
-          Thành viên
+        <MenuItem disableRipple>
+          <Members project={project} />
         </MenuItem>
-
         <MenuItem disableRipple>
           <FormDialog project={project} />
         </MenuItem>

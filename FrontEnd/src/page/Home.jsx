@@ -16,7 +16,7 @@ function Home() {
   useEffect(() => {
     if (localStorage.getItem("userToken")) dispatch(getBoards());
     getListProject().then((res) => {
-      if (res.data[0]._id) {
+      if (res.data[0]?._id) {
         navigate(`/w/${res.data[0]._id}/home`);
       }
     });

@@ -16,7 +16,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { removeMember } from "../../services/board/boardAction";
 import { changeRole } from "../../services/board/boardAction";
-
+import { useNavigate } from "react-router-dom";
 import { styled } from "@mui/material/styles";
 import CustomizedHook from "./Autocomplete";
 
@@ -56,7 +56,9 @@ const Members = () => {
   const [inviting, setInviting] = useState(false);
   const { userInfo } = useSelector((state) => state.auth);
   const { members, owner } = useSelector((state) => state.board.board);
-  const [roleMeberLoginInBoard, setRoleMeberLoginInBoard] = useState();
+  const { idProject } = useSelector((state) => state.project);
+  const navigate = useNavigate();
+  const [roleMeberLoginInBoard, setRoleMeberLoginInBoard] = useState("see");
 
   useEffect(() => {
     let userLoginInMember = members.filter(
@@ -78,8 +80,9 @@ const Members = () => {
       if (window.confirm("Bạn có muốn xóa người dùng này ra khỏi bảng !")) {
         dispatch(removeMember(id));
       }
-    } else {
+    } else if (roleMeberLoginInBoard === "observer") {
       if (window.confirm("Bạn có muốn rơì khỏi bảng này !")) {
+        navigate(`/`);
         dispatch(removeMember(id));
       }
     }

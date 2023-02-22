@@ -16,6 +16,7 @@ import { Avatar, ListItem, ListItemAvatar } from "@mui/material";
 import ListItemText from "@mui/material/ListItemText";
 import WorkIcon from "@mui/icons-material/Work";
 import { getDataProject } from "../services/project/projectService";
+import { getProject } from "../redux/features/project/projectSlice";
 
 function Project() {
   const { socket, userInfo } = useSelector((state) => state.auth);
@@ -26,7 +27,6 @@ function Project() {
   const params = useParams();
   const [boardGroups, setBoardGroups] = useState([]);
   const dispatch = useDispatch();
-
   const getInitials = (name) => {
     let initials = name?.match(/\b\w/g) || [];
     return ((initials.shift() || "") + (initials.pop() || "")).toUpperCase();
@@ -56,6 +56,7 @@ function Project() {
 
   useEffect(() => {
     updateData();
+    dispatch(getProject(params.id));
   }, [params]);
 
   socket?.on("new-notifications", (data) => {
