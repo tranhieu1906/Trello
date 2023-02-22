@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from "react";
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-import { deleteBoard, removeMember } from "../../services/board/boardAction";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getDataProject } from "../../services/project/projectService";
 import { Link } from "react-router-dom";
+import { deleteBoard } from "../../services/board/boardAction";
 export default function PositionedMenu({ boardId, dataBoard, updateData }) {
   const { socket, userInfo } = useSelector((state) => state.auth);
   const [role, setRole] = useState("");

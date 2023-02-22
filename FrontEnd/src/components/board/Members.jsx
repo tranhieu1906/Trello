@@ -56,7 +56,6 @@ const Members = () => {
   const [inviting, setInviting] = useState(false);
   const { userInfo } = useSelector((state) => state.auth);
   const { members, owner } = useSelector((state) => state.board.board);
-  const { idProject } = useSelector((state) => state.project);
   const navigate = useNavigate();
   const [roleMeberLoginInBoard, setRoleMeberLoginInBoard] = useState("see");
 

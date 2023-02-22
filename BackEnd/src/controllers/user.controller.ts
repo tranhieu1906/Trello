@@ -25,15 +25,6 @@ class UserController {
       res.status(500).json({ message: e.message });
     }
   }
-  async getUserEmailInBoard(req, res) {
-    try {
-      const users = await UserService.getEmailInProject(req, res);
-      res.json(users.filter((user) => user.id !== req.user.id));
-    } catch (e) {
-      res.status(500).json({ message: e.message });
-    }
-  }
-
 
   // async editPassword(req, res) {
   //   try {

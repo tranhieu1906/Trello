@@ -44,12 +44,6 @@ class UserService {
     }).select("-password");
     return users;
   }
-  async getEmailInProject(req, res) {
-    const regex = new RegExp(req.params.input, "i");
-    const project = await Project.find().select("-password");
-    console.log("🚀 ~ file: user.service.ts:50 ~ projectervice ~ getEmailInProject ~ project:", project)
-    return project;
-  }
 }
 
 export default new UserService();

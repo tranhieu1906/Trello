@@ -1,22 +1,19 @@
+import GroupIcon from "@mui/icons-material/Group";
+import PersonIcon from "@mui/icons-material/Person";
+import { Avatar, ListItem, ListItemAvatar } from "@mui/material";
 import Button from "@mui/material/Button";
-import CircularProgress from "@mui/material/CircularProgress";
+import Divider from "@mui/material/Divider";
+import ListItemText from "@mui/material/ListItemText";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import CreateBoard from "../components/board/CreateBoard";
 import PositionedMenu from "../components/board/Option";
-import GroupIcon from "@mui/icons-material/Group";
-import PersonIcon from "@mui/icons-material/Person";
-import axios from "../api/axios";
-import Divider from "@mui/material/Divider";
-import { getBoards, removeMember } from "../services/board/boardAction";
-import { getUser } from "../services/user/userService";
-import { Avatar, ListItem, ListItemAvatar } from "@mui/material";
-import ListItemText from "@mui/material/ListItemText";
-import WorkIcon from "@mui/icons-material/Work";
-import { getDataProject } from "../services/project/projectService";
 import { getProject } from "../redux/features/project/projectSlice";
+import { getBoards } from "../services/board/boardAction";
+import { getDataProject } from "../services/project/projectService";
+import { getUser } from "../services/user/userService";
 
 function Project() {
   const { socket, userInfo } = useSelector((state) => state.auth);
@@ -47,6 +44,7 @@ function Project() {
         } else {
           otherBoard.push(board);
         }
+        
       });
       setProject(res.data.project);
       setBoards(myBoard);
