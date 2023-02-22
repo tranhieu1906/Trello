@@ -18,7 +18,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import * as Yup from "yup";
 import { registerUser } from "../services/auth/authActions";
-import { clearError } from "../redux/features/auth/authSlice";
+import { clearError, loginSuccess } from "../redux/features/auth/authSlice";
 
 import Auth from "../components/Auth/auth";
 import logo from "../assests/trello-logo-blue.svg";
@@ -62,6 +62,7 @@ function SignUp() {
     if (success) {
       navigate("/login");
       toast.success("Đăng ký tài khoản thành công");
+      dispatch(loginSuccess());
     }
     if (userInfo) {
       navigate("/");

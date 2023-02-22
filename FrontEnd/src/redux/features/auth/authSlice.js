@@ -38,6 +38,9 @@ const authSlice = createSlice({
     clearError: (state) => {
       state.error = null;
     },
+    loginSuccess: (state) => {
+      state.success = false;
+    }
   },
   extraReducers: {
     [registerUser.pending]: (state) => {
@@ -81,6 +84,7 @@ const authSlice = createSlice({
     },
   },
 });
-export const { logout, socketIo, setAvatar, clearError } = authSlice.actions;
+export const { logout, socketIo, setAvatar, clearError, loginSuccess } =
+  authSlice.actions;
 
 export default authSlice.reducer;

@@ -166,7 +166,6 @@ export default function CustomizedHook(props) {
   const [inputValue, setInputValue] = useState("");
 
   const boardMembers = useSelector((state) => state.board.board.members);
-  console.log("🚀 ~ file: Autocomplete.jsx:169 ~ CustomizedHook ~ boardMembers:", boardMembers)
   const { error, board } = useSelector((state) => state.board);
   const { socket, userInfo } = useSelector((state) => state.auth);
   const searchOptions = users.filter((user) =>
@@ -198,7 +197,7 @@ export default function CustomizedHook(props) {
     id: "customized-hook-demo",
     multiple: true,
     options: searchOptions,
-    getOptionLabel: (option) => option.email,
+    getOptionLabel: (option) => option.user.email,
   });
 
   useEffect(() => {
@@ -208,11 +207,11 @@ export default function CustomizedHook(props) {
     let id = [];
     let userExists = [];
     value.forEach((i) => {
-      let check = membersInBoard.some((member) => member.user._id === i._id);
+      let check = membersInBoard.some((member) => member.user._id === i.user._id);
       if (check) {
-        userExists.push(i);
+        userExists.push(i.user);
       } else {
-        id.push(i._id);
+        id.push(i.user._id);
       }
     });
     if (userExists.length > 0) {
