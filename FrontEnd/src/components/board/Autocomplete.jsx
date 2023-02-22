@@ -176,10 +176,9 @@ export default function CustomizedHook(props) {
   const handleInputValue = async (newInputValue) => {
     setInputValue(newInputValue);
     if (newInputValue && newInputValue !== "") {
-      const search = (await axios.get(`/users/${newInputValue}`)).data.slice(
-        0,
-        5
-      );
+      const search = (
+        await axios.get(`/users/board/${newInputValue}`)
+      ).data.slice(0, 5);
       setUsers(search && search.length > 0 ? search : []);
     }
   };

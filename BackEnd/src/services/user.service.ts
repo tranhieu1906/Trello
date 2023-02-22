@@ -1,4 +1,5 @@
 import { User } from "../models/User";
+import { Project } from "../models/Project";
 import bcrypt from "bcrypt";
 
 class UserService {
@@ -42,6 +43,12 @@ class UserService {
       email: regex,
     }).select("-password");
     return users;
+  }
+  async getEmailInProject(req, res) {
+    const regex = new RegExp(req.params.input, "i");
+    const project = await Project.find().select("-password");
+    console.log("🚀 ~ file: user.service.ts:50 ~ projectervice ~ getEmailInProject ~ project:", project)
+    return project;
   }
 }
 
