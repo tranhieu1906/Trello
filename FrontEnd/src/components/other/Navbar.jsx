@@ -1,10 +1,10 @@
-import React, { useEffect } from "react";
 import { Disclosure } from "@headlessui/react";
-import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import { Link } from "react-router-dom";
+import React from "react";
 import Dropdown from "./Dropdown";
 import DropdownAccount from "./DropdownAccount";
-import Search from "./Search";
-import { getUser } from "../../services/user/userService";
+import Notification from "./Notification";
 
 const Navbar = () => {
   return (
@@ -26,45 +26,30 @@ const Navbar = () => {
               </div>
               <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                 <div className="flex flex-shrink-0 items-center">
-                  {/*<img*/}
-                  {/*  className="block h-8 w-auto lg:hidden"*/}
-                  {/*  src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"*/}
-                  {/*  alt="Your Company"*/}
-                  {/*/>*/}
-                  <a href="/">
+                  <Link to="/">
                     <img
                       style={{
-                        width: "120px",
-                        height: "65px",
+                        width: "110px",
+                        height: "60px",
                         marginRight: "20px",
                       }}
                       className="hidden h-8 w-auto lg:block"
-                      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNUl5z5FuMbXirvMu6vXDPXEXHdQD2DHgTmcO7wIlE86uTDQrB6IdF0-jtHlLtcozp5SA&usqp=CAU"
+                      src="https://download.logo.wine/logo/Trello/Trello-White-Logo.wine.png"
                       alt="Your Company"
                     />
-                  </a>
+                  </Link>
                 </div>
-                <div
+                {/* <div
                   style={{ marginTop: "15px " }}
                   className="hidden sm:ml-6 sm:block"
                 >
                   <div className="flex space-x-4">
                     <Dropdown icon={true} name={"Các không gian làm việc"} />
-                    <Dropdown icon={false} name={"Tạo mới"} />
                   </div>
-                </div>
+                </div> */}
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                <Search />
-                <button
-                  type="button"
-                  className="rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-                >
-                  <span className="sr-only">View notifications</span>
-                  <BellIcon className="h-6 w-6" aria-hidden="true" />
-                </button>
-
-                {/* Profile dropdown */}
+                <Notification /> 
                 <DropdownAccount />
               </div>
             </div>

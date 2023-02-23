@@ -1,4 +1,4 @@
-import { Backdrop, CircularProgress } from "@mui/material";
+import LinearProgress from "@mui/material/LinearProgress";
 import Button from "@mui/material/Button";
 import PropTypes from "prop-types";
 import React, { useEffect, useRef, useState } from "react";
@@ -10,11 +10,8 @@ import CreateCardForm from "./CreateCardForm";
 import ListMenu from "./ListMenu";
 import ListTitle from "./ListTitle";
 
-const List = ({ listId, index }) => {
+const List = ({ listId, index, list }) => {
   const [addingCard, setAddingCard] = useState(false);
-  const list = useSelector((state) =>
-    state.board.board.lists.find((object) => object._id === listId)
-  );
   const { loading } = useSelector((state) => state.board);
   const dispatch = useDispatch();
 
@@ -29,14 +26,7 @@ const List = ({ listId, index }) => {
 
   return (
     <>
-      {loading && (
-        <Backdrop
-          sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-          open={loading}
-        >
-          <CircularProgress color="inherit" />
-        </Backdrop>
-      )}
+      {loading && <LinearProgress color="primary" variant="soft" />}
       {!list || (list && list.archived) ? (
         ""
       ) : (
@@ -64,8 +54,8 @@ const List = ({ listId, index }) => {
                     <div className="cards">
                       {list.cards.map((cardId, index) => (
                         <Card
-                          key={cardId._id || cardId}
-                          cardId={cardId._id || cardId}
+                          key={cardId._id}
+                          cardId={cardId._id}
                           list={list}
                           index={index}
                         />

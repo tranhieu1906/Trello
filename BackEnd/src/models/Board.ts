@@ -1,4 +1,4 @@
-const {Schema, model} = require("mongoose");
+const { Schema, model } = require("mongoose");
 
 const boardSchema = new Schema(
   {
@@ -28,11 +28,6 @@ const boardSchema = new Schema(
       type: String,
     },
 
-    softErase: {
-      type: Boolean,
-      default: false,
-    },
-
     members: [
       {
         _id: false,
@@ -43,14 +38,27 @@ const boardSchema = new Schema(
         role: {
           type: String,
           default: "admin",
-          enum: ["admin", "observer"],
+          enum: ["admin", "observer", "owner"],
         },
       },
     ],
+
+    owner: {
+      required: true,
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    },
+
     classify: {
       type: String,
       enum: ["individual", "group", "public"],
       default: "individual",
+    },
+
+    project: {
+      required: true,
+      type: Schema.Types.ObjectId,
+      ref: "Project",
     },
   },
   {

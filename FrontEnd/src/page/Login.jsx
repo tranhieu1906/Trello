@@ -12,7 +12,6 @@ import {
 import FormHelperText from "@mui/material/FormHelperText";
 import { useFormik } from "formik";
 import React, { useEffect, useState } from "react";
-import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -21,6 +20,8 @@ import * as Yup from "yup";
 import { userLogin } from "../services/auth/authActions";
 import Auth from "../components/Auth/auth";
 import logo from "../assests/trello-logo-blue.svg";
+import { clearError } from "../redux/features/auth/authSlice";
+
 
 function Login() {
   let navigate = useNavigate();
@@ -43,11 +44,13 @@ function Login() {
   useEffect(() => {
     if (error) {
       toast.error(error);
+      dispatch(clearError());
     }
     if (userToken && !loading) {
       navigate("/");
+      toast.success("Đăng nhập thành công");
     }
-  }, [error, userToken, navigate, loading]);
+  }, [error, userToken, navigate, loading, dispatch]);
 
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -126,7 +129,7 @@ function Login() {
                     </IconButton>
                   </InputAdornment>
                 }
-                label="Password"
+                label="Mật khẩu"
               />
               {formik.errors.password && formik.touched.password ? (
                 <FormHelperText style={{ color: "#d32f2f" }}>

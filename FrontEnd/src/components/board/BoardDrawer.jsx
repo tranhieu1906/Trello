@@ -15,7 +15,6 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import ArchivedCards from "./ArchivedCards";
 import ArchivedLists from "./ArchivedLists";
-import { display } from "@mui/system";
 
 const BoardDrawer = () => {
   const [open, setOpen] = useState(false);
@@ -44,7 +43,7 @@ const BoardDrawer = () => {
         anchor="right"
         open={open}
         PaperProps={{
-          sx: { width: "20%" },
+          sx: { width: "25%" },
         }}
       >
         {!viewingArchivedLists && !viewingArchivedCards ? (
@@ -64,13 +63,13 @@ const BoardDrawer = () => {
                 <ListItemIcon>
                   <ArchiveIcon />
                 </ListItemIcon>
-                <ListItemText primary={"Archived Lists"} />
+                <ListItemText primary={"Danh sách lưu trữ"} />
               </ListItem>
               <ListItem button onClick={() => setViewingArchivedCards(true)}>
                 <ListItemIcon>
                   <ArchiveIcon />
                 </ListItemIcon>
-                <ListItemText primary={"Archived Cards"} />
+                <ListItemText primary={"Thẻ đã lưu trữ"} />
               </ListItem>
             </List>
             <Divider />
@@ -116,7 +115,7 @@ const BoardDrawer = () => {
               <Button onClick={() => setViewingArchivedCards(false)}>
                 <ChevronLeftIcon />
               </Button>
-              <h3>Thẻ lưu trữu</h3>
+              <h3>Thẻ lưu trữ</h3>
               <Button onClick={handleClose}>
                 <CloseIcon />
               </Button>

@@ -1,16 +1,10 @@
 import { Board } from "../models/Board";
 import { User } from "../models/User";
 import BoardService from "../services/board.service";
+import NotificationService from "../services/notification.service";
+import ProjectService from "../services/Project.service";
+import { Project } from "../models/Project";
 class BoardController {
-  // Thêm bảng
-  async createBoard(req, res, next) {
-    try {
-      const board = await BoardService.createBoard(req, res);
-      res.status(200).json({ board: board });
-    } catch (err) {
-      next(err);
-    }
-  }
   // lấy bảng theo id user
   async getUserBoard(req, res, next) {
     try {
@@ -20,12 +14,11 @@ class BoardController {
       next(err);
     }
   }
+
   // lấy bảng theo id bảng
   async getBoardId(req, res, next) {
     try {
-      const board = await Board.findById(req.params.id)
-        .populate("members.user")
-        .populate("lists");
+      const board = await BoardService.getBoardById(req.params.id);
       if (!board) {
         return res.status(404).json(" Không tìm thấy bảng");
       }
@@ -37,7 +30,7 @@ class BoardController {
   // lấy bảng theo trạng thái
   async getBoardActivity(req, res, next) {
     try {
-      const board = await Board.findById(req.params.boardId);
+      const board = await BoardService.getBoardById(req.params.boardId);
       if (!board) {
         return res.status(404).json("Không tìm thấy bảng");
       }
@@ -49,20 +42,11 @@ class BoardController {
   // Thay đổi tiêu đề bảng
   async renameBoard(req, res, next) {
     try {
-      const board = await Board.findById(req.params.id);
+      const board = await BoardService.getBoardById(req.params.id);
       if (!board) {
         return res.status(404).json("Không tìm thấy bảng");
       }
-
-      if (req.body.title !== board.title) {
-        const user = await User.findById(req.user.id);
-        board.activity.unshift({
-          text: `${user.name} thay đổi tên bảng này (từ '${board.title}')`,
-        });
-        board.title = req.body.title;
-      }
-      await board.save();
-
+      await BoardService.renameBoard(req, res, board);
       res.json(board);
     } catch (err) {
       next(err);
@@ -71,11 +55,9 @@ class BoardController {
   // Thêm thành viên vào bảng
   async addMember(req, res, next) {
     try {
-      const board = await Board.findById(req.header("boardId")).populate(
-        "members.user"
-      );
-      if (!board) return res.status(404).json("Không tìm thấy bảng");
+      const board = await BoardService.getBoardById(req.header("boardId"));
 
+      if (!board) return res.status(404).json("Không tìm thấy bảng");
       const users = await User.find({ _id: { $in: req.body } });
       if (!users) return res.status(404).json("Không tìm thấy người dùng");
 
@@ -92,7 +74,6 @@ class BoardController {
           text: `${user.name} đã tham gia bảng này`,
         });
       });
-
       await Promise.all(users.map((user) => user.save()));
       await board.save();
       res.json(board.members);
@@ -100,31 +81,14 @@ class BoardController {
       next(err);
     }
   }
+
   async removeMember(req, res, next) {
     try {
-      const board = await Board.findById(req.header("boardId")).populate(
-        "members.user"
-      );
+      const board = await BoardService.getBoardById(req.header("boardId"));
+
       if (!board) return res.status(404).json("Bảng không tồn tại");
 
-      const memberIndex = board.members.findIndex(({ user: { _id } }) =>
-        _id.equals(req.params.userId)
-      );
-
-      if (memberIndex === -1)
-        return res.status(404).json("Người dùng không tồn tại");
-
-      const member = board.members[memberIndex];
-      board.members.splice(memberIndex, 1);
-      member.user.boards = member.user.boards.filter(
-        (boardId) => !boardId.equals(board._id)
-      );
-      board.activity.unshift({
-        text: `${member.user.name} đã rời khỏi bảng này`,
-      });
-
-      await Promise.all([member.user.save(), board.save()]);
-      res.json(board.members);
+      await BoardService.removeMember(req, res, board);
     } catch (err) {
       next(err);
     }
@@ -132,27 +96,10 @@ class BoardController {
 
   async changeRole(req, res, next) {
     try {
-      const board = await Board.findById(req.header("boardId")).populate(
-        "members.user"
-      );
+      const board = await BoardService.getBoardById(req.header("boardId"));
       if (!board) return res.status(404).json("Board not found");
 
-      const memberIndex = board.members.findIndex(({ user: { _id } }) =>
-        _id.equals(req.params.userId)
-      );
-      if (memberIndex === -1) return res.status(404).json("Member not found");
-
-      const member = board.members[memberIndex];
-      if (req.body.role === member.role)
-        return res.status(409).json("Role already set");
-
-      member.role = req.body.role;
-      board.activity.unshift({
-        text: `${member.user.name}'s role đã được thay đổi thành ${req.body.role}`,
-      });
-
-      await board.save();
-      res.json(board.members);
+      await BoardService.changeRole(req, res, board);
     } catch (err) {
       next(err);
     }
@@ -160,9 +107,23 @@ class BoardController {
 
   async newBoard(req, res, next) {
     try {
-      let data = await BoardService.newBoard(req);
+      await BoardService.newBoard(req);
+      const dataProject = await Project.findById(req.body.project)
+        .populate("boards")
+        .populate("boards.members");
+      let boards = [];
+      dataProject.boards.map((board) => {
+        if (
+          board.members.some((member) => member.user.toString() === req.user.id)
+        ) {
+          boards.push(board);
+        } else if (board.classify === "public") {
+          boards.push(board);
+        }
+      });
       res.status(200).json({
-        board: data,
+        project: dataProject,
+        boards: boards,
       });
     } catch (err) {
       next(err);
@@ -171,18 +132,17 @@ class BoardController {
 
   async boardDelete(req, res, next) {
     try {
-      let board = await BoardService.getBoardById(req);
+      let board = await BoardService.getBoardById(req.params.boardId);
       if (board) {
         await BoardService.deleteBoard(req);
-        let boards = await BoardService.getUserBoard(req);
+        // let project = await ProjectService.getDataProject(req);
         res.status(200).json({
           success: true,
-          boards: boards,
         });
       } else {
         res.status(404).json({
           success: false,
-          message: "bình luận không tồn tại",
+          message: "bảng không tồn tại",
         });
       }
     } catch (error) {

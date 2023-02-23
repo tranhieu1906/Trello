@@ -18,6 +18,8 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import * as Yup from "yup";
 import { registerUser } from "../services/auth/authActions";
+import { clearError, loginSuccess } from "../redux/features/auth/authSlice";
+
 import Auth from "../components/Auth/auth";
 import logo from "../assests/trello-logo-blue.svg";
 
@@ -37,7 +39,7 @@ function SignUp() {
       password: "",
     },
     validationSchema: Yup.object({
-      name: Yup.string().required("Không được để trống").min(4, "Tên quá ngắn"),
+      name: Yup.string().required("Không được để trống"),
       email: Yup.string()
         .required("Không được để trống")
         .email("Vui lòng nhập đúng định dạng Email"),
@@ -55,14 +57,17 @@ function SignUp() {
   useEffect(() => {
     if (error) {
       toast.error(error);
+      dispatch(clearError());
     }
     if (success) {
       navigate("/login");
+      toast.success("Đăng ký tài khoản thành công");
+      dispatch(loginSuccess());
     }
     if (userInfo) {
       navigate("/");
     }
-  }, [dispatch, error, success, navigate, userInfo]);
+  }, [dispatch, error, navigate, success, userInfo]);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -164,17 +169,6 @@ function SignUp() {
                 </FormHelperText>
               ) : null}
             </FormControl>
-
-            <p className="mx-auto max-w-xs text-center text-xs text-slate-400">
-              Những người dùng dịch vụ của chúng tôi có thể đã tải thông tin
-              liên hệ của bạn lên Instagram.{" "}
-              <a
-                href="https://www.facebook.com/help/instagram/261704639352628"
-                className="text-blue-400"
-              >
-                Tìm hiểu thêm
-              </a>
-            </p>
             <button
               type="submit"
               className="bg-primary-blue font-medium py-2 rounded text-white w-full"

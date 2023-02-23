@@ -2,7 +2,7 @@ import { TextField } from "@mui/material";
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-// import { renameBoard } from "../../actions/board";
+import { renameBoard } from "../../services/board/boardAction";
 
 const BoardTitle = ({ board }) => {
   const [editing, setEditing] = useState(false);
@@ -15,24 +15,32 @@ const BoardTitle = ({ board }) => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    // dispatch(renameBoard(board._id, { title }));
+    if (board.title !== title) {
+      dispatch(renameBoard({ boardId: board._id, title }));
+    }
     setEditing(false);
   };
 
   return !editing ? (
     <h2
       className="cursor-pointer text-snow-900 max-w-lg overflow-hidden whitespace-nowrap"
+      style={{ color: "white" }}
       onClick={() => setEditing(true)}
     >
       {board.title}
     </h2>
   ) : (
-    <form className="bg-snow-900" onSubmit={(e) => onSubmit(e)}>
+    <form
+      className="bg-white"
+      onSubmit={(e) => onSubmit(e)}
+      onBlur={(e) => onSubmit(e)}
+    >
       <TextField
         variant="outlined"
         required
         value={title}
         size="small"
+        id="standard-basic"
         onChange={(e) => setTitle(e.target.value)}
       />
     </form>

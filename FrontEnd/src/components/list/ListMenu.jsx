@@ -5,8 +5,7 @@ import { Button, Menu, MenuItem } from "@mui/material";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-// import { archiveList } from "../../actions/board";
-import MoveList from "./MoveList";
+import { archiveList } from "../../services/board/boardAction";
 
 const ListMenu = ({ listId }) => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -21,7 +20,7 @@ const ListMenu = ({ listId }) => {
   };
 
   const archive = async () => {
-    // dispatch(archiveList(listId, true));
+    dispatch(archiveList({ listId, archive: true }));
   };
 
   return (
@@ -46,9 +45,6 @@ const ListMenu = ({ listId }) => {
           }}
         >
           Lưu trữ danh sách này
-        </MenuItem>
-        <MenuItem>
-          {/* <MoveList listId={listId} closeMenu={handleClose} /> */}
         </MenuItem>
       </Menu>
     </div>

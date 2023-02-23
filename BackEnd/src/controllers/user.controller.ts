@@ -1,11 +1,12 @@
 import UserService from "../services/user.service";
 import { User } from "../models/User";
+import userService from "../services/user.service";
+import bcrypt from "bcrypt";
 
 class UserController {
   async getUser(req, res) {
     try {
-      const id = req.user.id;
-      const user = await User.findOne({ _id: id });
+      const user = await UserService.getDataUser(req);
       if (user) {
         res.status(200).json(user);
       } else {
@@ -15,16 +16,112 @@ class UserController {
       res.status(500).json({ message: e.message });
     }
   }
+
   async getUserEmail(req, res) {
     try {
-      const regex = new RegExp(req.params.input, "i");
-      const users = await User.find({
-        email: regex,
-      }).select("-password");
-
+      const users = await UserService.getEmail(req, res);
       res.json(users.filter((user) => user.id !== req.user.id));
     } catch (e) {
       res.status(500).json({ message: e.message });
+    }
+  }
+  async getUserEmailInBoard(req, res) {
+    try {
+      const users = await UserService.getEmailInProject(req, res);
+      res.json(
+        users.filter((user) => user.user._id.toString() !== req.user.id)
+      );
+    } catch (e) {
+      res.status(500).json({ message: e.message });
+    }
+  }
+
+  // async editPassword(req, res) {
+  //   try {
+  //     const newPassword = await UserService.newPassword(req, res);
+  //     if (newPassword) {
+  //       res
+  //         .status(200)
+  //         .json({ success: true, message: "đổi mật khẩu thành công!!" });
+  //     } else {
+  //       res
+  //         .status(404)
+  //         .json({ success: false, message: "mật khẩu cũ không đúng" });
+  //     }
+  //   } catch (err) {
+  //     res.status(500).json({ message: err.message });
+  //   }
+  // }
+  async editPassword(req, res, next) {
+    try {
+      let user = await userService.getDataUser(req);
+      const { password } = req.body;
+      const isPasswordMatch = await bcrypt.compare(password, user.password);
+      if (isPasswordMatch) {
+        let updatePassword = await UserService.updatePassword(req, res);
+        res.status(200).json({
+          success: true,
+          message: "Đổi mật khẩu thành công",
+        });
+      } else {
+        res.status(202).json({
+          success: false,
+          message: "Mật khẩu cũ không chính xác",
+        });
+      }
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async updateProfile(req, res, next) {
+    try {
+      let user = await userService.getDataUser(req);
+      if (user) {
+        let dataUser = await userService.updateProfile(req);
+
+        res.status(200).json({
+          success: true,
+          message: "Cập nhật thành công",
+          user: dataUser,
+        });
+      } else {
+        res.status(400).json({
+          message: "Không tồn tại",
+        });
+      }
+    } catch (e) {
+      next(e);
+    }
+  }
+  async updateAvatar(req, res, next) {
+    try {
+      let user = await userService.getDataUser(req);
+      if (user) {
+        let arr = Object.keys(req.body);
+        let image =
+          arr[0].replace("upload/", "upload%2F") +
+          "=" +
+          req.body[arr[0]] +
+          "&" +
+          arr[1] +
+          "=" +
+          req.body[arr[1]];
+        user.avatar = image;
+        await user.save();
+        res.status(200).json({
+          success: true,
+          message: "Cập nhật thành công",
+          user: user,
+        });
+      } else {
+        res.status(400).json({
+          message: "Không tồn tại",
+        });
+      }
+    } catch (e) {
+      console.log(e);
+      next(e);
     }
   }
 }
