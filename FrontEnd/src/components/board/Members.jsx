@@ -63,7 +63,7 @@ const Members = () => {
     let userLoginInMember = members.filter(
       (member) => member.user._id === userInfo?._id
     );
-    setRoleMeberLoginInBoard(userLoginInMember[0].role);
+    setRoleMeberLoginInBoard(userLoginInMember[0]?.role);
   }, [members, userInfo?._id]);
 
   const handleClose = () => {

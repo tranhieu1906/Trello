@@ -184,7 +184,7 @@ const CardModal = ({ cardId, open, setOpen, card, list }) => {
                   className="mr-3"
                   alt="Avatar"
                 >
-                  {getInitials(userInfo.name)}
+                  {getInitials(userInfo?.name)}
                 </Avatar>
               )}
               <Paper

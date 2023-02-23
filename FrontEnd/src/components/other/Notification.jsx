@@ -192,7 +192,7 @@ export default function Notification() {
                       style={
                         item.new
                           ? { backgroundColor: "rgb(209 213 219)" }
-                          : { backgroundColor: "#dadbe5" }
+                          : { backgroundColor: "#ffffff" }
                       }
                     >
                       <ListItemAvatar>
@@ -219,7 +219,7 @@ export default function Notification() {
                               paddingLeft: 40,
                             }
                           : {
-                              backgroundColor: "#dadbe5",
+                              backgroundColor: "#ffffff",
                               marginBottom: 0,
                               padding: 15,
                               paddingLeft: 40,

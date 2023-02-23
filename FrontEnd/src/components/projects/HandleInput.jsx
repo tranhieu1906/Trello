@@ -211,14 +211,14 @@ export default function HandleInput({ handleClose, project, members }) {
     if (userExists.length > 0) {
       let message = "";
       userExists.forEach((user) => (message += `${user.email}, `));
-      toast.error(`Người dùng : ${message} đã có sẵn trong Nhóm!`);
+      toast.error(`Người dùng : ${message} đã có sẵn trong nhóm!`);
     } else {
       await notificationJoinProject(id, project, userInfo);
       socket?.emit("send-notifications", id);
       await addUser(id, project)
         .then((res) => {
           handleClose();
-          toast.success("mời nguời dùng vào nhóm thành công");
+          toast.success("Mời người dùng vào nhóm thành công");
         })
         .catch((error) => {
           toast.error(error);
