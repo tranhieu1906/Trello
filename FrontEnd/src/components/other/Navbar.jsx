@@ -39,14 +39,14 @@ const Navbar = () => {
                     />
                   </Link>
                 </div>
-                <div
+                {/* <div
                   style={{ marginTop: "15px " }}
                   className="hidden sm:ml-6 sm:block"
                 >
                   <div className="flex space-x-4">
                     <Dropdown icon={true} name={"Các không gian làm việc"} />
                   </div>
-                </div>
+                </div> */}
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                 <Notification /> 
