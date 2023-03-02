@@ -1,6 +1,6 @@
 # Trello MERN
 
-Full-Stack Instgram Clone sử dụng MERN Stack và Socket.io
+Full-Stack Trello Clone sử dụng MERN Stack và Socket.io
 
 ## 🖥️ Tech Stack
 
